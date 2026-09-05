@@ -1,0 +1,96 @@
+{
+  "_comments": {
+    "json": "JSON cannot use // comments. This _comments object is ignored by importProblems.js. Copy constraints from here when filling problems.",
+    "problemCreatorEmail": "Optional. Email of an existing user (usually an admin). If omitted, the first admin in the DB is used. Do not put problemCreator ObjectId here.",
+    "problems": "Non-empty array. One DB problem is created per object. title must be unique.",
+    "title": "Required unique string.",
+    "description": "Required string. Problem statement shown to students.",
+    "difficulty": "Required. Allowed values: easy | medium | hard",
+    "tags": "Required. Allowed values: array | string | linkedList | stack | queue | hashing | tree | heap | graph | greedy | dp | recursion | backtracking | binarySearch | bitManipulation",
+    "videoUrl": "Optional string. Empty string is allowed.",
+    "visibleTestCases": "Required. Exactly 3 objects. Each needs input, output, and explanation.",
+    "invisibleTestCases": "Required. Exactly 20 objects. Each needs input and output only (no explanation). Alias: hiddenTestCases.",
+    "startCode": "Required. Exactly these 3 languages: nodejs, java, cpp17. Each needs language + initialCode (function stub only, no delimiter).",
+    "referenceSolution": "Required. Same 3 languages: nodejs, java, cpp17. completeCode must be a full runnable program.",
+    "completeCode": "Must contain // USER_SOLUTION_START and // USER_SOLUTION_END around the solution function. Must print __JUDGE_TC_END__ after every test-case answer. Do not put the delimiter in test-case output fields.",
+    "languages": "nodejs | java | cpp17 (C++, Java, JavaScript aliases are also accepted)",
+    "doNotInclude": "_id, __v, createdAt, updatedAt, problemCreator ObjectId"
+  },
+  "problemCreatorEmail": "skamanullah75@gmail.com",
+  "problems": [
+    {
+      "title": "Count Even Numbers",
+      "description": "Given an integer n followed by n integers, print how many of them are even.",
+      "difficulty": "easy",
+      "tags": "array",
+      "videoUrl": "",
+      "visibleTestCases": [
+        {
+          "input": "3\n1 2 3",
+          "output": "1",
+          "explanation": "Only 2 is even."
+        },
+        {
+          "input": "4\n2 4 6 8",
+          "output": "4",
+          "explanation": "Every number is even."
+        },
+        {
+          "input": "1\n7",
+          "output": "0",
+          "explanation": "7 is odd."
+        }
+      ],
+      "invisibleTestCases": [
+        { "input": "2\n0 1", "output": "1" },
+        { "input": "5\n11 13 15 17 19", "output": "0" },
+        { "input": "3\n8 9 10", "output": "2" },
+        { "input": "1\n0", "output": "1" },
+        { "input": "6\n1 1 1 1 1 1", "output": "0" },
+        { "input": "4\n2 2 2 2", "output": "4" },
+        { "input": "3\n-2 -1 0", "output": "2" },
+        { "input": "2\n100 101", "output": "1" },
+        { "input": "5\n2 3 4 5 6", "output": "3" },
+        { "input": "1\n2", "output": "1" },
+        { "input": "4\n7 8 9 11", "output": "1" },
+        { "input": "3\n12 14 16", "output": "3" },
+        { "input": "2\n21 22", "output": "1" },
+        { "input": "5\n0 0 0 0 1", "output": "4" },
+        { "input": "4\n13 15 17 19", "output": "0" },
+        { "input": "3\n4 5 6", "output": "2" },
+        { "input": "1\n99", "output": "0" },
+        { "input": "6\n2 4 6 8 10 12", "output": "6" },
+        { "input": "2\n3 5", "output": "0" },
+        { "input": "4\n1 2 3 4", "output": "2" }
+      ],
+      "startCode": [
+        {
+          "language": "nodejs",
+          "initialCode": "function countEven(nums) {\n  \n}"
+        },
+        {
+          "language": "java",
+          "initialCode": "public static int countEven(int[] nums) {\n    \n}"
+        },
+        {
+          "language": "cpp17",
+          "initialCode": "int countEven(vector<int>& nums) {\n    \n}"
+        }
+      ],
+      "referenceSolution": [
+        {
+          "language": "nodejs",
+          "completeCode": "const fs = require(\"fs\");\nconst OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nfunction countEven(nums) {\n  return nums.filter((n) => n % 2 === 0).length;\n}\n// USER_SOLUTION_END\n\nconst tokens = fs.readFileSync(0, \"utf8\").trim().split(/\\s+/).map(Number);\nlet i = 0;\nwhile (i < tokens.length) {\n  const n = tokens[i++];\n  const nums = tokens.slice(i, i + n);\n  i += n;\n  process.stdout.write(String(countEven(nums)) + \"\\n\" + OUTPUT_DELIMITER + \"\\n\");\n}\n"
+        },
+        {
+          "language": "java",
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static int countEven(int[] nums) {\n        int count = 0;\n        for (int n : nums) {\n            if (n % 2 == 0) count++;\n        }\n        return count;\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) {\n                nums[i] = sc.nextInt();\n            }\n            System.out.println(countEven(nums));\n            System.out.println(OUTPUT_DELIMITER);\n        }\n        sc.close();\n    }\n}\n"
+        },
+        {
+          "language": "cpp17",
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint countEven(vector<int>& nums) {\n    int count = 0;\n    for (int n : nums) {\n        if (n % 2 == 0) count++;\n    }\n    return count;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int i = 0; i < n; i++) {\n            cin >> nums[i];\n        }\n        cout << countEven(nums) << \"\\n\" << OUTPUT_DELIMITER << \"\\n\";\n    }\n    return 0;\n}\n"
+        }
+      ]
+    }
+  ]
+}

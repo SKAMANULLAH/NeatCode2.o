@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NeatCode">
+  <rect width="64" height="64" rx="14" fill="#16815C"/>
+  <g
+    fill="none"
+    stroke="#F7FFFB"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    transform="translate(1.2 13.4) scale(0.72)"
+  >
+    <path d="M12 16L5 26L12 36" stroke-width="2.6"/>
+    <path
+      d="M18 13h7.4L30 26.2V13h7.2v26h-7.4L25.4 25.8V39H18V13z"
+      fill="#F7FFFB"
+      stroke="none"
+    />
+    <path d="M64 16.4A11.4 12.8 0 1 0 64 35.6" stroke-width="2.7"/>
+    <path d="M76 16L83 26L76 36" stroke-width="2.6"/>
+  </g>
+</svg>

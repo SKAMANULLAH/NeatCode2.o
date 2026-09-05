@@ -1,0 +1,3086 @@
+{
+  "topicTitle": "Operating System",
+  "subtopicTitle": "Introduction to OS",
+  "questions": [
+    {
+      "statement": "What best describes an Operating System according to the notes?",
+      "options": [
+        "Software that manages hardware and software resources",
+        "Software used only for writing programs",
+        "A hardware component",
+        "A type of application file"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Why would applications become bulky and complex without an OS?",
+      "options": [
+        "They would need multiple CPUs",
+        "They would not use memory",
+        "They would become firmware",
+        "They would need hardware interaction code"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which problem is specifically mentioned as occurring without an OS?",
+      "options": [
+        "Guaranteed memory protection",
+        "Automatic process isolation",
+        "Resource exploitation by one application",
+        "Automatic resource sharing"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which of the following is an OS function listed in the notes?",
+      "options": [
+        "Program debugging",
+        "Resource management",
+        "Source-code compilation",
+        "Hardware manufacturing"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which resource is explicitly listed as being managed by an OS?",
+      "options": [
+        "Memory",
+        "Programming languages",
+        "Source code",
+        "Compiler syntax"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What does OS abstraction accomplish?",
+      "options": [
+        "Removes hardware",
+        "Prevents program execution",
+        "Eliminates memory",
+        "Hides underlying hardware complexity"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which combination represents OS goals in the notes?",
+      "options": [
+        "Maximum hardware complexity, more starvation, lower utilization",
+        "Minimum CPU utilization, more starvation, lower priority execution",
+        "Maximum CPU utilization, less starvation, higher priority job execution",
+        "Maximum starvation, lower utilization, fewer jobs"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which OS type allows only one process to execute at a time from the ready queue?",
+      "options": [
+        "Distributed OS",
+        "Single Process OS",
+        "Multiprogramming OS",
+        "Multiprocessing OS"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "In batch processing, what does the operator do with jobs from different users?",
+      "options": [
+        "Sorts them into batches with similar needs",
+        "Executes every job simultaneously",
+        "Deletes low-priority jobs",
+        "Converts them into threads"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which is a disadvantage of batch processing?",
+      "options": [
+        "It guarantees no starvation",
+        "It always supports priorities",
+        "It guarantees immediate execution",
+        "CPU may become idle during I/O"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What is a key purpose of multiprogramming?",
+      "options": [
+        "Prevent all context switching",
+        "Limit jobs in memory to one",
+        "Increase CPU utilization",
+        "Increase CPU idle time"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "According to the notes, multiprogramming uses how many CPUs?",
+      "options": [
+        "No CPU",
+        "One CPU",
+        "Exactly two CPUs",
+        "At least four CPUs"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "When does switching occur in the described multiprogramming system?",
+      "options": [
+        "When the current process goes to the wait state",
+        "Only when the process terminates",
+        "Only during system shutdown",
+        "Only after all jobs finish"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Multitasking is described as what?",
+      "options": [
+        "A replacement for memory",
+        "A type of secondary storage",
+        "A form of batch processing",
+        "A logical extension of multiprogramming"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which feature is associated with multitasking?",
+      "options": [
+        "Permanent queue assignment",
+        "No context switching",
+        "Time sharing",
+        "Punch cards"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What distinguishes multiprocessing from multiprogramming in the notes?",
+      "options": [
+        "Multiprocessing permits only one process",
+        "Multiprocessing has more than one CPU in a single computer",
+        "Multiprocessing has no memory",
+        "Multiprocessing uses punch cards"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which is an advantage of multiprocessing?",
+      "options": [
+        "Better throughput",
+        "Higher process starvation",
+        "Lower reliability",
+        "Mandatory single-CPU execution"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What characterizes a distributed OS?",
+      "options": [
+        "One process on one CPU only",
+        "Only one memory unit",
+        "Only batch jobs",
+        "Loosely connected autonomous interconnected nodes"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What does RTOS perform?",
+      "options": [
+        "Only file management",
+        "Only memory allocation",
+        "Error-free computations within tight-time boundaries",
+        "Only batch processing"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "Which is an example of an RTOS application given in the notes?",
+      "options": [
+        "Source-code editing",
+        "Air traffic control systems",
+        "Text formatting",
+        "File compression"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Introduction to OS"
+    },
+    {
+      "statement": "What is a process?",
+      "options": [
+        "A program under execution",
+        "A program stored only on disk",
+        "A hardware register",
+        "A system bus"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Where does a program reside according to the notes?",
+      "options": [
+        "CPU register only",
+        "Ready queue only",
+        "Cache only",
+        "Disk"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Where does a process reside?",
+      "options": [
+        "BIOS ROM",
+        "Printer memory",
+        "Primary memory (RAM)",
+        "Only secondary storage"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What is a thread?",
+      "options": [
+        "A type of firmware",
+        "A single sequence stream within a process",
+        "A complete operating system",
+        "A storage device"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Why are threads used?",
+      "options": [
+        "To divide a process into independent paths of execution",
+        "To eliminate all processes",
+        "To replace RAM",
+        "To prevent parallelism"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Why is a thread called a lightweight process?",
+      "options": [
+        "It always has separate physical memory",
+        "It is stored on disk",
+        "It is a CPU itself",
+        "It is an independent path of execution within a process"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Which example illustrates multithreading from the notes?",
+      "options": [
+        "A computer being switched off",
+        "A single file stored on disk",
+        "Typing, spell-checking, formatting and saving concurrently",
+        "Only one browser tab existing"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What is multitasking?",
+      "options": [
+        "Managing multiple tasks so that they can make progress over overlapping time periods",
+        "Executing multiple instructions in one clock cycle",
+        "Running only one process",
+        "Disabling context switches"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What does multithreading involve?",
+      "options": [
+        "Multiple threads being context switched",
+        "Multiple disks being formatted",
+        "Multiple CPUs always being required",
+        "Multiple operating systems being installed"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What is a key memory difference noted between multitasking and multithreading?",
+      "options": [
+        "Processes always share exactly the same memory",
+        "Threads always have isolated address spaces",
+        "Processes never receive resources",
+        "Threads of the same process share memory and resources"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Thread scheduling is based on what according to the notes?",
+      "options": [
+        "Disk capacity",
+        "Screen resolution",
+        "Priority",
+        "File size"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Who assigns processor time slices to threads?",
+      "options": [
+        "The disk",
+        "The operating system",
+        "The compiler",
+        "The text editor"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Thread context switching switches between what?",
+      "options": [
+        "Threads of the same process",
+        "Only different operating systems",
+        "Different disks",
+        "Different computers"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What does thread context switching not include?",
+      "options": [
+        "Saving the program counter",
+        "Saving registers",
+        "Saving the stack",
+        "Switching of the memory address space"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Which state is included during thread context switching?",
+      "options": [
+        "Only BIOS settings",
+        "Only file names",
+        "Program counter",
+        "Only disk contents"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "How is thread context switching characterized relative to process switching?",
+      "options": [
+        "Impossible",
+        "Faster",
+        "Always slower",
+        "Identical in all respects"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What happens to CPU cache state during thread context switching?",
+      "options": [
+        "It is preserved",
+        "It is always flushed",
+        "It is deleted permanently",
+        "It is moved to disk"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What additional activity occurs in process context switching?",
+      "options": [
+        "Only stack switching",
+        "Only priority assignment",
+        "Only file creation",
+        "Memory address space switching"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "What happens to CPU cache state during process context switching?",
+      "options": [
+        "It is converted into RAM",
+        "It is ignored permanently",
+        "It is flushed",
+        "It is preserved"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Which statement correctly distinguishes process and thread context switching?",
+      "options": [
+        "Process switching never changes memory state",
+        "Process switching includes memory address-space switching; thread switching within a process does not",
+        "Neither involves registers",
+        "Thread switching always changes address space"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multitasking, Multithreading & Context Switching"
+    },
+    {
+      "statement": "Which component directly interacts with hardware and performs crucial OS tasks?",
+      "options": [
+        "Kernel",
+        "GUI",
+        "Application",
+        "Shell"
+      ],
+      "correct": "a",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which part of the OS is the first to load on startup?",
+      "options": [
+        "User application",
+        "Text editor",
+        "Browser",
+        "Kernel"
+      ],
+      "correct": "d",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Where does application software run?",
+      "options": [
+        "BIOS",
+        "Boot sector",
+        "User space",
+        "Only kernel space"
+      ],
+      "correct": "c",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "What is a shell?",
+      "options": [
+        "A CPU register",
+        "A command interpreter",
+        "A memory manager",
+        "A file system"
+      ],
+      "correct": "b",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which is a kernel process-management function?",
+      "options": [
+        "Scheduling processes and threads",
+        "Formatting documents",
+        "Displaying web pages",
+        "Creating source code"
+      ],
+      "correct": "a",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which is a kernel memory-management responsibility?",
+      "options": [
+        "Sorting punch cards",
+        "Rendering GUI themes",
+        "Compiling applications",
+        "Allocating and deallocating memory"
+      ],
+      "correct": "d",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which is a file-management function of the kernel?",
+      "options": [
+        "Executing graphics calculations",
+        "Assigning keyboard layouts",
+        "Creating and deleting files",
+        "Scheduling CPU temperature"
+      ],
+      "correct": "c",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which I/O technique is used between differing-speed jobs?",
+      "options": [
+        "Segmentation",
+        "Spooling",
+        "Buffering",
+        "Compilation"
+      ],
+      "correct": "b",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which is an example of buffering in the notes?",
+      "options": [
+        "YouTube video buffering",
+        "Print spooling",
+        "Web caching",
+        "File deletion"
+      ],
+      "correct": "a",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which is an example of caching?",
+      "options": [
+        "Print spooling",
+        "Process termination",
+        "Punch-card sorting",
+        "Web caching"
+      ],
+      "correct": "d",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "What is a characteristic of a monolithic kernel?",
+      "options": [
+        "All functions are in user space",
+        "It has no kernel",
+        "All functions are in the kernel itself",
+        "Only memory management is in the kernel"
+      ],
+      "correct": "c",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Why can a monolithic kernel have high performance?",
+      "options": [
+        "It always uses multiple CPUs",
+        "Communication is fast with fewer user-mode/kernel-mode overheads",
+        "It never accesses hardware",
+        "It has no kernel functions"
+      ],
+      "correct": "b",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "What happens if one module crashes in the described monolithic kernel?",
+      "options": [
+        "The whole kernel is down",
+        "Only a user file is deleted",
+        "The CPU gains another core",
+        "Nothing changes"
+      ],
+      "correct": "a",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which functions are explicitly kept in the kernel of the microkernel described?",
+      "options": [
+        "File management and I/O management",
+        "GUI and CLI",
+        "Printing and web caching",
+        "Memory management and process management"
+      ],
+      "correct": "d",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Where are file management and I/O management placed in the described microkernel?",
+      "options": [
+        "Secondary memory only",
+        "CPU registers",
+        "User space",
+        "BIOS"
+      ],
+      "correct": "c",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "What is a major characteristic of a microkernel?",
+      "options": [
+        "No user space",
+        "Smaller size and greater reliability",
+        "Bulky size and lower stability",
+        "All functions in kernel"
+      ],
+      "correct": "b",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Why is microkernel performance slower according to the notes?",
+      "options": [
+        "Overhead from switching between user mode and kernel mode",
+        "It cannot manage processes",
+        "It has no memory",
+        "It cannot perform I/O"
+      ],
+      "correct": "a",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "What does a hybrid kernel combine?",
+      "options": [
+        "Batch and single-process systems",
+        "RAM and ROM",
+        "Paging and registers only",
+        "Approaches from monolithic and micro kernels"
+      ],
+      "correct": "d",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Which IPC mechanisms are listed?",
+      "options": [
+        "Paging and segmentation",
+        "Spooling and caching",
+        "Shared memory and message passing",
+        "FCFS and SJF"
+      ],
+      "correct": "c",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "Why is IPC needed even though processes can have independent memory spaces?",
+      "options": [
+        "Processes cannot execute independently",
+        "Some processes need to communicate to work together",
+        "Independent processes always share memory",
+        "Memory protection prevents execution"
+      ],
+      "correct": "b",
+      "subtopicTitle": "OS Components, Kernel Types & Inter-Process Communication"
+    },
+    {
+      "statement": "How do applications interact with the kernel?",
+      "options": [
+        "Using system calls",
+        "Using only GUI controls",
+        "Using only files",
+        "Using BIOS directly"
+      ],
+      "correct": "a",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "What is the role of mkdir in the example?",
+      "options": [
+        "It is the kernel itself",
+        "It is a CPU instruction",
+        "It is a hardware device",
+        "It is a wrapper of actual system calls"
+      ],
+      "correct": "d",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which kernel module is asked to create a directory by mkdir?",
+      "options": [
+        "Memory cache",
+        "Device driver only",
+        "File management module",
+        "CPU scheduler"
+      ],
+      "correct": "c",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "What is a system call?",
+      "options": [
+        "A compiler command",
+        "A mechanism for a user program to request a kernel service it lacks permission to perform",
+        "A hardware interrupt only",
+        "A file stored on disk"
+      ],
+      "correct": "b",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which operation is specifically mentioned as normally requiring a system call?",
+      "options": [
+        "Accessing I/O devices",
+        "Writing comments",
+        "Changing variable names",
+        "Formatting source code"
+      ],
+      "correct": "a",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "What is the only way a process can go from user mode to kernel mode according to the notes?",
+      "options": [
+        "File copying",
+        "Compilation",
+        "Cache access",
+        "System calls"
+      ],
+      "correct": "d",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "In which language are system calls implemented according to the notes?",
+      "options": [
+        "Python",
+        "Assembly only",
+        "C",
+        "Java"
+      ],
+      "correct": "c",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which category includes create process and terminate process?",
+      "options": [
+        "Communication Management",
+        "Process Control",
+        "File Management",
+        "Device Management"
+      ],
+      "correct": "b",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which category includes create file and delete file?",
+      "options": [
+        "File Management",
+        "Process Control",
+        "Information Maintenance",
+        "Communication Management"
+      ],
+      "correct": "a",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which category includes request device and release device?",
+      "options": [
+        "File Management",
+        "Process Control",
+        "Information Maintenance",
+        "Device Management"
+      ],
+      "correct": "d",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which category includes get time/date and set time/date?",
+      "options": [
+        "File Management",
+        "Device Management",
+        "Information Maintenance",
+        "Process Control"
+      ],
+      "correct": "c",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which category includes send and receive messages?",
+      "options": [
+        "Device Management",
+        "Communication Management",
+        "File Management",
+        "Process Control"
+      ],
+      "correct": "b",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix system call corresponds to Windows CreateProcess() in the notes?",
+      "options": [
+        "fork()",
+        "open()",
+        "read()",
+        "pipe()"
+      ],
+      "correct": "a",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix call corresponds to Windows CreateFile()?",
+      "options": [
+        "fork()",
+        "wait()",
+        "alarm()",
+        "open()"
+      ],
+      "correct": "d",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix call corresponds to Windows ReadFile()?",
+      "options": [
+        "close()",
+        "mmap()",
+        "read()",
+        "write()"
+      ],
+      "correct": "c",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix call corresponds to Windows WriteFile()?",
+      "options": [
+        "chmod()",
+        "write()",
+        "read()",
+        "fork()"
+      ],
+      "correct": "b",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix call corresponds to Windows GetCurrentProcessID()?",
+      "options": [
+        "getpid()",
+        "alarm()",
+        "sleep()",
+        "pipe()"
+      ],
+      "correct": "a",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "Which Unix call corresponds to Windows CreatePipe()?",
+      "options": [
+        "shmget()",
+        "mmap()",
+        "fork()",
+        "pipe()"
+      ],
+      "correct": "d",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "What mechanism causes the transition from user space to kernel space?",
+      "options": [
+        "File creation",
+        "Batch sorting",
+        "Software interrupts",
+        "Cache replacement"
+      ],
+      "correct": "c",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "In the process-creation example, which system call is used according to the notes?",
+      "options": [
+        "wait",
+        "exec",
+        "fork",
+        "open"
+      ],
+      "correct": "b",
+      "subtopicTitle": "System Calls"
+    },
+    {
+      "statement": "What does the CPU look for after it initializes itself when the PC is turned on?",
+      "options": [
+        "A firmware program",
+        "A user application",
+        "A page table",
+        "A shell"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Where is BIOS stored according to the notes?",
+      "options": [
+        "RAM only",
+        "CPU cache",
+        "Secondary memory only",
+        "ROM chip on the motherboard"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does BIOS stand for?",
+      "options": [
+        "Basic Internal Operating System",
+        "Boot Input Output Scheduler",
+        "Basic Input/Output System",
+        "Binary Input Operating Software"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does POST stand for?",
+      "options": [
+        "Program Operating System Task",
+        "Power-On Self-Test",
+        "Process Operating System Transfer",
+        "Primary Output System Test"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What happens if something inappropriate such as missing RAM is detected during boot?",
+      "options": [
+        "An error is thrown and booting is stopped",
+        "The OS is immediately executed",
+        "The kernel is deleted",
+        "The CPU shuts down permanently"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does BIOS hand off to continue booting the PC?",
+      "options": [
+        "The user application",
+        "The file manager",
+        "The shell",
+        "The OS bootloader"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does the MBR contain according to the notes?",
+      "options": [
+        "All user applications",
+        "The CPU registers",
+        "Code that loads the rest of the operating system",
+        "The complete operating system"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What is the bootloader's role?",
+      "options": [
+        "Replace the kernel",
+        "Boot the rest of the operating system",
+        "Manage all user files",
+        "Perform CPU scheduling"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Which bootloader is listed for most Linux systems?",
+      "options": [
+        "GRUB",
+        "Bootmgr.exe",
+        "boot.efi",
+        "BIOS"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "How many unique memory addresses can a 32-bit OS access according to the notes?",
+      "options": [
+        "2⁶⁴",
+        "2³¹",
+        "2⁶³",
+        "2³²"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "How many unique memory addresses can a 64-bit OS access according to the notes?",
+      "options": [
+        "2⁶³",
+        "2³¹",
+        "2⁶⁴",
+        "2³²"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What is the physical-memory figure stated for a 32-bit OS?",
+      "options": [
+        "2 GB",
+        "4 GB",
+        "8 GB",
+        "17,179,869,184 GB"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What is the theoretical size of a 64-bit address space?",
+      "options": [
+        "2^32 addressable units",
+        "2^48 addressable units",
+        "2^64 addressable units",
+        "4 GB"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does a 32-bit processor's bitness primarily describe?",
+      "options": [
+        "It supports 32-bit registers/operations; it does not mean exactly 4 bytes are executed per clock cycle",
+        "It always executes exactly 4 bytes per clock cycle",
+        "It always has 4 CPU cores",
+        "It can execute only 4 instructions per second"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does a 64-bit processor's bitness primarily describe?",
+      "options": [
+        "It supports 64-bit registers/operations; it does not mean exactly 8 bytes are executed per clock cycle",
+        "It always executes exactly 8 bytes per clock cycle",
+        "It always has 8 CPU cores",
+        "It can execute only 8 instructions per second"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Which compatibility statement is given?",
+      "options": [
+        "Neither CPU can run an OS",
+        "A 64-bit CPU can run both 32-bit and 64-bit OS",
+        "A 32-bit CPU can run both 32-bit and 64-bit OS",
+        "A 64-bit CPU can run only 32-bit OS"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Which storage unit is part of the CPU itself?",
+      "options": [
+        "Register",
+        "Secondary memory",
+        "Disk",
+        "RAM"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What does cache temporarily store?",
+      "options": [
+        "Only deleted files",
+        "Only BIOS settings",
+        "Only source code",
+        "Frequently used instructions and data"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Which storage has the highest access speed according to the notes?",
+      "options": [
+        "Main memory",
+        "Secondary memory",
+        "Registers",
+        "Cache"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "Which statement about volatility is correct?",
+      "options": [
+        "Both are non-volatile",
+        "Primary memory is volatile and secondary memory is non-volatile",
+        "Primary memory is non-volatile and secondary memory is volatile",
+        "Both are volatile"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Computer Boot Process, 32-bit vs 64-bit OS & Storage Basics"
+    },
+    {
+      "statement": "What is process scheduling described as?",
+      "options": [
+        "The basis of a multiprogramming OS",
+        "A type of storage",
+        "A file-management technique",
+        "A bootloader"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "When the CPU becomes idle, which component selects a process from the ready queue?",
+      "options": [
+        "Long-term storage",
+        "Shell",
+        "Bootloader",
+        "Short-term scheduler"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What happens in non-preemptive scheduling once CPU is allocated?",
+      "options": [
+        "The CPU becomes permanently idle",
+        "The process must switch after every instruction",
+        "The process keeps it until termination or waiting",
+        "The process is always immediately preempted"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which scheduling type takes the CPU away after the time quantum expires?",
+      "options": [
+        "Distributed scheduling",
+        "Preemptive scheduling",
+        "Non-preemptive scheduling",
+        "Batch scheduling"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which is a goal of CPU scheduling?",
+      "options": [
+        "Minimum waiting time",
+        "Maximum waiting time",
+        "Maximum starvation",
+        "Minimum throughput"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What is throughput?",
+      "options": [
+        "Time a process spends waiting",
+        "Time until a process terminates",
+        "Time until first CPU access",
+        "Number of processes completed per unit time"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What does Arrival Time represent?",
+      "options": [
+        "CPU burst duration",
+        "Time of first response",
+        "Time when a process arrives at the ready queue",
+        "Time when it terminates"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What does Burst Time represent?",
+      "options": [
+        "Time of arrival",
+        "Time required by the process for execution",
+        "Time waiting in the queue",
+        "Time until termination"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which formula is given for turnaround time?",
+      "options": [
+        "TAT = CT - AT",
+        "TAT = AT - CT",
+        "TAT = BT - CT",
+        "TAT = WT - BT"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which formula is given for waiting time?",
+      "options": [
+        "WT = BT - TAT",
+        "WT = CT - AT",
+        "WT = AT - CT",
+        "WT = TAT - BT"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What is response time?",
+      "options": [
+        "Time until termination",
+        "Time spent after termination",
+        "Time from entering the ready queue until getting the CPU for the first time",
+        "Total execution time"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which process gets the CPU first in FCFS?",
+      "options": [
+        "The last process to arrive",
+        "The process that comes first in the ready queue",
+        "The process with the shortest burst",
+        "The highest-priority process"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which scheduling algorithm is FCFS?",
+      "options": [
+        "Non-preemptive",
+        "Preemptive",
+        "Always time-shared",
+        "Always priority-based"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What is the Convoy Effect?",
+      "options": [
+        "A process is always preempted",
+        "All processes execute simultaneously",
+        "A process never waits",
+        "Many short-resource processes are blocked by one process holding a resource for a long time"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which process is selected first by non-preemptive SJF?",
+      "options": [
+        "The last arriving process",
+        "The process with the largest burst time",
+        "The process with the least burst time",
+        "The process with the highest priority"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Why is exact SJF burst-time estimation described as difficult?",
+      "options": [
+        "The ready queue is empty",
+        "Correct estimation of burst time is ideally impossible",
+        "Burst time is never used",
+        "Processes have no burst time"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What is an advantage of preemptive SJF stated in the notes?",
+      "options": [
+        "Lower average waiting time",
+        "Higher convoy effect",
+        "More starvation",
+        "No context switching"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "In priority scheduling, when is the priority assigned?",
+      "options": [
+        "After termination",
+        "Only after I/O",
+        "At system shutdown",
+        "When the process is created"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What is ageing used for in priority scheduling?",
+      "options": [
+        "Increasing convoy effect",
+        "Removing processes from memory",
+        "Gradually increasing priority of a process waiting for a long time",
+        "Reducing CPU utilization"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "Which scheduling algorithm is described as FCFS but preemptive?",
+      "options": [
+        "MLQ",
+        "Round Robin",
+        "SJF",
+        "Priority"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Process Scheduling, FCFS, SJF, Priority & Round Robin"
+    },
+    {
+      "statement": "What happens to the ready queue in MLQ?",
+      "options": [
+        "It is divided into multiple queues based on priority",
+        "It is converted into one queue",
+        "It is stored on disk",
+        "It is eliminated"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "In MLQ, can a process move between queues?",
+      "options": [
+        "Yes, after every time quantum",
+        "Only during boot",
+        "Only after termination",
+        "No, it is permanently assigned to one queue"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which can be used to assign a process to an MLQ queue?",
+      "options": [
+        "Screen size",
+        "File extension",
+        "Process type",
+        "CPU temperature"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Does each MLQ queue have its own scheduling algorithm?",
+      "options": [
+        "Only the last queue",
+        "Yes",
+        "No",
+        "Only the first queue"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which algorithm is given for system processes in the MLQ example?",
+      "options": [
+        "Round Robin",
+        "FCFS",
+        "SJF only",
+        "FIFO page replacement"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which algorithm is given for batch processes in the MLQ example?",
+      "options": [
+        "Round Robin",
+        "LRU",
+        "Priority inversion",
+        "FCFS"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What is a system process?",
+      "options": [
+        "A process with no priority",
+        "A background process requiring no OS",
+        "A process created by the OS",
+        "A process created only by a user"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which process is also called a foreground process?",
+      "options": [
+        "Kernel process",
+        "Interactive process",
+        "Batch process",
+        "System process"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which process is also called a background process?",
+      "options": [
+        "Batch process",
+        "Interactive process",
+        "System process",
+        "Foreground process"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "How are queues scheduled relative to each other in MLQ?",
+      "options": [
+        "Random scheduling",
+        "Only FCFS between queues",
+        "Non-preemptive scheduling only",
+        "Fixed-priority preemptive scheduling"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What happens if an interactive process arrives while a batch process is executing?",
+      "options": [
+        "Both are permanently blocked",
+        "The system shuts down",
+        "The batch process is preempted",
+        "The interactive process is terminated"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What problem can lower-priority MLQ processes suffer from?",
+      "options": [
+        "No CPU access ever by definition",
+        "Starvation",
+        "No memory allocation",
+        "No scheduling"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Is the convoy effect present in MLQ according to the notes?",
+      "options": [
+        "Yes",
+        "No",
+        "Only during boot",
+        "Only in user space"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What is the key difference between MLFQ and MLQ?",
+      "options": [
+        "MLFQ permanently assigns every process",
+        "MLQ allows unlimited movement",
+        "Neither uses multiple queues",
+        "MLFQ allows processes to move between queues"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What characteristic is used to separate processes in the MLFQ idea?",
+      "options": [
+        "Memory address only",
+        "CPU model",
+        "Burst time characteristics",
+        "File name"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What happens to a process that uses too much CPU time in MLFQ?",
+      "options": [
+        "It is removed from memory permanently",
+        "It is moved to a lower-priority queue",
+        "It is terminated immediately",
+        "It is moved to the highest queue"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which processes are intended to remain in higher-priority queues in MLFQ?",
+      "options": [
+        "I/O-bound and interactive processes",
+        "Only long CPU-bound processes",
+        "Only terminated processes",
+        "Only batch jobs"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What happens to a process that waits too long in a lower-priority queue?",
+      "options": [
+        "It is always terminated",
+        "It loses all resources",
+        "It becomes a system process",
+        "It may be moved to a higher-priority queue"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What is this upward movement called?",
+      "options": [
+        "Spooling",
+        "Paging",
+        "Ageing",
+        "Convoying"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "Which statement about MLFQ is correct?",
+      "options": [
+        "It never uses multiple queues",
+        "It is flexible and can be configured for specific system requirements",
+        "It is permanently assigned and inflexible",
+        "It cannot prevent starvation"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Multi-Level Queue (MLQ) & Multi-Level Feedback Queue (MLFQ)"
+    },
+    {
+      "statement": "What is concurrency?",
+      "options": [
+        "The ability to make progress on multiple tasks during overlapping time periods",
+        "Executing all tasks at exactly the same instant",
+        "Running only one task until completion",
+        "Executing every task on a separate CPU"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is a critical section?",
+      "options": [
+        "A bootloader section",
+        "A disk partition",
+        "A CPU register",
+        "A code segment where shared resources or common data are accessed"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Why is synchronization important?",
+      "options": [
+        "To remove all threads",
+        "To eliminate CPUs",
+        "To maintain consistency of shared data",
+        "To increase memory size"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is a race condition?",
+      "options": [
+        "A file is stored on disk",
+        "Two or more threads access shared data and try to change it at the same time",
+        "One process terminates normally",
+        "A process waits for I/O"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Why is the result of a race condition dependent on scheduling?",
+      "options": [
+        "The order in which threads access shared data is unknown",
+        "Threads never execute",
+        "Memory is always isolated",
+        "The CPU has no scheduler"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Which is listed as a solution to race conditions?",
+      "options": [
+        "File compression",
+        "Batch processing",
+        "Bootloading",
+        "Atomic operations"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What does an atomic critical operation mean in the notes?",
+      "options": [
+        "It is stored on disk",
+        "It is executed by two CPUs simultaneously",
+        "It is executed in one CPU cycle",
+        "It is executed only after termination"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Can a simple flag variable solve the race condition problem according to the notes?",
+      "options": [
+        "Only in batch systems",
+        "No",
+        "Yes, always",
+        "Only with three processes"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "For how many processes or threads is Peterson's solution applicable according to the notes?",
+      "options": [
+        "2",
+        "1",
+        "4",
+        "Unlimited"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is the purpose of a mutex lock?",
+      "options": [
+        "Allow unlimited concurrent access",
+        "Prevent all processes from running",
+        "Replace the CPU scheduler",
+        "Allow only one thread/process to access the critical section"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What happens to other threads while one thread holds a lock in the contention scenario?",
+      "options": [
+        "They receive the lock simultaneously",
+        "They become bootloaders",
+        "They may busy wait",
+        "They terminate automatically"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What can happen if the thread holding a lock dies?",
+      "options": [
+        "The process becomes a system process",
+        "Other threads may remain in infinite waiting",
+        "All threads immediately finish",
+        "The lock is automatically ignored"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Which problem can locks cause?",
+      "options": [
+        "Deadlocks",
+        "Guaranteed throughput",
+        "Automatic memory protection",
+        "No waiting"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "Which problem involving high-priority threads is listed as a disadvantage of locks?",
+      "options": [
+        "Paging",
+        "Thrashing",
+        "Segmentation",
+        "Starvation"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is one disadvantage of locks related to development?",
+      "options": [
+        "They remove source code",
+        "They prevent compilation",
+        "They can make debugging difficult",
+        "They eliminate debugging"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "How are threads scheduled according to the notes?",
+      "options": [
+        "Without OS involvement",
+        "Based on priority",
+        "Based only on file size",
+        "Based only on memory address"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What does a thread have for scheduling and execution tracking?",
+      "options": [
+        "Its own program counter",
+        "Its own complete OS",
+        "Its own physical CPU necessarily",
+        "Its own disk"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What does the OS use to fetch instructions for a thread?",
+      "options": [
+        "The file name",
+        "The process title",
+        "The disk sector",
+        "The program counter of that thread"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is a TCB?",
+      "options": [
+        "A file-management table",
+        "A bootloader",
+        "A Thread Control Block used for state storage management during context switching",
+        "A CPU cache"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "According to the notes, what is stated about multithreading on a single CPU?",
+      "options": [
+        "It requires no scheduling",
+        "The notes state that a single CPU system would not gain from the technique",
+        "It always doubles performance",
+        "It eliminates context switching"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Concurrency, Critical Section, Race Condition, Mutex & Synchronization"
+    },
+    {
+      "statement": "What is a condition variable?",
+      "options": [
+        "A synchronization primitive that lets a thread wait until a condition occurs",
+        "A CPU register",
+        "A file system",
+        "A bootloader"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What must a thread have acquired before entering the wait state using a condition variable?",
+      "options": [
+        "A CPU cache",
+        "A file",
+        "A page",
+        "A lock"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What happens to the lock when a thread enters the wait state?",
+      "options": [
+        "It deletes the lock",
+        "It transfers the lock to disk",
+        "It releases the lock",
+        "It permanently holds the lock"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What happens when the waiting thread becomes runnable again?",
+      "options": [
+        "It becomes a kernel",
+        "It acquires the lock again and starts executing",
+        "It terminates",
+        "It loses its process"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "Why are condition variables used?",
+      "options": [
+        "To avoid busy waiting",
+        "To increase busy waiting",
+        "To eliminate locks",
+        "To prevent notifications"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What is a semaphore according to the notes?",
+      "options": [
+        "A file system",
+        "A CPU scheduling algorithm",
+        "A memory address",
+        "A synchronization method represented as an integer related to resources"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What does the semaphore integer represent in the notes?",
+      "options": [
+        "The number of processes only",
+        "The number of files",
+        "The number of resources",
+        "The number of CPUs only"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What is a key distinction between semaphore and mutex in the notes?",
+      "options": [
+        "They are described as identical in every respect",
+        "A semaphore can allow multiple threads to access finite resource instances, while a mutex protects a single shared resource one at a time",
+        "A mutex always allows unlimited threads",
+        "A semaphore cannot represent resources"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What values can a binary semaphore have?",
+      "options": [
+        "0 or 1",
+        "1 to 10",
+        "Any negative integer only",
+        "Only 2"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What is another name given to a binary semaphore?",
+      "options": [
+        "Page fault",
+        "TCB",
+        "Bootloader",
+        "Mutex lock"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What is a counting semaphore used for?",
+      "options": [
+        "Replacing the CPU",
+        "Storing files",
+        "Controlling access to a resource with a finite number of instances",
+        "Booting the OS"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What happens when wait() finds a non-positive semaphore value in the blocking implementation?",
+      "options": [
+        "The CPU shuts down",
+        "The process blocks itself",
+        "The process continues busy waiting",
+        "The process terminates"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "Where is a blocked process placed?",
+      "options": [
+        "A waiting queue associated with the semaphore",
+        "The ready queue immediately",
+        "The disk permanently",
+        "The kernel boot sector"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What state does block() place the process into?",
+      "options": [
+        "Ready state",
+        "Running state",
+        "Terminated state",
+        "Waiting state"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What does wakeup() do?",
+      "options": [
+        "Terminates a process",
+        "Creates a new CPU",
+        "Moves a process from Waiting to Ready",
+        "Moves Ready to Waiting"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "How many philosophers are in the Dining Philosophers problem?",
+      "options": [
+        "10",
+        "5",
+        "2",
+        "4"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What are the two states of a philosopher?",
+      "options": [
+        "Thinking and Eating",
+        "Ready and Waiting",
+        "Running and Terminated",
+        "Reading and Writing"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "How many forks are on the table?",
+      "options": [
+        "2",
+        "4",
+        "10",
+        "5"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "How is each fork represented in the semaphore solution?",
+      "options": [
+        "A mutex for the entire table only",
+        "A page table",
+        "A binary semaphore",
+        "A counting semaphore with unlimited value"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "How can the Dining Philosophers deadlock be avoided according to the notes?",
+      "options": [
+        "Increase the number of philosophers",
+        "Allow at most four philosophers simultaneously or require both forks to be acquired atomically",
+        "Allow all philosophers to hold one fork forever",
+        "Remove all semaphores"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Conditional Variables, Semaphores & Dining Philosophers"
+    },
+    {
+      "statement": "What is a deadlock?",
+      "options": [
+        "Processes wait for resources that will never become available because they are held by other waiting processes",
+        "A process terminates successfully",
+        "A CPU becomes faster",
+        "A file is copied"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "Which environment is explicitly associated with competing processes and finite resources?",
+      "options": [
+        "Single-user text editor only",
+        "Boot environment only",
+        "Compiler environment",
+        "Multiprogramming environment"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "Which is an example of a resource that can participate in deadlock?",
+      "options": [
+        "Only screen pixels",
+        "Only comments",
+        "Locks",
+        "Only source code"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "Which three steps describe resource utilization?",
+      "options": [
+        "Read, Write, Delete",
+        "Request, Use, Release",
+        "Create, Compile, Execute",
+        "Load, Boot, Shutdown"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "How many necessary conditions must hold simultaneously for deadlock?",
+      "options": [
+        "Four",
+        "Two",
+        "Three",
+        "Five"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What does mutual exclusion mean?",
+      "options": [
+        "All processes can use the resource simultaneously",
+        "The resource is never used",
+        "The resource is always preempted",
+        "Only one process at a time can use the resource"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What does hold and wait mean?",
+      "options": [
+        "A process releases everything before requesting",
+        "A resource waits for a process",
+        "A process holds at least one resource while waiting for additional resources",
+        "A process holds no resources"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What does no preemption mean?",
+      "options": [
+        "All resources are shared",
+        "A resource must be voluntarily released by the process",
+        "The OS always preempts resources",
+        "Resources can never be used"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What characterizes circular wait?",
+      "options": [
+        "A set of processes waits for resources held by one another in a cycle",
+        "One process waits for itself only",
+        "All processes terminate",
+        "Resources are never requested"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What is the Ostrich Algorithm?",
+      "options": [
+        "Detecting every deadlock",
+        "Preventing mutual exclusion",
+        "Allocating all resources",
+        "Ignoring the deadlock problem"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What does deadlock prevention ensure?",
+      "options": [
+        "Every process gets every resource",
+        "The system enters an unsafe state",
+        "At least one necessary deadlock condition cannot hold",
+        "All four conditions always hold"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "How can mutual exclusion be prevented where possible?",
+      "options": [
+        "Prevent all file access",
+        "Use locks only for non-sharable resources",
+        "Make every resource non-sharable",
+        "Remove all resources"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What is Protocol A for preventing hold and wait?",
+      "options": [
+        "Request and be allocated all resources before execution",
+        "Request resources only after termination",
+        "Release resources before every instruction",
+        "Never request resources"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What is Protocol B?",
+      "options": [
+        "Request all resources after termination",
+        "Hold resources forever",
+        "Never release resources",
+        "Request resources only when the process has none, and request more only after releasing all currently allocated resources"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What can occur when preventing no preemption by taking resources away?",
+      "options": [
+        "The OS stops booting",
+        "Paging becomes impossible",
+        "Livelock may occur",
+        "Thrashing is guaranteed"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "How can circular wait be prevented?",
+      "options": [
+        "Use no resources",
+        "Impose an ordering of resource allocation",
+        "Remove all scheduling",
+        "Allow arbitrary lock ordering"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What information does the kernel receive for deadlock avoidance?",
+      "options": [
+        "Advance information about resources processes will use during their lifetime",
+        "Only process names",
+        "Only file names",
+        "Only CPU speed"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What is a safe state?",
+      "options": [
+        "A state that is always a deadlock",
+        "A state with no resources",
+        "A state where every process is terminated",
+        "A state where resources can be allocated up to maximum requirements in some order while avoiding deadlock"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What is true about an unsafe state?",
+      "options": [
+        "It can never lead to deadlock",
+        "It is always safe",
+        "It may lead to deadlock, but an unsafe state is not necessarily a deadlock",
+        "It is always a deadlock"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "For a single instance of each resource type, what detects deadlock?",
+      "options": [
+        "LRU",
+        "Wait-for Graph; a cycle indicates deadlock",
+        "Banker's Algorithm only",
+        "FIFO"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Deadlocks"
+    },
+    {
+      "statement": "What does the MMU do in the described address translation process?",
+      "options": [
+        "Maps the logical address dynamically by adding the relocation-register value",
+        "Deletes logical addresses",
+        "Creates files",
+        "Schedules processes"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "Which registers are loaded by the dispatcher during a context switch?",
+      "options": [
+        "Only program counter",
+        "Only cache registers",
+        "Only file registers",
+        "Relocation and limit registers"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What does a logical address generated by the CPU get checked against?",
+      "options": [
+        "Only the shell",
+        "Only the bootloader",
+        "Relocation and limit registers",
+        "Only the disk"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What happens when a user-mode program attempts to access protected OS or another user's memory?",
+      "options": [
+        "Nothing happens",
+        "A trap occurs in the OS",
+        "The memory is automatically shared",
+        "The program becomes kernel mode permanently"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What are the two main physical-memory allocation methods listed?",
+      "options": [
+        "Contiguous and non-contiguous allocation",
+        "Static and dynamic paging only",
+        "FIFO and LRU",
+        "Kernel and user allocation"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What is contiguous allocation?",
+      "options": [
+        "Each process is always split across disks",
+        "Processes have no memory",
+        "Only files are contiguous",
+        "Each process is contained in a single contiguous block of memory"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "How is memory divided in fixed partitioning?",
+      "options": [
+        "Into CPUs",
+        "Into threads",
+        "Into partitions of equal or different sizes",
+        "Into pages only"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What is internal fragmentation?",
+      "options": [
+        "A deadlock",
+        "Unused space inside an allocated partition",
+        "Free space scattered outside partitions",
+        "A page fault"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What is external fragmentation?",
+      "options": [
+        "Unused spaces cannot be used because the free space is not contiguous",
+        "Unused space inside a partition",
+        "A CPU scheduling delay",
+        "A page replacement"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What happens if a process is larger than the largest fixed partition?",
+      "options": [
+        "It is automatically split",
+        "It becomes a thread",
+        "It is moved to CPU cache",
+        "It cannot be loaded into memory"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What happens to the degree of multiprogramming in fixed partitioning?",
+      "options": [
+        "It is always maximum",
+        "It depends only on CPU speed",
+        "It is fixed and very low",
+        "It is unlimited"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "When is partition size declared in dynamic partitioning?",
+      "options": [
+        "During compilation",
+        "At the time of process loading",
+        "At system shutdown",
+        "At process termination"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "Why does dynamic partitioning avoid internal fragmentation?",
+      "options": [
+        "Memory is allocated according to process size",
+        "Partitions are always larger than processes",
+        "All processes share one partition",
+        "Memory is never allocated"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What process-size limitation of fixed partitioning is removed by dynamic partitioning?",
+      "options": [
+        "The process cannot use registers",
+        "The process cannot use files",
+        "The process cannot enter the ready queue",
+        "The process cannot be larger than the largest partition"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "How does dynamic partitioning affect degree of multiprogramming?",
+      "options": [
+        "It makes it fixed",
+        "It eliminates multiprogramming",
+        "It provides a better degree of multiprogramming",
+        "It always lowers it to one"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What fragmentation can still occur with dynamic partitioning?",
+      "options": [
+        "Page fragmentation only",
+        "External fragmentation",
+        "Internal fragmentation only",
+        "No fragmentation of any kind"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What is the main limitation of fixed partitioning related to partition size?",
+      "options": [
+        "The process size cannot exceed the largest partition",
+        "Every process must be smaller than cache",
+        "Every process must use equal memory",
+        "Processes cannot be loaded"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "Which allocation method has partition sizes declared initially?",
+      "options": [
+        "Dynamic partitioning",
+        "Demand paging",
+        "Segmentation",
+        "Fixed partitioning"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "Which allocation method declares partition size according to the process being loaded?",
+      "options": [
+        "FIFO",
+        "LRU",
+        "Dynamic partitioning",
+        "Fixed partitioning"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "Why does fixed partitioning have low multiprogramming according to the notes?",
+      "options": [
+        "Processes cannot be scheduled",
+        "Partition sizes cannot be varied according to process sizes",
+        "CPU cannot execute processes",
+        "There is no memory"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Memory Management: Contiguous Allocation & Fragmentation"
+    },
+    {
+      "statement": "What does segmentation support?",
+      "options": [
+        "The user's view of memory",
+        "Only the OS's view",
+        "Only physical disk layout",
+        "Only CPU scheduling"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is a logical address in segmentation composed of?",
+      "options": [
+        "Page number only",
+        "Frame number only",
+        "Register and cache",
+        "Segment number and offset"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "How are segments sized?",
+      "options": [
+        "Always one byte",
+        "Always fixed to physical memory",
+        "Variable-sized",
+        "Always equal-sized"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "How does paging differ from segmentation in the notes?",
+      "options": [
+        "They are described as identical",
+        "Paging is closer to the OS, while segmentation supports the user's view",
+        "Paging always follows user functions",
+        "Segmentation has fixed pages only"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What can a segment represent in a segmented memory system?",
+      "options": [
+        "A logical unit such as code, data, or stack",
+        "Only functions of the same type",
+        "Exactly one byte",
+        "Only kernel code"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "Which is an advantage of segmentation?",
+      "options": [
+        "No external fragmentation",
+        "No swapping issues",
+        "No segment table",
+        "No internal fragmentation"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "Why can segmentation work efficiently within a segment?",
+      "options": [
+        "Segments have no offsets",
+        "Segments are all fixed-size pages",
+        "A segment has contiguous allocation",
+        "Segments are always on disk"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What fragmentation can segmentation suffer from?",
+      "options": [
+        "Page-fault fragmentation",
+        "External fragmentation",
+        "Internal fragmentation only",
+        "No fragmentation"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is a disadvantage of different-sized segments during swapping?",
+      "options": [
+        "They are not good at the time of swapping",
+        "They eliminate external fragmentation",
+        "They prevent execution",
+        "They make all processes equal"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What does modern system architecture provide according to the notes?",
+      "options": [
+        "Only segmentation",
+        "Only paging",
+        "Neither",
+        "Both segmentation and paging in some hybrid approach"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is virtual memory?",
+      "options": [
+        "A file-management method",
+        "A bootloader",
+        "A technique allowing execution of processes not completely in memory",
+        "A type of CPU register"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What illusion does virtual memory provide?",
+      "options": [
+        "No physical memory",
+        "A very large main memory",
+        "An infinite CPU",
+        "A larger disk cache only"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is swap-space?",
+      "options": [
+        "A part of secondary memory treated as main memory",
+        "A CPU register",
+        "A page table entry",
+        "A kernel function"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What major advantage of virtual memory is stated?",
+      "options": [
+        "Programs must fit entirely in RAM",
+        "Programs cannot use secondary memory",
+        "Programs cannot be executed",
+        "Programs can be larger than physical memory"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "Why is virtual memory useful when the entire program is not needed simultaneously?",
+      "options": [
+        "It removes all memory management",
+        "It eliminates the CPU",
+        "Only needed portions need physical memory",
+        "Every page must always be in memory"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is a primary benefit of virtual memory?",
+      "options": [
+        "It can allow more processes to be supported than would fit entirely in physical memory",
+        "It guarantees higher CPU utilization for every workload",
+        "It eliminates page faults",
+        "It eliminates secondary storage"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What is demand paging?",
+      "options": [
+        "A popular virtual-memory management method",
+        "A CPU scheduling algorithm",
+        "A file-management method",
+        "A boot process"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "When is a page copied into main memory in demand paging?",
+      "options": [
+        "Always at program startup",
+        "Only after termination",
+        "Only during shutdown",
+        "When its demand is made or a page fault occurs"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What does a valid-invalid bit of 1 indicate?",
+      "options": [
+        "The page is deleted",
+        "The page is always invalid",
+        "The page is legal and in memory",
+        "The page is illegal and on disk"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "What happens when a demanded page is marked invalid and is not in memory?",
+      "options": [
+        "The CPU shuts down",
+        "A page fault causes a trap to the OS",
+        "The process terminates automatically",
+        "The page is ignored"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Segmentation & Virtual Memory"
+    },
+    {
+      "statement": "When does a page fault occur?",
+      "options": [
+        "When a process accesses a page not currently present in a frame",
+        "When a page is in cache",
+        "When a process terminates",
+        "When a file is created"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What does the OS typically do after a valid page fault?",
+      "options": [
+        "Terminate the process immediately",
+        "Locate the required page in backing storage or its mapped file and load it into a frame",
+        "Delete the requested page",
+        "Restart the computer"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "When is page replacement necessary?",
+      "options": [
+        "When no process exists",
+        "Only during boot",
+        "When all frames are busy and a new page is needed",
+        "When all frames are free"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What is the aim of page replacement algorithms?",
+      "options": [
+        "Minimum memory",
+        "Minimum page faults",
+        "Maximum page faults",
+        "Maximum swapping"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What does FIFO replace?",
+      "options": [
+        "The oldest page",
+        "The newest page",
+        "The most frequently used page",
+        "The page used most recently"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What is a key advantage of FIFO?",
+      "options": [
+        "It always has the lowest fault rate",
+        "It uses future knowledge",
+        "It prevents all page faults",
+        "It is easy to implement"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What is Belady's Anomaly?",
+      "options": [
+        "Optimal requires no frames",
+        "FIFO never changes faults",
+        "FIFO page faults can increase when the number of frames increases",
+        "LRU always increases faults with more frames"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "Which algorithms are stated to generally reduce page faults when frames increase?",
+      "options": [
+        "LFU only",
+        "LRU and Optimal",
+        "FIFO only",
+        "MFU only"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What does Optimal page replacement choose if a page will never be referenced in the future?",
+      "options": [
+        "That page for replacement",
+        "The newest page",
+        "The most recently used page",
+        "No page"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "If no page will never be referenced again, what does Optimal replace?",
+      "options": [
+        "The oldest page",
+        "The most frequent page",
+        "The newest page",
+        "The page referenced farthest in the future"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "Why is Optimal difficult to implement?",
+      "options": [
+        "It cannot replace pages",
+        "It has no algorithm",
+        "It requires future knowledge of the reference string",
+        "It requires no memory"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "Which scheduling algorithm is Optimal page replacement compared to?",
+      "options": [
+        "MLQ",
+        "SJF",
+        "FCFS",
+        "Round Robin"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What does LRU replace?",
+      "options": [
+        "The page not used for the longest period",
+        "The page used most recently",
+        "The oldest page regardless of use",
+        "The page with largest count"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What approximation does LRU use?",
+      "options": [
+        "Future knowledge exactly",
+        "Only CPU priority",
+        "Only process size",
+        "Recent past as an approximation of the near future"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What is one LRU implementation method?",
+      "options": [
+        "Bootloader",
+        "Spooling",
+        "Counters",
+        "Punch cards"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "In the counter implementation, which page is replaced?",
+      "options": [
+        "The page with no count",
+        "The page with the smallest time value",
+        "The page with the largest time value",
+        "The newest page"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "Where is the most recently used page located in the LRU stack?",
+      "options": [
+        "At the top",
+        "At the bottom",
+        "Outside the stack",
+        "In the ready queue"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "Why can a doubly linked list be used for the LRU stack?",
+      "options": [
+        "It prevents all page faults",
+        "It stores the entire OS",
+        "It eliminates references",
+        "Entries can be removed from the middle"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What does LFU replace?",
+      "options": [
+        "The newest page",
+        "The oldest page",
+        "The page with the smallest reference count",
+        "The page with the largest reference count"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What is stated about MFU and LFU?",
+      "options": [
+        "Only MFU is mandatory",
+        "Neither is common",
+        "Both are always optimal",
+        "Both eliminate page faults"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Page Replacement Algorithms"
+    },
+    {
+      "statement": "What happens when a process does not have enough frames for its active pages?",
+      "options": [
+        "It quickly generates page faults",
+        "It never faults",
+        "It terminates normally",
+        "It stops using memory"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What is thrashing?",
+      "options": [
+        "A type of CPU scheduling",
+        "A boot process",
+        "A file system",
+        "Continuous high paging activity"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "When is a system said to be thrashing?",
+      "options": [
+        "When no page faults occur",
+        "When all memory is free",
+        "When it spends more time servicing page faults than executing processes",
+        "When it spends more time executing than paging"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "Why can a process repeatedly page fault during thrashing?",
+      "options": [
+        "It terminates after every fault",
+        "It replaces a page that it needs again immediately",
+        "It has unlimited frames",
+        "It never accesses memory"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What model is the working set model based on?",
+      "options": [
+        "Locality Model",
+        "FCFS model",
+        "Banker's model",
+        "Boot model"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What happens if enough frames are allocated for the current locality?",
+      "options": [
+        "The process always thrashes",
+        "The process cannot execute",
+        "All pages are removed",
+        "The process only faults when it moves to a new locality"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What happens if allocated frames are fewer than the current locality size?",
+      "options": [
+        "The process gets unlimited memory",
+        "The process terminates",
+        "The process is bound to thrash",
+        "The process cannot page fault"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What does the page-fault-frequency technique attempt to control?",
+      "options": [
+        "Process priority only",
+        "Page-fault rate",
+        "CPU temperature",
+        "File size"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What should be done when the page-fault rate is too high?",
+      "options": [
+        "Allocate more frames",
+        "Remove all frames",
+        "Terminate the OS",
+        "Reduce memory"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What may be true when the page-fault rate is too low?",
+      "options": [
+        "The process has no frames",
+        "Thrashing is guaranteed",
+        "The disk is full",
+        "The process may have too many frames"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What bounds are established in page-fault frequency control?",
+      "options": [
+        "Only a memory-size bound",
+        "Only a disk bound",
+        "Upper and lower bounds for the desired page-fault rate",
+        "Only an upper CPU bound"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What happens if the page-fault rate exceeds the upper limit?",
+      "options": [
+        "Ignore the rate",
+        "Allocate another frame",
+        "Remove a frame",
+        "Terminate the process"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What happens if the page-fault rate falls below the lower limit?",
+      "options": [
+        "Remove a frame from the process",
+        "Allocate unlimited frames",
+        "Terminate the OS",
+        "Create a new process"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What is the purpose of controlling page-fault rate?",
+      "options": [
+        "Increase page faults",
+        "Increase swapping indefinitely",
+        "Reduce CPU utilization",
+        "Prevent thrashing"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "Which concept explains why enough frames can reduce thrashing for a locality?",
+      "options": [
+        "Circular wait",
+        "Priority ageing",
+        "Locality of reference",
+        "Convoy effect"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What is the direct relationship between insufficient frames and page faults described in the notes?",
+      "options": [
+        "Only CPU speed determines faults",
+        "Insufficient frames for active pages cause frequent page faults",
+        "More frames always cause more faults",
+        "Frames have no relationship to faults"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What does the OS repeatedly do during thrashing?",
+      "options": [
+        "Replace pages and service page faults",
+        "Only execute processes",
+        "Only allocate CPU time",
+        "Only manage files"
+      ],
+      "correct": "a",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "Why is replacing an active page problematic?",
+      "options": [
+        "It cannot be stored on disk",
+        "It is always invalid",
+        "It is never referenced",
+        "The page will be needed again immediately"
+      ],
+      "correct": "d",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "What does the working set represent conceptually in the notes?",
+      "options": [
+        "The CPU register set",
+        "The ready queue",
+        "The current locality of a process",
+        "The entire disk"
+      ],
+      "correct": "c",
+      "subtopicTitle": "Thrashing"
+    },
+    {
+      "statement": "Which two techniques are explicitly listed for handling thrashing?",
+      "options": [
+        "MLQ and MLFQ",
+        "Working Set Model and Page Fault Frequency",
+        "FCFS and SJF",
+        "LRU and FIFO"
+      ],
+      "correct": "b",
+      "subtopicTitle": "Thrashing"
+    }
+  ]
+}

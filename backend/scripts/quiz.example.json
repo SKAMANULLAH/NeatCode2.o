@@ -1,0 +1,17 @@
+{
+  "topicTitle": "Linked Lists",
+  "subtopicTitle": "Singly Linked List",
+  "questions": [
+    {
+      "statement": "What is the time complexity of inserting a node at the head of a singly linked list?",
+      "options": ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "Doubly Linked List",
+      "statement": "Compared with a singly linked list, a doubly linked list extra pointer on each node is typically called:",
+      "options": ["prev", "root", "height", "rank"],
+      "correct": "a"
+    }
+  ]
+}
