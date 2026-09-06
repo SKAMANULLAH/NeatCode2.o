@@ -50,14 +50,28 @@ const updateTopic = async (req, res) => {
       });
     }
 
-    // Update only the fields that were provided
     if (title !== undefined) {
       topic.title = title;
     }
 
-    if (subtopic !== undefined) {
-      topic.subtopic = subtopic;
-    }
+    // Update or insert subtopics
+   if (subtopic !== undefined) {
+     for (const incomingSubtopic of subtopic) {
+       if (incomingSubtopic._id) {
+         const existingSubtopic = topic.subtopic.id(incomingSubtopic._id);
+
+         if (existingSubtopic) {
+           existingSubtopic.title = incomingSubtopic.title;
+           existingSubtopic.content = incomingSubtopic.content;
+         }
+       } else {
+         topic.subtopic.push({
+           title: incomingSubtopic.title,
+           content: incomingSubtopic.content,
+         });
+       }
+     }
+   }
 
     const updatedTopic = await topic.save();
 
@@ -67,7 +81,7 @@ const updateTopic = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      message: "Can not update topic",
+      message: "Cannot update topic",
       error: err.message,
     });
   }
@@ -97,7 +111,9 @@ const fetchTopic = async (req, res) => {
 // Fetch all topics
 const fetchTopicAll = async (req, res) => {
   try {
-    const topic = await topicModel.find().select("title subtopic._id subtopic.title");
+    const topic = await topicModel
+      .find()
+      .select("title subtopic._id subtopic.title");
 
     if (topic.length === 0) {
       return res.status(404).json({

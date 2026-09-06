@@ -1,0 +1,325 @@
+{
+  "topicTitle": "Backend",
+  "questions": [
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "1. What is the primary architectural difference between BSON and JSON in MongoDB?",
+      "options": [
+        "BSON only supports plain string keys and values",
+        "BSON is a binary-encoded serialization format providing additional data types like Date and ObjectId",
+        "BSON requires a predefined relational schema",
+        "JSON compresses nested arrays faster than BSON"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "2. What is the maximum single document size limit in MongoDB by default?",
+      "options": ["4 MB", "8 MB", "16 MB", "32 MB"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "3. In MongoDB's ObjectId (12 bytes), which component makes up the first 4 bytes?",
+      "options": [
+        "A 4-byte incrementing counter",
+        "A 4-byte random value unique to the machine",
+        "A 4-byte Unix epoch timestamp",
+        "A 4-byte process identifier"
+      ],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "4. Under the CAP theorem, how is a standard MongoDB replica set classified by default?",
+      "options": [
+        "AP (Available and Partition-Tolerant)",
+        "CP (Consistent and Partition-Tolerant)",
+        "CA (Consistent and Available without network partitions)",
+        "None of the above"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "5. What does the WiredTiger storage engine provide for write concurrency?",
+      "options": [
+        "Global database locking",
+        "Collection-level locking",
+        "Document-level concurrency control",
+        "Field-level serialization"
+      ],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "6. What happens if a MongoDB query executes an aggregation pipeline with $sort without an index and exceeds 100 MB of RAM?",
+      "options": [
+        "The query automatically switches to a full-table scan",
+        "It throws an error unless allowDiskUse: true is specified",
+        "The server terminates the connection and restarts WiredTiger",
+        "MongoDB truncates the sorted data"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "7. Which write concern guarantees that an operation has been written to the majority of replica set nodes and committed to disk journals?",
+      "options": [
+        "{ w: 0 }",
+        "{ w: 1, j: false }",
+        "{ w: \"majority\", j: true }",
+        "{ w: 2, j: false }"
+      ],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "8. What is a \"Covered Query\" in MongoDB?",
+      "options": [
+        "A query wrapped in an ACID transaction",
+        "A query where all fields requested exist entirely within an index, avoiding document fetches",
+        "A query that utilizes sharding key partitions",
+        "A query run against secondary replica members only"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "9. What is the fundamental restriction on Compound Indexes in MongoDB regarding Multi-key indexes?",
+      "options": [
+        "No compound index can contain arrays",
+        "A compound index cannot include more than one field that contains an array",
+        "Array fields must always be at the end of the compound index",
+        "An index cannot hold both strings and arrays"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "10. What does a Capped Collection in MongoDB provide?",
+      "options": [
+        "Collections with strict document size schemas",
+        "High-throughput, fixed-size circular buffers that preserve insertion order",
+        "Encrypted storage collections",
+        "Collections with automated TTL indexing"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "11. In Mongoose, what is the key conceptual difference between lean() queries and regular queries?",
+      "options": [
+        "lean() executes directly on secondary nodes",
+        "lean() returns plain JavaScript objects, skipping Mongoose document hydration and change-tracking",
+        "lean() forces MongoDB to ignore schema validations during insert",
+        "lean() executes queries without requiring a database connection"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "12. Do Mongoose validation rules run by default on findOneAndUpdate() operations?",
+      "options": [
+        "Yes, all validators run unconditionally",
+        "No, update validators must be explicitly enabled via { runValidators: true }",
+        "Yes, but only for sub-documents",
+        "No, Mongoose never supports validation for updates"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "13. In Mongoose middleware (hooks), which hook type does NOT have access to the document via this?",
+      "options": [
+        "Document middleware (e.g., pre('save'))",
+        "Query middleware (e.g., pre('find'))",
+        "Custom instance methods",
+        "Post-init hooks"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "14. What does Mongoose’s populate() method actually execute behind the scenes?",
+      "options": [
+        "A database-level native SQL join",
+        "A client-side separate query to target collections using $in matching the IDs",
+        "A mandatory $lookup aggregation pipeline stage on every call",
+        "A secondary index join in WiredTiger"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "15. What is the role of the __v field generated by Mongoose?",
+      "options": [
+        "Tracking schema migration revisions",
+        "Serving as an internal version key for optimistic concurrency control on array modifications",
+        "Storing the MongoDB server version that wrote the document",
+        "Counting total read/write operations per document"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "16. What is the purpose of Mongoose Virtuals?",
+      "options": [
+        "Creating temporary collections on RAM disks",
+        "Defining document properties that can be manipulated but are not persisted to MongoDB",
+        "Running asynchronous background schema validations",
+        "Generating synthetic index trees"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "17. In a MongoDB sharded cluster, which component routes client queries to the correct shards?",
+      "options": [
+        "mongod primary node",
+        "mongos query router",
+        "Config server election coordinator",
+        "WiredTiger journal router"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "18. What query condition leads to a \"Scatter-Gather\" query across a sharded cluster?",
+      "options": [
+        "A query using a compound index",
+        "A query that does not include the shard key in its filter criteria",
+        "A query performing projecting suppression (_id: 0)",
+        "A query using aggregation without $match"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "19. Which update operator appends a value to an array ONLY if the value does not already exist?",
+      "options": ["$push", "$addToSet", "$setUnion", "$mergeArray"],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "20. What is the fundamental difference between $embed (embedding) and referencing in NoSQL schema design?",
+      "options": [
+        "Referencing cannot enforce 1-to-many relationships",
+        "Embedding provides atomic single-document updates and fast reads; referencing avoids document-growth limits and duplicated data",
+        "Referencing requires all documents to reside in memory simultaneously",
+        "Embedding is strictly prohibited when arrays contain objects"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "21. In MongoDB indexing, what is the ESL (Equality, Sort, Range) rule?",
+      "options": [
+        "The order in which MongoDB sharding assigns keys",
+        "The best practice sequence for ordering fields in a compound index: Equality first, Sort second, Range last",
+        "The internal algorithm used to balance B-trees during split",
+        "The memory eviction priority for dirty cache pages"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "22. What occurs when an un-indexed query execution outputs an IXSCAN stage followed by a COLLSCAN stage in an explain() output?",
+      "options": [
+        "The index was used, but individual documents were fetched from disk to resolve fields (FETCH)",
+        "The query engine abandoned index scanning because of index fragmentation",
+        "The system is running a map-reduce batch fallback",
+        "The collection contains corrupted BSON trees"
+      ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "23. In Mongoose, what is the key difference between Schema methods and statics?",
+      "options": [
+        "methods run on schemas; statics run on fields",
+        "methods are instance methods on individual documents; statics are class methods on the compiled Model",
+        "methods cannot be asynchronous; statics can",
+        "statics run prior to validation; methods run after saving"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "24. What does the MongoDB readConcern: \"majority\" guarantee?",
+      "options": [
+        "The read query returns data calculated across all shards",
+        "The read returns data committed to and acknowledged by a majority of nodes, preventing dirty reads of rolled-back writes",
+        "The query reads only from primary cluster instances",
+        "Secondary nodes are bypassed completely"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "25. What happens when you define a TTL (Time-to-Live) index on a compound index?",
+      "options": [
+        "The document expires when the first timestamp is reached",
+        "TTL is not supported on compound indexes in MongoDB",
+        "The expiration interval is multiplied across indexed fields",
+        "It converts the index into a partial index"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "26. What is the fundamental behavior of Mongoose's discriminators?",
+      "options": [
+        "Providing field-level encryption based on user roles",
+        "A schema inheritance mechanism enabling multiple sub-schemas to share the same collection under an identifying key",
+        "Filtering documents during connection pool exhaustion",
+        "Forcing separate collection generation per inheritance tree"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "27. Which operation in MongoDB is non-atomic?",
+      "options": [
+        "Updating three fields on a single document via updateOne()",
+        "Modifying nested array elements inside one document",
+        "Updating multiple documents via standard updateMany() without multi-document transactions",
+        "Replacing an entire single document via replaceOne()"
+      ],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "28. In MongoDB Aggregation, what is the primary role of $facet?",
+      "options": [
+        "Decrypting client-side collections",
+        "Executing multiple aggregation pipelines simultaneously within a single stage on the same input documents",
+        "Flattening multiple nested arrays into a single level",
+        "Enforcing uniqueness across fields"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "29. Why might an aggregation pipeline stage using $lookup be inefficient if unindexed?",
+      "options": [
+        "It forces the primary node to perform an election",
+        "It performs an unconditional full collection scan (COLLSCAN) on the from collection for every incoming document",
+        "It automatically invalidates the WiredTiger cache",
+        "It drops partial indexes across foreign keys"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "NoSQL",
+      "statement": "30. What does the strict option do when set to true (default) in a Mongoose Schema?",
+      "options": [
+        "It prevents saving documents if external HTTP calls are active",
+        "It ensures values not specified in the schema model are ignored and omitted from being saved to the database",
+        "It blocks queries containing unindexed parameters",
+        "It enforces JavaScript strict-mode evaluation on all hooks"
+      ],
+      "correct": "b"
+    }
+  ]
+}

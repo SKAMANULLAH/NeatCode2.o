@@ -2,404 +2,404 @@
   "problemCreatorEmail": "skamanullah75@gmail.com",
   "problems": [
     {
-      "title": "Capacity to Ship Packages Within D Days",
-      "description": "A conveyor belt has packages that must be shipped from one port to another within `days` days.\n\nThe `i`-th package on the conveyor belt has a weight of `weights[i]`. Each day, we load the ship with packages on the conveyor belt (in the order given by `weights`). We may not load more weight than the maximum weight capacity of the ship.\n\nReturn the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within `days` days.\n\nInput Format:\n- Line 1: An integer `n`, the number of packages.\n- Line 2: `n` space-separated integers representing the array `weights`.\n- Line 3: An integer `days`, the maximum number of days allowed to ship all packages.\n\nOutput Format:\n- Print a single integer representing the minimum ship capacity.\n\nConstraints:\n- 1 <= days <= n <= 5 * 10^4\n- 1 <= weights[i] <= 500",
-      "difficulty": "medium",
-      "tags": "binarySearch",
+      "title": "11. Remove duplicates from Sorted array",
+      "description": "Given a sorted array of integers, remove duplicate values in-place so that each distinct value appears exactly once at the beginning of the array. Return the number of distinct elements. The order of the distinct elements must remain the same. Input format: Line 1 contains n. Line 2 contains n sorted integers. Output format: Print the number of distinct elements, followed by a newline, then print the first k elements of the modified array on the next line, where k is the returned number of distinct elements. If n is 0, print 0 followed by a blank line. Constraints: 1 <= n <= 100000; the array is sorted in non-decreasing order.",
+      "difficulty": "easy",
+      "tags": "array",
       "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
       "visibleTestCases": [
         {
-          "input": "10\n1 2 3 4 5 6 7 8 9 10\n5",
-          "output": "15",
-          "explanation": "A ship capacity of 15 is the minimum to ship all packages in 5 days: 1st day: 1, 2, 3, 4, 5 (total 15); 2nd day: 6, 7 (total 13); 3rd day: 8 (total 8); 4th day: 9 (total 9); 5th day: 10 (total 10)."
+          "input": "6\n1 1 2 2 3 3",
+          "output": "3\n1 2 3",
+          "explanation": "There are three distinct values: 1, 2, and 3."
         },
         {
-          "input": "6\n3 2 2 4 1 4\n3",
-          "output": "6",
-          "explanation": "A ship capacity of 6 is the minimum: 1st day: 3, 2 (total 5); 2nd day: 2, 4 (total 6); 3rd day: 1, 4 (total 5)."
+          "input": "5\n1 2 3 4 5",
+          "output": "5\n1 2 3 4 5",
+          "explanation": "All values are already distinct, so the array remains unchanged."
         },
         {
-          "input": "5\n1 2 3 1 1\n4",
-          "output": "3",
-          "explanation": "A ship capacity of 3 is the minimum: 1st day: 1; 2nd day: 2; 3rd day: 3; 4th day: 1, 1."
+          "input": "5\n2 2 2 2 2",
+          "output": "1\n2",
+          "explanation": "All five values are equal, so only one distinct value remains."
         }
       ],
       "invisibleTestCases": [
         {
-          "input": "1\n10\n1",
-          "output": "10"
+          "input": "1\n7",
+          "output": "1\n7"
         },
         {
-          "input": "1\n500\n1",
-          "output": "500"
+          "input": "2\n1 1",
+          "output": "1\n1"
         },
         {
-          "input": "5\n10 20 30 40 50\n5",
-          "output": "50"
+          "input": "2\n1 2",
+          "output": "2\n1 2"
         },
         {
-          "input": "5\n10 20 30 40 50\n1",
-          "output": "150"
+          "input": "7\n-3 -3 -2 -2 -2 0 1",
+          "output": "4\n-3 -2 0 1"
         },
         {
-          "input": "4\n1 1 1 1\n4",
-          "output": "1"
+          "input": "8\n0 0 0 1 1 2 2 3",
+          "output": "4\n0 1 2 3"
         },
         {
-          "input": "4\n1 1 1 1\n2",
-          "output": "2"
+          "input": "9\n1 1 1 1 2 2 3 3 3",
+          "output": "3\n1 2 3"
         },
         {
-          "input": "4\n1 1 1 1\n1",
-          "output": "4"
+          "input": "6\n-5 -5 -4 -4 -4 -1",
+          "output": "3\n-5 -4 -1"
         },
         {
-          "input": "8\n5 5 5 5 5 5 5 5\n3",
-          "output": "15"
+          "input": "10\n1 1 2 2 3 3 4 4 5 5",
+          "output": "5\n1 2 3 4 5"
         },
         {
-          "input": "8\n10 50 100 20 30 40 80 15\n4",
-          "output": "100"
+          "input": "5\n-2 -1 0 1 2",
+          "output": "5\n-2 -1 0 1 2"
         },
         {
-          "input": "6\n100 200 300 400 500 600\n2",
-          "output": "1100"
+          "input": "7\n4 4 4 4 5 6 6",
+          "output": "3\n4 5 6"
         },
         {
-          "input": "7\n50 50 50 50 50 50 50\n7",
-          "output": "50"
+          "input": "8\n-10 -10 -10 -5 -5 0 0 8",
+          "output": "4\n-10 -5 0 8"
         },
         {
-          "input": "9\n1 4 3 2 5 8 7 6 9\n6",
-          "output": "9"
+          "input": "4\n9 9 10 10",
+          "output": "2\n9 10"
         },
         {
-          "input": "12\n12 11 10 9 8 7 6 5 4 3 2 1\n3",
-          "output": "29"
+          "input": "3\n-1 -1 0",
+          "output": "2\n-1 0"
         },
         {
-          "input": "10\n5 10 15 20 25 30 35 40 45 50\n7",
-          "output": "50"
+          "input": "10\n2 2 2 3 3 4 5 5 5 6",
+          "output": "5\n2 3 4 5 6"
         },
         {
-          "input": "8\n1 10 1 10 1 10 1 10\n4",
-          "output": "12"
+          "input": "6\n100 100 200 200 300 300",
+          "output": "3\n100 200 300"
         },
         {
-          "input": "8\n1 10 1 10 1 10 1 10\n5",
-          "output": "11"
+          "input": "5\n-5 -4 -4 -4 -4",
+          "output": "2\n-5 -4"
         },
         {
-          "input": "15\n2 4 6 8 10 12 14 16 18 20 22 24 26 28 30\n8",
-          "output": "34"
+          "input": "9\n0 1 1 1 2 3 3 4 4",
+          "output": "5\n0 1 2 3 4"
         },
         {
-          "input": "6\n500 500 500 500 500 500\n3",
-          "output": "1000"
+          "input": "7\n8 8 9 10 10 10 11",
+          "output": "4\n8 9 10 11"
         },
         {
-          "input": "7\n1 2 4 8 16 32 64\n3",
-          "output": "64"
+          "input": "3\n-2 0 0",
+          "output": "2\n-2 0"
         },
         {
-          "input": "10\n100 1 100 1 100 1 100 1 100 1\n5",
-          "output": "101"
+          "input": "8\n5 5 5 6 7 7 8 8",
+          "output": "4\n5 6 7 8"
         }
       ],
       "startCode": [
         {
           "language": "nodejs",
-          "initialCode": "function shipWithinDays(weights, days) {\n    // Write your code here\n}"
+          "initialCode": "function removeDuplicates(nums) {\n  \n}"
         },
         {
           "language": "java",
-          "initialCode": "class Solution {\n    public int shipWithinDays(int[] weights, int days) {\n        // Write your code here\n        return 0;\n    }\n}"
+          "initialCode": "public static int removeDuplicates(int[] nums) {\n    \n}"
         },
         {
           "language": "cpp17",
-          "initialCode": "int shipWithinDays(vector<int>& weights, int days) {\n    // Write your code here\n}"
+          "initialCode": "int removeDuplicates(vector<int>& nums) {\n    \n}"
         }
       ],
       "referenceSolution": [
         {
           "language": "nodejs",
-          "completeCode": "const fs = require('fs');\n\n// USER_SOLUTION_START\nfunction shipWithinDays(weights, days) {\n    let left = 0, right = 0;\n    for (let i = 0; i < weights.length; i++) {\n        left = Math.max(left, weights[i]);\n        right += weights[i];\n    }\n    let ans = right;\n    while (left <= right) {\n        const mid = Math.floor((left + right) / 2);\n        let neededDays = 1;\n        let currentLoad = 0;\n        for (let i = 0; i < weights.length; i++) {\n            if (currentLoad + weights[i] > mid) {\n                neededDays++;\n                currentLoad = 0;\n            }\n            currentLoad += weights[i];\n        }\n        if (neededDays <= days) {\n            ans = mid;\n            right = mid - 1;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return ans;\n}\n// USER_SOLUTION_END\n\nfunction main() {\n    const input = fs.readFileSync(0, 'utf-8');\n    const tokens = input.trim().split(/\\s+/);\n    if (!tokens || tokens.length === 0 || tokens[0] === '') return;\n    let ptr = 0;\n    while (ptr < tokens.length) {\n        const n = parseInt(tokens[ptr++], 10);\n        const weights = [];\n        for (let i = 0; i < n; i++) {\n            weights.push(parseInt(tokens[ptr++], 10));\n        }\n        const days = parseInt(tokens[ptr++], 10);\n        console.log(shipWithinDays(weights, days));\n        console.log('__JUDGE_TC_END__');\n    }\n}\n\nmain();"
+          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction removeDuplicates(nums) {\n  if (nums.length === 0) return 0;\n  let k = 1;\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] !== nums[k - 1]) nums[k++] = nums[i];\n  }\n  return k;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  const k = removeDuplicates(nums);\n  process.stdout.write(String(k) + '\\n');\n  process.stdout.write(nums.slice(0, k).join(' ') + '\\n');\n  process.stdout.write(OUTPUT_DELIMITER + '\\n');\n}\n"
         },
         {
           "language": "java",
-          "completeCode": "import java.util.Scanner;\n\npublic class Main {\n// USER_SOLUTION_START\n    public static int shipWithinDays(int[] weights, int days) {\n        int left = 0, right = 0;\n        for (int w : weights) {\n            left = Math.max(left, w);\n            right += w;\n        }\n        int ans = right;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int neededDays = 1;\n            int currentLoad = 0;\n            for (int w : weights) {\n                if (currentLoad + w > mid) {\n                    neededDays++;\n                    currentLoad = 0;\n                }\n                currentLoad += w;\n            }\n            if (neededDays <= days) {\n                ans = mid;\n                right = mid - 1;\n            } else {\n                left = mid + 1;\n            }\n        }\n        return ans;\n    }\n// USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] weights = new int[n];\n            for (int i = 0; i < n; i++) {\n                weights[i] = sc.nextInt();\n            }\n            int days = sc.nextInt();\n            System.out.println(shipWithinDays(weights, days));\n            System.out.println(\"__JUDGE_TC_END__\");\n        }\n    }\n}"
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static int removeDuplicates(int[] nums) {\n        if (nums.length == 0) return 0;\n        int k = 1;\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] != nums[k - 1]) nums[k++] = nums[i];\n        }\n        return k;\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            int k = removeDuplicates(nums);\n            System.out.println(k);\n            for (int i = 0; i < k; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
         },
         {
           "language": "cpp17",
-          "completeCode": "#include <iostream>\n#include <vector>\n#include <numeric>\n#include <algorithm>\n\nusing namespace std;\n\n// USER_SOLUTION_START\nint shipWithinDays(vector<int>& weights, int days) {\n    int left = 0, right = 0;\n    for (int w : weights) {\n        left = max(left, w);\n        right += w;\n    }\n    int ans = right;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        int needed_days = 1;\n        int current_load = 0;\n        for (int w : weights) {\n            if (current_load + w > mid) {\n                needed_days++;\n                current_load = 0;\n            }\n            current_load += w;\n        }\n        if (needed_days <= days) {\n            ans = mid;\n            right = mid - 1;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return ans;\n}\n// USER_SOLUTION_END\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    int n;\n    while (cin >> n) {\n        vector<int> weights(n);\n        for (int i = 0; i < n; ++i) {\n            cin >> weights[i];\n        }\n        int days;\n        cin >> days;\n        cout << shipWithinDays(weights, days) << \"\\n\";\n        cout << \"__JUDGE_TC_END__\\n\";\n    }\n    return 0;\n}"
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint removeDuplicates(vector<int>& nums) {\n    if (nums.empty()) return 0;\n    int k = 1;\n    for (int i = 1; i < (int)nums.size(); i++) {\n        if (nums[i] != nums[k - 1]) nums[k++] = nums[i];\n    }\n    return k;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        int k = removeDuplicates(nums);\n        cout << k << '\\n';\n        for (int i = 0; i < k; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
         }
       ]
     },
     {
-      "title": "Kth Missing Positive Number",
-      "description": "Given an array `arr` of positive integers sorted in a strictly increasing order, and an integer `k`.\n\nReturn the `k`-th positive integer that is missing from this array.\n\nInput Format:\n- Line 1: An integer `n`, the length of the array `arr`.\n- Line 2: `n` strictly increasing positive integers representing `arr`.\n- Line 3: An integer `k`.\n\nOutput Format:\n- Print a single integer representing the `k`-th missing positive integer.\n\nConstraints:\n- 1 <= arr.length <= 1000\n- 1 <= arr[i] <= 1000\n- 1 <= k <= 1000\n- `arr[i] < arr[j]` for `1 <= i < j <= arr.length`",
+      "title": "12. Left Rotate Array by One",
+      "description": "Given an array of n integers, left rotate the array by exactly one position. The first element moves to the end, and every other element shifts one position to the left. Input format: Line 1 contains n. Line 2 contains n integers. Output format: Print the rotated array on one line, with elements separated by spaces. Constraints: 1 <= n <= 100000.",
       "difficulty": "easy",
-      "tags": "binarySearch",
+      "tags": "array",
       "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
       "visibleTestCases": [
         {
-          "input": "5\n2 3 4 7 11\n5",
-          "output": "9",
-          "explanation": "The missing positive integers are [1, 5, 6, 8, 9, 10, 12, ...]. The 5th missing positive integer is 9."
+          "input": "5\n1 2 3 4 5",
+          "output": "2 3 4 5 1",
+          "explanation": "The first element 1 moves to the end, while all other elements shift left."
         },
         {
-          "input": "4\n1 2 3 4\n2",
-          "output": "6",
-          "explanation": "The missing positive integers are [5, 6, 7, ...]. The 2nd missing positive integer is 6."
+          "input": "4\n10 20 30 40",
+          "output": "20 30 40 10",
+          "explanation": "After one left rotation, 10 moves to the last position."
         },
         {
-          "input": "3\n5 6 7\n3",
-          "output": "3",
-          "explanation": "The missing positive integers are [1, 2, 3, 4, 8, ...]. The 3rd missing positive integer is 3."
+          "input": "1\n7",
+          "output": "7",
+          "explanation": "An array with one element remains unchanged after rotation."
         }
       ],
       "invisibleTestCases": [
         {
-          "input": "1\n1\n1",
-          "output": "2"
+          "input": "2\n1 2",
+          "output": "2 1"
         },
         {
-          "input": "1\n2\n1",
-          "output": "1"
+          "input": "3\n3 1 2",
+          "output": "1 2 3"
         },
         {
-          "input": "1\n5\n3",
-          "output": "3"
+          "input": "6\n0 1 2 3 4 5",
+          "output": "1 2 3 4 5 0"
         },
         {
-          "input": "1\n10\n15",
-          "output": "16"
+          "input": "5\n-5 -4 -3 -2 -1",
+          "output": "-4 -3 -2 -1 -5"
         },
         {
-          "input": "5\n1 2 3 4 5\n1",
-          "output": "6"
+          "input": "4\n9 9 9 9",
+          "output": "9 9 9 9"
         },
         {
-          "input": "5\n1 2 3 4 5\n10",
-          "output": "15"
+          "input": "7\n7 6 5 4 3 2 1",
+          "output": "6 5 4 3 2 1 7"
         },
         {
-          "input": "5\n6 7 8 9 10\n1",
-          "output": "1"
+          "input": "8\n1 1 2 2 3 3 4 4",
+          "output": "1 2 2 3 3 4 4 1"
         },
         {
-          "input": "5\n6 7 8 9 10\n5",
-          "output": "5"
+          "input": "3\n-1 0 1",
+          "output": "0 1 -1"
         },
         {
-          "input": "5\n6 7 8 9 10\n6",
-          "output": "11"
+          "input": "5\n100 200 300 400 500",
+          "output": "200 300 400 500 100"
         },
         {
-          "input": "6\n2 4 6 8 10 12\n1",
-          "output": "1"
+          "input": "6\n-10 0 10 20 30 40",
+          "output": "0 10 20 30 40 -10"
         },
         {
-          "input": "6\n2 4 6 8 10 12\n3",
-          "output": "5"
+          "input": "2\n-8 5",
+          "output": "5 -8"
         },
         {
-          "input": "6\n2 4 6 8 10 12\n6",
-          "output": "11"
+          "input": "9\n9 8 7 6 5 4 3 2 1",
+          "output": "8 7 6 5 4 3 2 1 9"
         },
         {
-          "input": "6\n2 4 6 8 10 12\n10",
-          "output": "16"
+          "input": "4\n0 0 1 1",
+          "output": "0 1 1 0"
         },
         {
-          "input": "4\n3 5 7 9\n2",
-          "output": "2"
+          "input": "5\n5 -5 10 -10 15",
+          "output": "-5 10 -10 15 5"
         },
         {
-          "input": "7\n1 3 5 7 9 11 13\n4",
-          "output": "8"
+          "input": "7\n2 4 6 8 10 12 14",
+          "output": "4 6 8 10 12 14 2"
         },
         {
-          "input": "10\n2 3 5 7 11 13 17 19 23 29\n8",
-          "output": "14"
+          "input": "3\n1000 -1000 0",
+          "output": "-1000 0 1000"
         },
         {
-          "input": "8\n10 20 30 40 50 60 70 80\n9",
-          "output": "9"
+          "input": "8\n-3 -2 -1 0 1 2 3 4",
+          "output": "-2 -1 0 1 2 3 4 -3"
         },
         {
-          "input": "8\n10 20 30 40 50 60 70 80\n10",
-          "output": "11"
+          "input": "5\n0 5 0 5 0",
+          "output": "5 0 5 0 0"
         },
         {
-          "input": "8\n10 20 30 40 50 60 70 80\n15",
-          "output": "16"
+          "input": "6\n11 22 33 44 55 66",
+          "output": "22 33 44 55 66 11"
         },
         {
-          "input": "6\n1 4 7 10 13 16\n5",
-          "output": "8"
+          "input": "4\n-1 -1 0 0",
+          "output": "-1 0 0 -1"
         }
       ],
       "startCode": [
         {
           "language": "nodejs",
-          "initialCode": "function findKthPositive(arr, k) {\n    // Write your code here\n}"
+          "initialCode": "function leftRotateByOne(nums) {\n  \n}"
         },
         {
           "language": "java",
-          "initialCode": "class Solution {\n    public int findKthPositive(int[] arr, int k) {\n        // Write your code here\n        return 0;\n    }\n}"
+          "initialCode": "public static void leftRotateByOne(int[] nums) {\n    \n}"
         },
         {
           "language": "cpp17",
-          "initialCode": "int findKthPositive(vector<int>& arr, int k) {\n    // Write your code here\n}"
+          "initialCode": "void leftRotateByOne(vector<int>& nums) {\n    \n}"
         }
       ],
       "referenceSolution": [
         {
           "language": "nodejs",
-          "completeCode": "const fs = require('fs');\n\n// USER_SOLUTION_START\nfunction findKthPositive(arr, k) {\n    let left = 0, right = arr.length - 1;\n    while (left <= right) {\n        const mid = Math.floor((left + right) / 2);\n        const missing = arr[mid] - (mid + 1);\n        if (missing < k) {\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n    return left + k;\n}\n// USER_SOLUTION_END\n\nfunction main() {\n    const input = fs.readFileSync(0, 'utf-8');\n    const tokens = input.trim().split(/\\s+/);\n    if (!tokens || tokens.length === 0 || tokens[0] === '') return;\n    let ptr = 0;\n    while (ptr < tokens.length) {\n        const n = parseInt(tokens[ptr++], 10);\n        const arr = [];\n        for (let i = 0; i < n; i++) {\n            arr.push(parseInt(tokens[ptr++], 10));\n        }\n        const k = parseInt(tokens[ptr++], 10);\n        console.log(findKthPositive(arr, k));\n        console.log('__JUDGE_TC_END__');\n    }\n}\n\nmain();"
+          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction leftRotateByOne(nums) {\n  if (nums.length <= 1) return;\n  const first = nums[0];\n  for (let i = 1; i < nums.length; i++) nums[i - 1] = nums[i];\n  nums[nums.length - 1] = first;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  leftRotateByOne(nums);\n  process.stdout.write(nums.join(' ') + '\\n' + OUTPUT_DELIMITER + '\\n');\n}\n"
         },
         {
           "language": "java",
-          "completeCode": "import java.util.Scanner;\n\npublic class Main {\n// USER_SOLUTION_START\n    public static int findKthPositive(int[] arr, int k) {\n        int left = 0, right = arr.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int missing = arr[mid] - (mid + 1);\n            if (missing < k) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        return left + k;\n    }\n// USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] arr = new int[n];\n            for (int i = 0; i < n; i++) {\n                arr[i] = sc.nextInt();\n            }\n            int k = sc.nextInt();\n            System.out.println(findKthPositive(arr, k));\n            System.out.println(\"__JUDGE_TC_END__\");\n        }\n    }\n}"
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static void leftRotateByOne(int[] nums) {\n        if (nums.length <= 1) return;\n        int first = nums[0];\n        for (int i = 1; i < nums.length; i++) nums[i - 1] = nums[i];\n        nums[nums.length - 1] = first;\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            leftRotateByOne(nums);\n            for (int i = 0; i < n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
         },
         {
           "language": "cpp17",
-          "completeCode": "#include <iostream>\n#include <vector>\n\nusing namespace std;\n\n// USER_SOLUTION_START\nint findKthPositive(vector<int>& arr, int k) {\n    int left = 0, right = (int)arr.size() - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        int missing = arr[mid] - (mid + 1);\n        if (missing < k) {\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n    return left + k;\n}\n// USER_SOLUTION_END\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    int n;\n    while (cin >> n) {\n        vector<int> arr(n);\n        for (int i = 0; i < n; ++i) {\n            cin >> arr[i];\n        }\n        int k;\n        cin >> k;\n        cout << findKthPositive(arr, k) << \"\\n\";\n        cout << \"__JUDGE_TC_END__\\n\";\n    }\n    return 0;\n}"
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nvoid leftRotateByOne(vector<int>& nums) {\n    if (nums.size() <= 1) return;\n    int first = nums[0];\n    for (int i = 1; i < (int)nums.size(); i++) nums[i - 1] = nums[i];\n    nums.back() = first;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        leftRotateByOne(nums);\n        for (int i = 0; i < n; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
         }
       ]
     },
     {
-      "title": "two sum",
-      "description": "Given an array of integers `nums` and an integer `target`, return the indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nOutput the two 0-based indices separated by a space in ascending order (`smaller_index larger_index`).\n\nInput Format:\n- Line 1: An integer `n`, the length of the array `nums`.\n- Line 2: `n` space-separated integers representing `nums`.\n- Line 3: An integer `target`.\n\nOutput Format:\n- Print the two 0-based indices separated by a single space in ascending order.\n\nConstraints:\n- 2 <= nums.length <= 10^4\n- -10^9 <= nums[i] <= 10^9\n- -10^9 <= target <= 10^9\n- Exactly one valid answer exists.",
+      "title": "13. Left Rotate Array by K Places",
+      "description": "Given an array of n integers and a non-negative integer k, left rotate the array by k positions. Each left rotation moves the first element to the end. Rotations beyond n positions wrap around, so rotating by k positions is equivalent to rotating by k mod n positions. Input format: Line 1 contains n. Line 2 contains n integers. Line 3 contains k. Output format: Print the rotated array on one line, with elements separated by spaces. Constraints: 1 <= n <= 100000; 0 <= k <= 1000000000.",
       "difficulty": "easy",
-      "tags": "hashing",
+      "tags": "array",
       "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
       "visibleTestCases": [
         {
-          "input": "4\n2 7 11 15\n9",
-          "output": "0 1",
-          "explanation": "Because nums[0] + nums[1] == 9, we return 0 1."
+          "input": "5\n1 2 3 4 5\n2",
+          "output": "3 4 5 1 2",
+          "explanation": "Two left rotations move 1 and 2 to the end."
         },
         {
-          "input": "3\n3 2 4\n6",
-          "output": "1 2",
-          "explanation": "Because nums[1] + nums[2] == 6, we return 1 2."
+          "input": "6\n10 20 30 40 50 60\n3",
+          "output": "40 50 60 10 20 30",
+          "explanation": "After three left rotations, the first three elements move to the end."
         },
         {
-          "input": "2\n3 3\n6",
-          "output": "0 1",
-          "explanation": "Because nums[0] + nums[1] == 6, we return 0 1."
+          "input": "4\n1 2 3 4\n4",
+          "output": "1 2 3 4",
+          "explanation": "Rotating by the array length returns the array to its original order."
         }
       ],
       "invisibleTestCases": [
         {
-          "input": "2\n1 5\n6",
-          "output": "0 1"
+          "input": "1\n7\n0",
+          "output": "7"
         },
         {
-          "input": "2\n-1 -2\n-3",
-          "output": "0 1"
+          "input": "1\n7\n100",
+          "output": "7"
         },
         {
-          "input": "3\n-3 4 3\n0",
-          "output": "0 2"
+          "input": "2\n1 2\n1",
+          "output": "2 1"
         },
         {
-          "input": "4\n0 4 3 0\n0",
-          "output": "0 3"
-        },
-        {
-          "input": "5\n-10 -5 0 5 10\n0",
-          "output": "0 4"
-        },
-        {
-          "input": "5\n-10 -5 0 5 10\n-15",
-          "output": "0 1"
-        },
-        {
-          "input": "5\n-10 -5 0 5 10\n15",
-          "output": "3 4"
-        },
-        {
-          "input": "6\n10 20 30 40 50 60\n110",
-          "output": "4 5"
-        },
-        {
-          "input": "6\n1 2 3 4 5 6\n11",
-          "output": "4 5"
-        },
-        {
-          "input": "7\n100 200 500 10 20 50 1000\n700",
+          "input": "2\n1 2\n2",
           "output": "1 2"
         },
         {
-          "input": "4\n1000000000 -1000000000 5 10\n0",
-          "output": "0 1"
+          "input": "3\n1 2 3\n4",
+          "output": "2 3 1"
         },
         {
-          "input": "4\n500000000 500000000 1 2\n1000000000",
-          "output": "0 1"
+          "input": "5\n1 2 3 4 5\n0",
+          "output": "1 2 3 4 5"
         },
         {
-          "input": "4\n-500000000 -500000000 1 2\n-1000000000",
-          "output": "0 1"
+          "input": "5\n1 2 3 4 5\n5",
+          "output": "1 2 3 4 5"
         },
         {
-          "input": "5\n15 11 7 2 1\n9",
-          "output": "2 3"
+          "input": "5\n1 2 3 4 5\n7",
+          "output": "3 4 5 1 2"
         },
         {
-          "input": "6\n1 5 1 5 1 5\n10",
-          "output": "1 3"
+          "input": "6\n-5 -4 -3 -2 -1 0\n2",
+          "output": "-3 -2 -1 0 -5 -4"
         },
         {
-          "input": "5\n2 5 5 11 10\n10",
-          "output": "1 2"
+          "input": "4\n10 20 30 40\n5",
+          "output": "20 30 40 10"
         },
         {
-          "input": "8\n8 7 6 5 4 3 2 1\n15",
-          "output": "0 1"
+          "input": "7\n7 6 5 4 3 2 1\n3",
+          "output": "4 3 2 1 7 6 5"
         },
         {
-          "input": "4\n2 4 6 8\n14",
-          "output": "2 3"
+          "input": "8\n0 1 2 3 4 5 6 7\n8",
+          "output": "0 1 2 3 4 5 6 7"
         },
         {
-          "input": "5\n3 2 95 4 -3\n92",
-          "output": "2 4"
+          "input": "9\n1 2 3 4 5 6 7 8 9\n10",
+          "output": "2 3 4 5 6 7 8 9 1"
         },
         {
-          "input": "6\n12345 67890 54321 98765 11111 22222\n76666",
-          "output": "0 2"
+          "input": "5\n100 -100 200 -200 300\n2",
+          "output": "200 -200 300 100 -100"
+        },
+        {
+          "input": "6\n2 4 6 8 10 12\n11",
+          "output": "12 2 4 6 8 10"
+        },
+        {
+          "input": "3\n-1 0 1\n1000000000",
+          "output": "0 1 -1"
+        },
+        {
+          "input": "7\n1 1 2 2 3 3 4\n5",
+          "output": "3 4 1 1 2 2 3"
+        },
+        {
+          "input": "4\n9 8 7 6\n0",
+          "output": "9 8 7 6"
+        },
+        {
+          "input": "8\n-8 -7 -6 -5 -4 -3 -2 -1\n6",
+          "output": "-2 -1 -8 -7 -6 -5 -4 -3"
+        },
+        {
+          "input": "5\n5 5 5 5 5\n123",
+          "output": "5 5 5 5 5"
         }
       ],
       "startCode": [
         {
           "language": "nodejs",
-          "initialCode": "function twoSum(nums, target) {\n    // Write your code here\n}"
+          "initialCode": "function leftRotateByK(nums, k) {\n  \n}"
         },
         {
           "language": "java",
-          "initialCode": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n        return new int[]{};\n    }\n}"
+          "initialCode": "public static void leftRotateByK(int[] nums, int k) {\n    \n}"
         },
         {
           "language": "cpp17",
-          "initialCode": "vector<int> twoSum(vector<int>& nums, int target) {\n    // Write your code here\n}"
+          "initialCode": "void leftRotateByK(vector<int>& nums, int k) {\n    \n}"
         }
       ],
       "referenceSolution": [
         {
           "language": "nodejs",
-          "completeCode": "const fs = require('fs');\n\n// USER_SOLUTION_START\nfunction twoSum(nums, target) {\n    const seen = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n        if (seen.has(complement)) {\n            const first = seen.get(complement);\n            const second = i;\n            return first < second ? [first, second] : [second, first];\n        }\n        seen.set(nums[i], i);\n    }\n    return [-1, -1];\n}\n// USER_SOLUTION_END\n\nfunction main() {\n    const input = fs.readFileSync(0, 'utf-8');\n    const tokens = input.trim().split(/\\s+/);\n    if (!tokens || tokens.length === 0 || tokens[0] === '') return;\n    let ptr = 0;\n    while (ptr < tokens.length) {\n        const n = parseInt(tokens[ptr++], 10);\n        const nums = [];\n        for (let i = 0; i < n; i++) {\n            nums.push(parseInt(tokens[ptr++], 10));\n        }\n        const target = parseInt(tokens[ptr++], 10);\n        const ans = twoSum(nums, target);\n        console.log(ans[0] + ' ' + ans[1]);\n        console.log('__JUDGE_TC_END__');\n    }\n}\n\nmain();"
+          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction leftRotateByK(nums, k) {\n  const n = nums.length;\n  if (n <= 1) return;\n  k %= n;\n  if (k === 0) return;\n  const copy = nums.slice();\n  for (let i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  const k = data[p++];\n  leftRotateByK(nums, k);\n  process.stdout.write(nums.join(' ') + '\\n' + OUTPUT_DELIMITER + '\\n');\n}\n"
         },
         {
           "language": "java",
-          "completeCode": "import java.util.Scanner;\nimport java.util.HashMap;\nimport java.util.Map;\n\npublic class Main {\n// USER_SOLUTION_START\n    public static int[] twoSum(int[] nums, int target) {\n        Map<Long, Integer> seen = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            long complement = (long) target - nums[i];\n            if (seen.containsKey(complement)) {\n                int first = seen.get(complement);\n                int second = i;\n                if (first > second) {\n                    return new int[]{second, first};\n                }\n                return new int[]{first, second};\n            }\n            seen.put((long) nums[i], i);\n        }\n        return new int[]{-1, -1};\n    }\n// USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) {\n                nums[i] = sc.nextInt();\n            }\n            int target = sc.nextInt();\n            int[] ans = twoSum(nums, target);\n            System.out.println(ans[0] + \" \" + ans[1]);\n            System.out.println(\"__JUDGE_TC_END__\");\n        }\n    }\n}"
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static void leftRotateByK(int[] nums, int k) {\n        int n = nums.length;\n        if (n <= 1) return;\n        k %= n;\n        if (k == 0) return;\n        int[] copy = nums.clone();\n        for (int i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            int k = sc.nextInt();\n            leftRotateByK(nums, k);\n            for (int i = 0; i < n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
         },
         {
           "language": "cpp17",
-          "completeCode": "#include <iostream>\n#include <vector>\n#include <unordered_map>\n#include <algorithm>\n\nusing namespace std;\n\n// USER_SOLUTION_START\nvector<int> twoSum(vector<int>& nums, int target) {\n    unordered_map<long long, int> seen;\n    for (int i = 0; i < (int)nums.size(); ++i) {\n        long long complement = (long long)target - nums[i];\n        if (seen.find(complement) != seen.end()) {\n            int first = seen[complement];\n            int second = i;\n            if (first > second) swap(first, second);\n            return {first, second};\n        }\n        seen[nums[i]] = i;\n    }\n    return {-1, -1};\n}\n// USER_SOLUTION_END\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int i = 0; i < n; ++i) {\n            cin >> nums[i];\n        }\n        int target;\n        cin >> target;\n        vector<int> ans = twoSum(nums, target);\n        cout << ans[0] << \" \" << ans[1] << \"\\n\";\n        cout << \"__JUDGE_TC_END__\\n\";\n    }\n    return 0;\n}"
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nvoid leftRotateByK(vector<int>& nums, int k) {\n    int n = nums.size();\n    if (n <= 1) return;\n    k %= n;\n    if (k == 0) return;\n    vector<int> copy = nums;\n    for (int i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        int k;\n        cin >> k;\n        leftRotateByK(nums, k);\n        for (int i = 0; i < n; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
         }
       ]
     }

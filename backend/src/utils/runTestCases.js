@@ -10,13 +10,10 @@ const normalizeOutput = (output) => {
     .trim();
 };
 
-const runTestCases = async ({
-  testCases,
-  referenceSolution,
-  sourceCode,
-  language,
-  versionIndex,
-} , count) => {
+const runTestCases = async (
+  { testCases, referenceSolution, sourceCode, language, versionIndex },
+  count,
+) => {
   const TEST_CASE_COUNT = count;
   if (!testCases || testCases.length !== TEST_CASE_COUNT) {
     throw new Error(
@@ -59,10 +56,8 @@ const runTestCases = async ({
   let maxMemory = 0;
 
   try {
-  
     const account = getNextJDoodleAccount();
 
-    
     const response = await axios.post("https://api.jdoodle.com/v1/execute", {
       clientId: account.clientId,
       clientSecret: account.clientSecret,
@@ -100,7 +95,6 @@ const runTestCases = async ({
 
     const rawOutput = result.output || "";
 
-    
     const actualOutputs = rawOutput
       .split(OUTPUT_DELIMITER)
       .slice(0, TEST_CASE_COUNT)

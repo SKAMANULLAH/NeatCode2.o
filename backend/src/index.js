@@ -1,8 +1,8 @@
-const cors =  require( "cors");
+const cors = require("cors");
 const express = require("express");
 // const path  =require('path')
 // require("dotenv").config({
-  //   path:path.join(__dirname , '../.env')
+//   path:path.join(__dirname , '../.env')
 // });
 require("dotenv").config();
 const main = require("./config/db.js");
@@ -13,7 +13,7 @@ const authRouter = require("./routes/authRouter.js");
 // const executeRouter = require("./routes/execute.js");
 const problemRouter = require("./routes/problemRouter.js");
 const codeRouter = require("./routes/codeRouter.js");
-   const chatRouter = require('./routes/chatRouter.js');
+const chatRouter = require("./routes/chatRouter.js");
 const userRouter = require("./routes/userRouter.js");
 const topicRouter = require("./routes/topicRouter.js");
 const quizRouter = require("./routes/quizRouter.js");
@@ -29,15 +29,10 @@ app.use(
   }),
 );
 
-
-
-
 // middlewares
 app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));app.use(cookieParser());
-
-
-
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(cookieParser());
 
 const apiRouter = express.Router();
 apiRouter.use("/auth", authRouter);
@@ -58,7 +53,6 @@ main()
       console.log(
         `Server is listening on http://localhost:` + process.env.PORT,
       );
-      
     });
   })
   .catch((err) => {

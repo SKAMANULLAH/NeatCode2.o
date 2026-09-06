@@ -515,16 +515,17 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
       {/* Main Split-Pane Workspace */}
       <div
         ref={containerRef}
-        className="flex-1 flex flex-col lg:flex-row overflow-hidden relative"
+        className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden relative"
         style={{
           userSelect: isResizing ? "none" : undefined,
         }}
       >
         {/* Left Panel */}
         <div
-          className="flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0"
+          className="flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0 min-w-0"
           style={{
             flexBasis: `${leftPanelSize}%`,
+            flexShrink: 0,
           }}
         >
           {/* Left Tabs Bar */}
@@ -1006,7 +1007,9 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
                     <h2 className="text-lg font-semibold tracking-tight text-base-content">
                       AI Mentor Assistant
                     </h2>
-                    <span className="badge badge-primary badge-xs rounded-md">Active</span>
+                    <span className="badge badge-primary badge-xs rounded-md">
+                      Active
+                    </span>
                   </div>
                   <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
                     Ask for conceptual hints, edge cases, and asymptotic
@@ -1025,16 +1028,17 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
         {/* Resizer Splitter Divider */}
         <div
           onPointerDown={handleResizeStart}
-          className="w-full lg:w-1 h-1 lg:h-full bg-base-300 hover:bg-primary/40 transition-colors duration-150 cursor-row-resize lg:cursor-col-resize shrink-0 relative group"
+          className="w-full lg:w-1 h-2 lg:h-full bg-base-300 hover:bg-primary/40 transition-colors duration-150 cursor-row-resize lg:cursor-col-resize shrink-0 relative group touch-none"
         >
-          <div className="absolute inset-0 -top-1 -bottom-1 -left-1 -right-1" />
+          <div className="absolute inset-0 -top-2 -bottom-2 -left-1 -right-1" />
         </div>
 
         {/* Right Panel */}
         <div
-          className="flex flex-col overflow-hidden bg-base-100 min-h-0"
+          className="flex flex-col overflow-hidden bg-base-100 min-h-0 min-w-0"
           style={{
             flexBasis: `${100 - leftPanelSize}%`,
+            flexShrink: 0,
           }}
         >
           {/* Right Tabs Bar */}

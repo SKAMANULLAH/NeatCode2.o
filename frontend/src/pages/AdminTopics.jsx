@@ -62,6 +62,7 @@ function AdminTopics() {
         subtopic:
           data.subtopic?.length > 0
             ? data.subtopic.map((item) => ({
+                _id: item._id, // ADD THIS
                 title: item.title || "",
                 content: item.content || "",
               }))
