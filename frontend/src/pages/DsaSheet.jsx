@@ -382,6 +382,7 @@ function DsaSheet() {
                   <NavLink
                     key={problem._id}
                     to={`/problem/${problem._id}`}
+                    state={{problems}}
                     className="group flex flex-col sm:grid sm:grid-cols-12 px-4 sm:px-6 py-4 items-start sm:items-center gap-2 sm:gap-0 hover:bg-base-200/40 transition-colors focus-visible:outline-2 focus-visible:outline-primary"
                   >
                     {/* Solved Icon Status */}

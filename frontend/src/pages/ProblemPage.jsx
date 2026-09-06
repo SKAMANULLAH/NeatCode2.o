@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
-import { useParams, NavLink } from "react-router";
+import { useParams, NavLink,useLocation, useNavigate  } from "react-router";
 import axiosClient from "../utils/axiosClient";
 import ChatAI from "../components/ChatAI";
 import Editorial from "../components/Editorial.jsx";
@@ -37,16 +37,18 @@ const ProblemPage = () => {
   const [problem, setProblem] = useState(null);
   const [problemError, setProblemError] = useState("");
 
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-
+  const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [codes, setCodes] = useState({
     javascript: "",
     java: "",
     cpp: "",
   });
+const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
 
-const [runLoading, setRunLoading] = useState(false);
-const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProblem, setFetchingProblem] = useState(true);
+  const [runLoading, setRunLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [fetchingProblem, setFetchingProblem] = useState(true);
 
   const [runResult, setRunResult] = useState(null);
   const [submitResult, setSubmitResult] = useState(null);
@@ -60,11 +62,29 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
   const [referenceSolution, setReferenceSolution] = useState([]);
   const [solutionMessage, setSolutionMessage] = useState("");
   const [usage, setUsage] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const editorRef = useRef(null);
+const { problemId } = useParams();
+const getCodeStorageKey = (language) => `problem-code-${problemId}-${language}`;
+const { isDark } = useTheme();
 
-  const { problemId } = useParams();
-  const { isDark } = useTheme();
+const location = useLocation();
+const navigate = useNavigate();
+
+const problemList = location.state?.problems || [];
+
+const currentProblemIndex = problemList.findIndex(
+  (problem) => problem._id === problemId,
+);
+
+const previousProblem =
+  currentProblemIndex > 0 ? problemList[currentProblemIndex - 1] : null;
+
+const nextProblem =
+  currentProblemIndex >= 0 && currentProblemIndex < problemList.length - 1
+    ? problemList[currentProblemIndex + 1]
+    : null;
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -108,8 +128,17 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
           }
         });
 
-        setCodes(initialCodes);
+const restoredCodes = { ...initialCodes };
 
+Object.keys(initialCodes).forEach((language) => {
+  const savedCode = localStorage.getItem(getCodeStorageKey(language));
+
+  if (savedCode !== null) {
+    restoredCodes[language] = savedCode;
+  }
+});
+
+setCodes(restoredCodes);
         try {
           const solutionResponse = await axiosClient.get(
             `/problem/fetchProblem/${problemId}/solution`,
@@ -231,17 +260,49 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
       loadUsage();
     }
   }, [problemId]);
+const handleEditorChange = (value) => {
+  const newCode = value || "";
 
-  const handleEditorChange = (value) => {
-    setCodes((previousCodes) => ({
-      ...previousCodes,
-      [selectedLanguage]: value || "",
-    }));
-  };
+  setCodes((prev) => ({
+    ...prev,
+    [selectedLanguage]: newCode,
+  }));
 
+  localStorage.setItem(getCodeStorageKey(selectedLanguage), newCode);
+};
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
   };
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(codes[selectedLanguage] || "");
+
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 1500);
+    } catch (error) {
+      console.error("Failed to copy code:", error);
+    }
+  };
+const handleResetCode = () => {
+  const initialCode =
+    problem?.startCode?.find(
+      (item) =>
+        item.language === LANGUAGE_CONFIG[selectedLanguage].databaseLanguage,
+    )?.initialCode || "";
+
+  setCodes((previousCodes) => ({
+    ...previousCodes,
+    [selectedLanguage]: initialCode,
+  }));
+
+  localStorage.removeItem(getCodeStorageKey(selectedLanguage));
+
+  setShowResetConfirm(false);
+};
 
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
@@ -642,6 +703,35 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
                             {problem.tags}
                           </div>
                         )}
+                  </div>
+                  <div className="flex items-center justify-between gap-3 mt-5">
+                    <button
+                      type="button"
+                      disabled={!previousProblem}
+                      onClick={() =>
+                        previousProblem &&
+                        navigate(`/problem/${previousProblem._id}`, {
+                          state: { problems: problemList },
+                        })
+                      }
+                      className="btn btn-sm btn-ghost border border-base-300"
+                    >
+                      ← Previous
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={!nextProblem}
+                      onClick={() =>
+                        nextProblem &&
+                        navigate(`/problem/${nextProblem._id}`, {
+                          state: { problems: problemList },
+                        })
+                      }
+                      className="btn btn-sm btn-primary"
+                    >
+                      Next →
+                    </button>
                   </div>
                 </div>
 
@@ -1080,21 +1170,24 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
             </div>
 
             {activeRightTab === "code" && (
-              <div className="flex items-center gap-0.5">
-                {["javascript", "java", "cpp"].map((language) => (
-                  <button
-                    key={language}
-                    type="button"
-                    onClick={() => handleLanguageChange(language)}
-                    className={`h-7 px-2.5 rounded-md text-[11px] font-mono font-medium tracking-tight transition-colors duration-150 ${
-                      selectedLanguage === language
-                        ? "bg-base-100 text-base-content border border-base-300 shadow-sm"
-                        : "text-base-content/50 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                    }`}
-                  >
-                    {LANGUAGE_CONFIG[language].label}
-                  </button>
-                ))}
+              <div className="relative">
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => handleLanguageChange(e.target.value)}
+                  className="h-8 px-3 pr-8 rounded-md text-xs font-medium
+                 bg-base-100 text-base-content
+                 border border-base-300
+                 outline-none cursor-pointer
+                 hover:border-base-content/30
+                 focus:border-primary
+                 transition-colors"
+                >
+                  {["javascript", "java", "cpp"].map((language) => (
+                    <option key={language} value={language}>
+                      {LANGUAGE_CONFIG[language].label}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
           </div>
@@ -1104,7 +1197,48 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
             {activeRightTab === "code" && (
               <div className="flex-1 flex flex-col min-h-0">
                 {/* Monaco Editor Container */}
-                <div className="flex-1 min-h-0 border-b border-base-300">
+                <div
+                  className={`${
+                    isEditorFullscreen
+                      ? "fixed inset-0 z-[90] bg-base-100"
+                      : "flex-1 min-h-0 border-b border-base-300 relative"
+                  }`}
+                >
+                  <div className="absolute top-3 right-3 z-10 flex gap-2">
+                    {/* Copy Button */}
+                    <button
+                      type="button"
+                      onClick={handleCopyCode}
+                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
+                    >
+                      {copied ? "Copied!" : "Copy"}
+                    </button>
+
+                    {/* Reset Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowResetConfirm(true)}
+                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
+                    >
+                      Reset
+                    </button>
+
+                    {/* Fullscreen Button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsEditorFullscreen((prev) => !prev)}
+                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
+                      title={
+                        isEditorFullscreen ? "Exit fullscreen" : "Fullscreen"
+                      }
+                      aria-label={
+                        isEditorFullscreen ? "Exit fullscreen" : "Fullscreen"
+                      }
+                    >
+                      {isEditorFullscreen ? "↙" : "⛶"}
+                    </button>
+                  </div>
+
                   <Editor
                     height="100%"
                     language={getLanguageForMonaco(selectedLanguage)}
@@ -1512,6 +1646,68 @@ const [submitLoading, setSubmitLoading] = useState(false);  const [fetchingProbl
           </div>
         </div>
       </div>
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowResetConfirm(false)}
+          />
+
+          {/* Modal */}
+          <div className="relative w-full max-w-md rounded-2xl border border-base-300 bg-base-100 shadow-2xl">
+            <div className="p-6">
+              {/* Icon */}
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-warning/10 text-warning mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 4v6h6M20 20v-6h-6M5.64 18.36A9 9 0 1018.36 5.64"
+                  />
+                </svg>
+              </div>
+
+              {/* Title */}
+              <h3 className="text-lg font-bold text-base-content">
+                Reset Code?
+              </h3>
+
+              {/* Message */}
+              <p className="mt-2 text-sm leading-relaxed text-base-content/65">
+                Your current changes will be lost and the original starter code
+                will be restored.
+              </p>
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setShowResetConfirm(false)}
+                  className="btn btn-sm btn-ghost"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResetCode}
+                  className="btn btn-sm btn-warning"
+                >
+                  Reset Code
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

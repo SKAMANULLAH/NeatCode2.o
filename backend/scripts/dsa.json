@@ -2,404 +2,404 @@
   "problemCreatorEmail": "skamanullah75@gmail.com",
   "problems": [
     {
-      "title": "11. Remove duplicates from Sorted array",
-      "description": "Given a sorted array of integers, remove duplicate values in-place so that each distinct value appears exactly once at the beginning of the array. Return the number of distinct elements. The order of the distinct elements must remain the same. Input format: Line 1 contains n. Line 2 contains n sorted integers. Output format: Print the number of distinct elements, followed by a newline, then print the first k elements of the modified array on the next line, where k is the returned number of distinct elements. If n is 0, print 0 followed by a blank line. Constraints: 1 <= n <= 100000; the array is sorted in non-decreasing order.",
+      "title": "Find missing number",
+      "description": "Given an array containing n distinct integers taken from the range [0, n], find the one number that is missing from the array.\n\nInput Format:\nLine 1: n, the number of elements in the array.\nLine 2: n distinct integers.\n\nOutput Format:\nReturn the missing integer.\n\nConstraints:\n1 <= n <= 100000\nAll elements are distinct and each is in the range [0, n].",
       "difficulty": "easy",
       "tags": "array",
       "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
       "visibleTestCases": [
         {
-          "input": "6\n1 1 2 2 3 3",
-          "output": "3\n1 2 3",
-          "explanation": "There are three distinct values: 1, 2, and 3."
+          "input": "5\n0 1 2 4 5",
+          "output": "3",
+          "explanation": "The numbers from 0 to 5 are present except 3."
         },
         {
-          "input": "5\n1 2 3 4 5",
-          "output": "5\n1 2 3 4 5",
-          "explanation": "All values are already distinct, so the array remains unchanged."
+          "input": "3\n0 1 3",
+          "output": "2",
+          "explanation": "The numbers from 0 to 3 are present except 2."
         },
         {
-          "input": "5\n2 2 2 2 2",
-          "output": "1\n2",
-          "explanation": "All five values are equal, so only one distinct value remains."
+          "input": "1\n1",
+          "output": "0",
+          "explanation": "The only missing number from 0 to 1 is 0."
         }
       ],
       "invisibleTestCases": [
         {
-          "input": "1\n7",
-          "output": "1\n7"
-        },
-        {
-          "input": "2\n1 1",
-          "output": "1\n1"
+          "input": "2\n0 1",
+          "output": "2"
         },
         {
           "input": "2\n1 2",
-          "output": "2\n1 2"
+          "output": "0"
         },
         {
-          "input": "7\n-3 -3 -2 -2 -2 0 1",
-          "output": "4\n-3 -2 0 1"
+          "input": "4\n0 1 2 3",
+          "output": "4"
         },
         {
-          "input": "8\n0 0 0 1 1 2 2 3",
-          "output": "4\n0 1 2 3"
+          "input": "4\n0 1 3 4",
+          "output": "2"
         },
         {
-          "input": "9\n1 1 1 1 2 2 3 3 3",
-          "output": "3\n1 2 3"
+          "input": "5\n0 1 2 3 5",
+          "output": "4"
         },
         {
-          "input": "6\n-5 -5 -4 -4 -4 -1",
-          "output": "3\n-5 -4 -1"
+          "input": "5\n1 2 3 4 5",
+          "output": "0"
         },
         {
-          "input": "10\n1 1 2 2 3 3 4 4 5 5",
-          "output": "5\n1 2 3 4 5"
+          "input": "6\n0 1 2 3 4 6",
+          "output": "5"
         },
         {
-          "input": "5\n-2 -1 0 1 2",
-          "output": "5\n-2 -1 0 1 2"
+          "input": "6\n0 1 2 4 5 6",
+          "output": "3"
         },
         {
-          "input": "7\n4 4 4 4 5 6 6",
-          "output": "3\n4 5 6"
+          "input": "7\n0 1 2 3 4 5 7",
+          "output": "6"
         },
         {
-          "input": "8\n-10 -10 -10 -5 -5 0 0 8",
-          "output": "4\n-10 -5 0 8"
+          "input": "7\n0 1 2 3 5 6 7",
+          "output": "4"
         },
         {
-          "input": "4\n9 9 10 10",
-          "output": "2\n9 10"
+          "input": "8\n0 1 2 3 4 6 7 8",
+          "output": "5"
         },
         {
-          "input": "3\n-1 -1 0",
-          "output": "2\n-1 0"
+          "input": "8\n0 1 2 3 4 5 6 8",
+          "output": "7"
         },
         {
-          "input": "10\n2 2 2 3 3 4 5 5 5 6",
-          "output": "5\n2 3 4 5 6"
+          "input": "9\n0 1 2 3 4 5 6 7 9",
+          "output": "8"
         },
         {
-          "input": "6\n100 100 200 200 300 300",
-          "output": "3\n100 200 300"
+          "input": "9\n0 1 2 3 4 5 7 8 9",
+          "output": "6"
         },
         {
-          "input": "5\n-5 -4 -4 -4 -4",
-          "output": "2\n-5 -4"
+          "input": "10\n0 1 2 3 4 5 6 7 8 10",
+          "output": "9"
         },
         {
-          "input": "9\n0 1 1 1 2 3 3 4 4",
-          "output": "5\n0 1 2 3 4"
+          "input": "10\n1 2 3 4 5 6 7 8 9 10",
+          "output": "0"
         },
         {
-          "input": "7\n8 8 9 10 10 10 11",
-          "output": "4\n8 9 10 11"
+          "input": "10\n0 1 2 3 4 6 7 8 9 10",
+          "output": "5"
         },
         {
-          "input": "3\n-2 0 0",
-          "output": "2\n-2 0"
+          "input": "11\n0 1 2 3 4 5 6 7 8 9 11",
+          "output": "10"
         },
         {
-          "input": "8\n5 5 5 6 7 7 8 8",
-          "output": "4\n5 6 7 8"
+          "input": "11\n0 1 2 3 4 5 6 7 9 10 11",
+          "output": "8"
+        },
+        {
+          "input": "12\n0 1 2 3 4 5 6 7 8 9 10 12",
+          "output": "11"
         }
       ],
       "startCode": [
         {
           "language": "nodejs",
-          "initialCode": "function removeDuplicates(nums) {\n  \n}"
+          "initialCode": "function findMissingNumber(nums) {\n  \n}"
         },
         {
           "language": "java",
-          "initialCode": "public static int removeDuplicates(int[] nums) {\n    \n}"
+          "initialCode": "public static int findMissingNumber(int[] nums) {\n    \n}"
         },
         {
           "language": "cpp17",
-          "initialCode": "int removeDuplicates(vector<int>& nums) {\n    \n}"
+          "initialCode": "int findMissingNumber(vector<int>& nums) {\n    \n}"
         }
       ],
       "referenceSolution": [
         {
           "language": "nodejs",
-          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction removeDuplicates(nums) {\n  if (nums.length === 0) return 0;\n  let k = 1;\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] !== nums[k - 1]) nums[k++] = nums[i];\n  }\n  return k;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  const k = removeDuplicates(nums);\n  process.stdout.write(String(k) + '\\n');\n  process.stdout.write(nums.slice(0, k).join(' ') + '\\n');\n  process.stdout.write(OUTPUT_DELIMITER + '\\n');\n}\n"
+          "completeCode": "const fs = require(\"fs\");\nconst OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nfunction findMissingNumber(nums) {\n  let n = nums.length;\n  let expected = n * (n + 1) / 2;\n  let actual = 0;\n  for (const x of nums) actual += x;\n  return expected - actual;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, \"utf8\").trim().split(/\\s+/).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++]; const nums = data.slice(p, p+n); p += n;\n  console.log(String(findMissingNumber(nums)));\n  console.log(OUTPUT_DELIMITER);\n}"
         },
         {
           "language": "java",
-          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static int removeDuplicates(int[] nums) {\n        if (nums.length == 0) return 0;\n        int k = 1;\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] != nums[k - 1]) nums[k++] = nums[i];\n        }\n        return k;\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            int k = removeDuplicates(nums);\n            System.out.println(k);\n            for (int i = 0; i < k; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\npublic static int findMissingNumber(int[] nums) {\n    int n = nums.length, expected = n * (n + 1) / 2, actual = 0;\n    for (int x : nums) actual += x;\n    return expected - actual;\n}\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            System.out.println(findMissingNumber(nums));\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
         },
         {
           "language": "cpp17",
-          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint removeDuplicates(vector<int>& nums) {\n    if (nums.empty()) return 0;\n    int k = 1;\n    for (int i = 1; i < (int)nums.size(); i++) {\n        if (nums[i] != nums[k - 1]) nums[k++] = nums[i];\n    }\n    return k;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        int k = removeDuplicates(nums);\n        cout << k << '\\n';\n        for (int i = 0; i < k; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint findMissingNumber(vector<int>& nums) {\n    int n = nums.size(), expected = n * (n + 1) / 2, actual = 0;\n    for (int x : nums) actual += x;\n    return expected - actual;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        cout << findMissingNumber(nums) << \"\\n\";\n        cout << OUTPUT_DELIMITER << \"\\n\";\n    }\n}\n"
         }
       ]
     },
     {
-      "title": "12. Left Rotate Array by One",
-      "description": "Given an array of n integers, left rotate the array by exactly one position. The first element moves to the end, and every other element shifts one position to the left. Input format: Line 1 contains n. Line 2 contains n integers. Output format: Print the rotated array on one line, with elements separated by spaces. Constraints: 1 <= n <= 100000.",
+      "title": "Maximum Consecutive Ones",
+      "description": "Given a binary array containing only 0s and 1s, find the maximum number of consecutive 1s.\n\nInput Format:\nLine 1: n, the number of elements.\nLine 2: n binary integers.\n\nOutput Format:\nReturn the length of the longest consecutive sequence of 1s.\n\nConstraints:\n1 <= n <= 100000\nEach element is either 0 or 1.",
       "difficulty": "easy",
       "tags": "array",
       "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
       "visibleTestCases": [
         {
-          "input": "5\n1 2 3 4 5",
-          "output": "2 3 4 5 1",
-          "explanation": "The first element 1 moves to the end, while all other elements shift left."
+          "input": "6\n1 1 0 1 1 1",
+          "output": "3",
+          "explanation": "The longest consecutive run of 1s has length 3."
         },
         {
-          "input": "4\n10 20 30 40",
-          "output": "20 30 40 10",
-          "explanation": "After one left rotation, 10 moves to the last position."
+          "input": "5\n1 0 1 1 0",
+          "output": "2",
+          "explanation": "The longest consecutive run of 1s has length 2."
+        },
+        {
+          "input": "4\n0 0 0 0",
+          "output": "0",
+          "explanation": "There are no 1s in the array."
+        }
+      ],
+      "invisibleTestCases": [
+        {
+          "input": "1\n0",
+          "output": "0"
+        },
+        {
+          "input": "1\n1",
+          "output": "1"
+        },
+        {
+          "input": "2\n1 1",
+          "output": "2"
+        },
+        {
+          "input": "2\n0 1",
+          "output": "1"
+        },
+        {
+          "input": "5\n1 1 1 1 1",
+          "output": "5"
+        },
+        {
+          "input": "6\n0 0 1 1 0 1",
+          "output": "2"
+        },
+        {
+          "input": "7\n1 0 1 1 1 0 1",
+          "output": "3"
+        },
+        {
+          "input": "8\n1 1 0 1 1 1 1 0",
+          "output": "4"
+        },
+        {
+          "input": "9\n0 1 1 1 0 1 1 0 1",
+          "output": "3"
+        },
+        {
+          "input": "10\n1 1 1 0 0 1 1 1 1 1",
+          "output": "5"
+        },
+        {
+          "input": "10\n0 0 0 1 1 1 0 1 0 1",
+          "output": "3"
+        },
+        {
+          "input": "11\n1 0 1 1 0 1 1 1 0 1 1",
+          "output": "3"
+        },
+        {
+          "input": "12\n0 1 1 0 1 1 1 1 0 0 1 1",
+          "output": "4"
+        },
+        {
+          "input": "13\n1 1 0 1 1 1 0 0 1 1 1 1 1",
+          "output": "5"
+        },
+        {
+          "input": "14\n0 0 1 1 1 0 1 1 0 1 1 1 0 1",
+          "output": "3"
+        },
+        {
+          "input": "15\n1 0 0 1 1 0 1 1 1 1 0 1 0 1 1",
+          "output": "4"
+        },
+        {
+          "input": "16\n0 1 1 1 1 0 1 0 1 1 0 1 1 1 1 0",
+          "output": "4"
+        },
+        {
+          "input": "17\n1 1 1 0 1 1 0 1 1 1 0 0 1 1 1 1 1",
+          "output": "5"
+        },
+        {
+          "input": "18\n0 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 0 1",
+          "output": "4"
+        },
+        {
+          "input": "19\n1 1 0 1 1 1 1 1 0 0 1 0 1 1 0 1 1 1 0",
+          "output": "5"
+        }
+      ],
+      "startCode": [
+        {
+          "language": "nodejs",
+          "initialCode": "function findMaxConsecutiveOnes(nums) {\n  \n}"
+        },
+        {
+          "language": "java",
+          "initialCode": "public static int findMaxConsecutiveOnes(int[] nums) {\n    \n}"
+        },
+        {
+          "language": "cpp17",
+          "initialCode": "int findMaxConsecutiveOnes(vector<int>& nums) {\n    \n}"
+        }
+      ],
+      "referenceSolution": [
+        {
+          "language": "nodejs",
+          "completeCode": "const fs = require(\"fs\");\nconst OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nfunction findMaxConsecutiveOnes(nums) {\n  let best = 0, current = 0;\n  for (const x of nums) {\n    if (x === 1) {\n      current++;\n      if (current > best) best = current;\n    } else current = 0;\n  }\n  return best;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, \"utf8\").trim().split(/\\s+/).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++]; const nums = data.slice(p, p+n); p += n;\n  console.log(String(findMaxConsecutiveOnes(nums)));\n  console.log(OUTPUT_DELIMITER);\n}"
+        },
+        {
+          "language": "java",
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\npublic static int findMaxConsecutiveOnes(int[] nums) {\n    int best = 0, current = 0;\n    for (int x : nums) {\n        if (x == 1) {\n            current++;\n            if (current > best) best = current;\n        } else current = 0;\n    }\n    return best;\n}\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            System.out.println(findMaxConsecutiveOnes(nums));\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
+        },
+        {
+          "language": "cpp17",
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint findMaxConsecutiveOnes(vector<int>& nums) {\n    int best = 0, current = 0;\n    for (int x : nums) {\n        if (x == 1) {\n            current++;\n            best = max(best, current);\n        } else current = 0;\n    }\n    return best;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        cout << findMaxConsecutiveOnes(nums) << \"\\n\";\n        cout << OUTPUT_DELIMITER << \"\\n\";\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "title": "Find the number that appears once, and other numbers twice",
+      "description": "Given an array of integers where exactly one integer appears once and every other integer appears exactly twice, find and return the integer that appears once.\n\nInput Format:\nLine 1: n, the number of elements. n is odd.\nLine 2: n integers.\n\nOutput Format:\nReturn the integer that appears exactly once.\n\nConstraints:\n1 <= n <= 100001\nExactly one value appears once; every other value appears exactly twice.",
+      "difficulty": "easy",
+      "tags": "array",
+      "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
+      "visibleTestCases": [
+        {
+          "input": "5\n2 2 1 2 2",
+          "output": "1",
+          "explanation": "1 appears once, while every other number appears twice."
+        },
+        {
+          "input": "7\n4 1 2 1 2 4 9",
+          "output": "9",
+          "explanation": "All values except 9 occur exactly twice."
         },
         {
           "input": "1\n7",
           "output": "7",
-          "explanation": "An array with one element remains unchanged after rotation."
+          "explanation": "The single element appears once."
         }
       ],
       "invisibleTestCases": [
         {
-          "input": "2\n1 2",
-          "output": "2 1"
+          "input": "3\n2 2 5",
+          "output": "5"
         },
         {
-          "input": "3\n3 1 2",
-          "output": "1 2 3"
+          "input": "3\n7 3 7",
+          "output": "3"
         },
         {
-          "input": "6\n0 1 2 3 4 5",
-          "output": "1 2 3 4 5 0"
+          "input": "5\n1 1 2 2 9",
+          "output": "9"
         },
         {
-          "input": "5\n-5 -4 -3 -2 -1",
-          "output": "-4 -3 -2 -1 -5"
+          "input": "5\n8 6 8 6 4",
+          "output": "4"
         },
         {
-          "input": "4\n9 9 9 9",
-          "output": "9 9 9 9"
+          "input": "7\n1 3 1 3 5 7 7",
+          "output": "5"
         },
         {
-          "input": "7\n7 6 5 4 3 2 1",
-          "output": "6 5 4 3 2 1 7"
+          "input": "7\n-1 2 -1 2 9 4 4",
+          "output": "9"
         },
         {
-          "input": "8\n1 1 2 2 3 3 4 4",
-          "output": "1 2 2 3 3 4 4 1"
+          "input": "5\n-5 -5 0 3 3",
+          "output": "0"
         },
         {
-          "input": "3\n-1 0 1",
-          "output": "0 1 -1"
+          "input": "7\n10 20 10 30 20 30 40",
+          "output": "40"
         },
         {
-          "input": "5\n100 200 300 400 500",
-          "output": "200 300 400 500 100"
+          "input": "9\n1 2 3 2 1 3 4 4 5",
+          "output": "5"
         },
         {
-          "input": "6\n-10 0 10 20 30 40",
-          "output": "0 10 20 30 40 -10"
+          "input": "9\n-2 -3 -2 -4 -3 -4 -5 6 6",
+          "output": "-5"
         },
         {
-          "input": "2\n-8 5",
-          "output": "5 -8"
+          "input": "11\n1 1 2 2 3 3 4 4 5 5 8",
+          "output": "8"
         },
         {
-          "input": "9\n9 8 7 6 5 4 3 2 1",
-          "output": "8 7 6 5 4 3 2 1 9"
+          "input": "11\n9 7 9 7 6 5 6 4 5 4 2",
+          "output": "2"
         },
         {
-          "input": "4\n0 0 1 1",
-          "output": "0 1 1 0"
+          "input": "13\n1 2 1 3 2 4 3 5 4 6 5 6 11",
+          "output": "11"
         },
         {
-          "input": "5\n5 -5 10 -10 15",
-          "output": "-5 10 -10 15 5"
+          "input": "15\n10 10 20 30 20 40 30 50 40 60 50 70 60 70 99",
+          "output": "99"
         },
         {
-          "input": "7\n2 4 6 8 10 12 14",
-          "output": "4 6 8 10 12 14 2"
+          "input": "17\n0 1 0 2 1 3 2 4 3 5 4 6 5 7 6 8 7",
+          "output": "8"
         },
         {
-          "input": "3\n1000 -1000 0",
-          "output": "-1000 0 1000"
+          "input": "5\n100 200 100 200 300",
+          "output": "300"
         },
         {
-          "input": "8\n-3 -2 -1 0 1 2 3 4",
-          "output": "-2 -1 0 1 2 3 4 -3"
+          "input": "7\n-10 -20 -10 -30 -20 -30 -40",
+          "output": "-40"
         },
         {
-          "input": "5\n0 5 0 5 0",
-          "output": "5 0 5 0 0"
+          "input": "9\n12 15 12 18 15 21 18 21 99",
+          "output": "99"
         },
         {
-          "input": "6\n11 22 33 44 55 66",
-          "output": "22 33 44 55 66 11"
+          "input": "3\n-8 -8 -1",
+          "output": "-1"
         },
         {
-          "input": "4\n-1 -1 0 0",
-          "output": "-1 0 0 -1"
+          "input": "5\n6 6 7 8 8",
+          "output": "7"
         }
       ],
       "startCode": [
         {
           "language": "nodejs",
-          "initialCode": "function leftRotateByOne(nums) {\n  \n}"
+          "initialCode": "function singleNumber(nums) {\n  \n}"
         },
         {
           "language": "java",
-          "initialCode": "public static void leftRotateByOne(int[] nums) {\n    \n}"
+          "initialCode": "public static int singleNumber(int[] nums) {\n    \n}"
         },
         {
           "language": "cpp17",
-          "initialCode": "void leftRotateByOne(vector<int>& nums) {\n    \n}"
+          "initialCode": "int singleNumber(vector<int>& nums) {\n    \n}"
         }
       ],
       "referenceSolution": [
         {
           "language": "nodejs",
-          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction leftRotateByOne(nums) {\n  if (nums.length <= 1) return;\n  const first = nums[0];\n  for (let i = 1; i < nums.length; i++) nums[i - 1] = nums[i];\n  nums[nums.length - 1] = first;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  leftRotateByOne(nums);\n  process.stdout.write(nums.join(' ') + '\\n' + OUTPUT_DELIMITER + '\\n');\n}\n"
+          "completeCode": "const fs = require(\"fs\");\nconst OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nfunction singleNumber(nums) {\n  let result = 0;\n  for (const x of nums) result ^= x;\n  return result;\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, \"utf8\").trim().split(/\\s+/).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++]; const nums = data.slice(p, p+n); p += n;\n  console.log(String(singleNumber(nums)));\n  console.log(OUTPUT_DELIMITER);\n}"
         },
         {
           "language": "java",
-          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static void leftRotateByOne(int[] nums) {\n        if (nums.length <= 1) return;\n        int first = nums[0];\n        for (int i = 1; i < nums.length; i++) nums[i - 1] = nums[i];\n        nums[nums.length - 1] = first;\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            leftRotateByOne(nums);\n            for (int i = 0; i < n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
+          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\npublic static int singleNumber(int[] nums) {\n    int result = 0;\n    for (int x : nums) result ^= x;\n    return result;\n}\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            System.out.println(singleNumber(nums));\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
         },
         {
           "language": "cpp17",
-          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nvoid leftRotateByOne(vector<int>& nums) {\n    if (nums.size() <= 1) return;\n    int first = nums[0];\n    for (int i = 1; i < (int)nums.size(); i++) nums[i - 1] = nums[i];\n    nums.back() = first;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        leftRotateByOne(nums);\n        for (int i = 0; i < n; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
-        }
-      ]
-    },
-    {
-      "title": "13. Left Rotate Array by K Places",
-      "description": "Given an array of n integers and a non-negative integer k, left rotate the array by k positions. Each left rotation moves the first element to the end. Rotations beyond n positions wrap around, so rotating by k positions is equivalent to rotating by k mod n positions. Input format: Line 1 contains n. Line 2 contains n integers. Line 3 contains k. Output format: Print the rotated array on one line, with elements separated by spaces. Constraints: 1 <= n <= 100000; 0 <= k <= 1000000000.",
-      "difficulty": "easy",
-      "tags": "array",
-      "videoUrl": "https://youtu.be/ZbybYvcVLks?si=QBtcKuqPTIZZKyoH",
-      "visibleTestCases": [
-        {
-          "input": "5\n1 2 3 4 5\n2",
-          "output": "3 4 5 1 2",
-          "explanation": "Two left rotations move 1 and 2 to the end."
-        },
-        {
-          "input": "6\n10 20 30 40 50 60\n3",
-          "output": "40 50 60 10 20 30",
-          "explanation": "After three left rotations, the first three elements move to the end."
-        },
-        {
-          "input": "4\n1 2 3 4\n4",
-          "output": "1 2 3 4",
-          "explanation": "Rotating by the array length returns the array to its original order."
-        }
-      ],
-      "invisibleTestCases": [
-        {
-          "input": "1\n7\n0",
-          "output": "7"
-        },
-        {
-          "input": "1\n7\n100",
-          "output": "7"
-        },
-        {
-          "input": "2\n1 2\n1",
-          "output": "2 1"
-        },
-        {
-          "input": "2\n1 2\n2",
-          "output": "1 2"
-        },
-        {
-          "input": "3\n1 2 3\n4",
-          "output": "2 3 1"
-        },
-        {
-          "input": "5\n1 2 3 4 5\n0",
-          "output": "1 2 3 4 5"
-        },
-        {
-          "input": "5\n1 2 3 4 5\n5",
-          "output": "1 2 3 4 5"
-        },
-        {
-          "input": "5\n1 2 3 4 5\n7",
-          "output": "3 4 5 1 2"
-        },
-        {
-          "input": "6\n-5 -4 -3 -2 -1 0\n2",
-          "output": "-3 -2 -1 0 -5 -4"
-        },
-        {
-          "input": "4\n10 20 30 40\n5",
-          "output": "20 30 40 10"
-        },
-        {
-          "input": "7\n7 6 5 4 3 2 1\n3",
-          "output": "4 3 2 1 7 6 5"
-        },
-        {
-          "input": "8\n0 1 2 3 4 5 6 7\n8",
-          "output": "0 1 2 3 4 5 6 7"
-        },
-        {
-          "input": "9\n1 2 3 4 5 6 7 8 9\n10",
-          "output": "2 3 4 5 6 7 8 9 1"
-        },
-        {
-          "input": "5\n100 -100 200 -200 300\n2",
-          "output": "200 -200 300 100 -100"
-        },
-        {
-          "input": "6\n2 4 6 8 10 12\n11",
-          "output": "12 2 4 6 8 10"
-        },
-        {
-          "input": "3\n-1 0 1\n1000000000",
-          "output": "0 1 -1"
-        },
-        {
-          "input": "7\n1 1 2 2 3 3 4\n5",
-          "output": "3 4 1 1 2 2 3"
-        },
-        {
-          "input": "4\n9 8 7 6\n0",
-          "output": "9 8 7 6"
-        },
-        {
-          "input": "8\n-8 -7 -6 -5 -4 -3 -2 -1\n6",
-          "output": "-2 -1 -8 -7 -6 -5 -4 -3"
-        },
-        {
-          "input": "5\n5 5 5 5 5\n123",
-          "output": "5 5 5 5 5"
-        }
-      ],
-      "startCode": [
-        {
-          "language": "nodejs",
-          "initialCode": "function leftRotateByK(nums, k) {\n  \n}"
-        },
-        {
-          "language": "java",
-          "initialCode": "public static void leftRotateByK(int[] nums, int k) {\n    \n}"
-        },
-        {
-          "language": "cpp17",
-          "initialCode": "void leftRotateByK(vector<int>& nums, int k) {\n    \n}"
-        }
-      ],
-      "referenceSolution": [
-        {
-          "language": "nodejs",
-          "completeCode": "const fs = require('fs');\nconst OUTPUT_DELIMITER = '__JUDGE_TC_END__';\n\n// USER_SOLUTION_START\nfunction leftRotateByK(nums, k) {\n  const n = nums.length;\n  if (n <= 1) return;\n  k %= n;\n  if (k === 0) return;\n  const copy = nums.slice();\n  for (let i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n}\n// USER_SOLUTION_END\n\nconst data = fs.readFileSync(0, 'utf8').trim().split(/\\s+/).filter(Boolean).map(Number);\nlet p = 0;\nwhile (p < data.length) {\n  const n = data[p++];\n  const nums = data.slice(p, p + n); p += n;\n  const k = data[p++];\n  leftRotateByK(nums, k);\n  process.stdout.write(nums.join(' ') + '\\n' + OUTPUT_DELIMITER + '\\n');\n}\n"
-        },
-        {
-          "language": "java",
-          "completeCode": "import java.util.*;\npublic class Main {\n    static final String OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n    // USER_SOLUTION_START\n    public static void leftRotateByK(int[] nums, int k) {\n        int n = nums.length;\n        if (n <= 1) return;\n        k %= n;\n        if (k == 0) return;\n        int[] copy = nums.clone();\n        for (int i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n    }\n    // USER_SOLUTION_END\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        while (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n            int k = sc.nextInt();\n            leftRotateByK(nums, k);\n            for (int i = 0; i < n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(nums[i]);\n            }\n            System.out.println();\n            System.out.println(OUTPUT_DELIMITER);\n        }\n    }\n}\n"
-        },
-        {
-          "language": "cpp17",
-          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nvoid leftRotateByK(vector<int>& nums, int k) {\n    int n = nums.size();\n    if (n <= 1) return;\n    k %= n;\n    if (k == 0) return;\n    vector<int> copy = nums;\n    for (int i = 0; i < n; i++) nums[i] = copy[(i + k) % n];\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        int k;\n        cin >> k;\n        leftRotateByK(nums, k);\n        for (int i = 0; i < n; i++) {\n            if (i) cout << ' ';\n            cout << nums[i];\n        }\n        cout << '\\n' << OUTPUT_DELIMITER << '\\n';\n    }\n}\n"
+          "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\nconst string OUTPUT_DELIMITER = \"__JUDGE_TC_END__\";\n\n// USER_SOLUTION_START\nint singleNumber(vector<int>& nums) {\n    int result = 0;\n    for (int x : nums) result ^= x;\n    return result;\n}\n// USER_SOLUTION_END\n\nint main() {\n    int n;\n    while (cin >> n) {\n        vector<int> nums(n);\n        for (int &x : nums) cin >> x;\n        cout << singleNumber(nums) << \"\\n\";\n        cout << OUTPUT_DELIMITER << \"\\n\";\n    }\n}\n"
         }
       ]
     }
