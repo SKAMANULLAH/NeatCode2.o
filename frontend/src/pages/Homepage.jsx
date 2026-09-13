@@ -7,8 +7,8 @@ function Homepage() {
       to: "/topics",
       title: "Topics",
       description:
-        "Browse curated topics, core concepts, and structured subtopics.",
-      badge: "Curriculum",
+        "Revise core CS, Frontend, Backend, DevOps Stuffs, Aptitude, System Design and many more...",
+      badge: "Revise",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ function Homepage() {
       title: "DSA",
       description:
         "Open the comprehensive DSA sheet and tackle curated practice problems.",
-      badge: "Practice",
+      badge: "Code",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ function Homepage() {
       to: "/quizzes",
       title: "Practice Quiz",
       description:
-        "Test your theoretical understanding with interactive timed quizzes.",
+        "Test your theoretical understanding with interactive quizzes.",
       badge: "Assessments",
       icon: (
         <svg

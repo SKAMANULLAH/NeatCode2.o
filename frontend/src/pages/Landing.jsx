@@ -4,13 +4,14 @@ import BrandMark from "../components/BrandMark";
 
 function Landing() {
   const [searchParams] = useSearchParams();
+  // We are justing reading the error related to google Auth from url .
   const googleAuthError = searchParams.get("googleAuthError");
 
   const features = [
     {
-      title: "Core Concepts & Topics",
+      title: "Revise the concepts quickly",
       description:
-        "Step-by-step curriculum breaking down complex algorithms into digestible lessons.",
+        "Complete revision of core CS, Frontend, Backend, DevOps Stuffs, Aptitude, System Design and many more...",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,9 +30,9 @@ function Landing() {
       ),
     },
     {
-      title: "Curated DSA Sheet",
+      title: "DSA Sheet",
       description:
-        "Battle-tested problem set with integrated visible and hidden test suites.",
+        "You can practice coding problmes in a very comfortable env and you can run your code over real test cases",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -50,9 +51,9 @@ function Landing() {
       ),
     },
     {
-      title: "Skill Verification Quizzes",
+      title: "Random Quiz",
       description:
-        "Timed objective assessments to evaluate theoretical runtime and design trade-offs.",
+        "You can select topics and subtopics randomly and the generate upto 150 quizes at a time and check your score over the quizes .",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +186,7 @@ function Landing() {
 
       {/* Footer */}
       <footer className="border-t border-base-300 py-6 text-center text-xs text-base-content/50">
-        <p>© NeatCode. Built for software engineers.</p>
+        <p>© NeatCode. Built for future software engineers.</p>
       </footer>
     </div>
   );

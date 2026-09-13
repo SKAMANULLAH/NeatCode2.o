@@ -1,4 +1,7 @@
 import { Routes, Route, Navigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import Homepage from "./pages/Homepage.jsx";
 import Landing from "./pages/Landing.jsx";
 import Login from "./pages/Login.jsx";
@@ -19,37 +22,33 @@ import AdminAddUser from "./pages/AdminAddUser.jsx";
 import AdminTopics from "./pages/AdminTopics.jsx";
 import AdminQuizzes from "./pages/AdminQuizzes.jsx";
 import { checkAuth } from "./authSlice.js";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { isAuthenticated, checkingAuth, user } = useSelector((state) => state.auth);
+  // Do not fear I'm with u , we are just taking the global vars (of auth slice) except loading
+  const { isAuthenticated, checkingAuth, user } = useSelector(
+    (state) => state.auth,
+  );
+  // Sorry to say , if u want to use redux so u must use duspatcher . Okay!!!
   const dispatch = useDispatch();
-
+  // Just saying to dispather that please run this fn of my auth slice .
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch]);
-
+  }, [dispatch]); // Just passing stg that will never cause re run except for the firts time .
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
-        <p className="text-sm font-medium tracking-tight text-base-content/60">Loading...</p>
+        <p className="text-sm font-medium tracking-tight text-base-content/60">
+          Wait Bro...
+        </p>
       </div>
     );
   }
-
-  
 
   const requireAuth = (element) =>
     isAuthenticated ? element : <Navigate to="/login" />;
 
   const requireAdmin = (element) =>
-    isAuthenticated && user?.role === "admin" ? (
-      element
-    ) : (
-      <Navigate to="/" />
-    );
+    isAuthenticated && user?.role === "admin" ? element : <Navigate to="/" />;
 
   return (
     <>

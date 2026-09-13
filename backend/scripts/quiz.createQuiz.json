@@ -1,30 +1,19 @@
 {
-  "topicTitle": "Frontend",
+  "topicTitle": "PPL",
   "questions": [
     {
-      "subtopicTitle": "JS Intermediate",
+      "subtopicTitle": "Theory",
       "statement": "...",
       "options": ["...", "...", "...", "..."],
       "correct": "a"
     },
     {
-      "subtopicTitle": "JS Intermediate",
+      "subtopicTitle": "Theory",
       "statement": "...",
       "options": ["...", "...", "...", "..."],
       "correct": "a"
-    },all the questions that will be under this subtopic will be here   {
-      "subtopicTitle": "JS Advanced",
-      "statement": "...",
-      "options": ["...", "...", "...", "..."],
-      "correct": "b"
-    }
-    },  {
-      "subtopicTitle": "JS Advanced",
-      "statement": "...",
-      "options": ["...", "...", "...", "..."],
-      "correct": "b"
-    }
-   and so on
+    },all the questions that will be under this subtopic will be here   
+     
 
 
   ]

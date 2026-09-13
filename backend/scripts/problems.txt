@@ -1,0 +1,368 @@
+
+
+29. Next Permutation
+30. Leaders in an Array
+31. Longest Consecutive Sequence in an Array
+32. Set Matrix Zeroes
+33. Rotate matrix by 90 degrees
+34. Print the matrix in spiral manner
+35. Count subarrays with given sum
+36. Pascal's Triangle I
+37. Majority Element-II
+38. 3 Sum
+39. 4 Sum
+40. Largest Subarray with Sum 0
+41. Count subarrays with given xor K
+42. Merge Overlapping Subintervals
+43. Merge two sorted arrays without extra space
+44. Find the repeating and missing number
+45. Count Inversions
+46. Reverse Pairs
+47. Maximum Product Subarray in an Array
+48. Search X in sorted array
+49. Lower Bound
+50. Upper Bound
+51. Search insert position
+52. Floor and Ceil in Sorted Array
+53. First and last occurrence
+54. Count Occurrences in a Sorted Array
+55. Search in rotated sorted array-I
+56. Search in rotated sorted array-II
+57. Find minimum in Rotated Sorted Array
+58. Find out how many times the array is rotated
+59. Single element in a Sorted Array
+60. Find peak element
+61. Find square root of a number
+62. Find Nth root of a number
+63. Koko eating bananas
+64. Minimum days to make M bouquets
+65. Find the smallest divisor
+66. Capacity to Ship Packages Within D Days
+67. Kth Missing Positive Number
+68. Aggressive Cows
+69. Book Allocation Problem
+70. Split array - largest sum
+71. Painter's Partition
+72. Minimize Max Distance to Gas Station
+73. Median of 2 sorted arrays
+74. Kth element of 2 sorted arrays
+75. Find row with maximum 1's
+76. Search in a 2D matrix
+77. Search in 2D matrix - II
+78. Find Peak Element - II
+79. Matrix Median
+80. Remove Outermost Parentheses
+81. Reverse words in a given string / Palindrome Check
+82. Largest Odd Number in a String
+83. Longest Common Prefix
+84. Isomorphic String
+85. Rotate String
+86. Check if two strings are anagram of each other
+87. Sort Characters by Frequency
+88. Maximum Nesting Depth of the Parentheses
+89. Roman Number to Integer and vice versa
+90. Implement Atoi
+91. Count Number of Substrings
+92. Longest Palindromic Substring
+93. Sum of Beauty of All Substrings
+94. Reverse Every Word in a String
+95. Introduction to Singly LinkedList
+96. Insertion at the head of Linked List
+97. Deletion of the head of LL
+98. Find the length of the Linked List
+99. Search in Linked List
+100. Introduction to Doubly LL
+
+### 101�200
+
+101. Insert node before head in Doubly Linked List
+102. Delete head of Doubly Linked List
+103. Reverse a Doubly Linked List
+104. Middle of a LinkedList [TortoiseHare Method]
+105. Reverse a LinkedList [Iterative]
+106. Reverse a LL
+107. Detect a loop in LL
+108. Find the starting point in LL
+109. Length of loop in LL
+110. Check if LL is palindrome or not
+111. Segregate odd and even nodes in Linked List
+112. Remove Nth node from the back of the LL
+113. Delete the middle node in LL
+114. Sort LL
+115. Sort a Linked List of 0's 1's and 2's
+116. Find the intersection point of Y LL
+117. Add one to a number represented by LL
+118. Add two numbers in Linked List
+119. Delete all occurrences of a key in DLL
+120. Find Pairs with Given Sum in Doubly Linked List
+121. Remove duplicates from sorted DLL
+122. Reverse LL in group of given size K
+123. Rotate a LL
+124. Flattening of LL
+125. Clone a LL with random and next pointer
+126. Recursive Implementation of atoi()
+127. Pow(x, n)
+128. Count Good Numbers
+129. Sort a stack using recursion
+130. Reverse a Stack
+131. Generate Binary Strings Without Consecutive 1s
+132. Generate Parentheses
+133. Power Set
+134. Learn All Patterns of Subsequences (Theory)
+135. Count all subsequences with sum K
+136. Check if there exists a subsequence with sum K
+137. Combination Sum
+138. Combination Sum II
+139. Subsets I
+140. Subsets II
+141. Combination Sum III
+142. Letter Combinations of a Phone Number
+143. Palindrome partitioning
+144. Word Search
+145. N Queen
+146. Rat in a Maze
+147. Word Break
+148. M Coloring Problem
+149. Sudoku Solver
+150. Expression Add Operators
+151. Introduction to Bits and Tricks
+152. Check if the i-th bit is Set or Not
+153. Check if a Number is Odd or Not
+154. Check if a Number is Power of 2 or Not
+155. Count the Number of Set Bits
+156. Set/Unset the rightmost unset bit
+157. Swap Two Numbers
+158. Divide two numbers without multiplication and division
+159. Minimum Bit Flips to Convert Number
+160. Single Number - I
+161. Power Set Bit Manipulation
+162. XOR of numbers in a given range
+163. Single Number - III
+164. Print Prime Factors of a Number
+165. Divisors of a Number
+166. Count primes in range L to R
+167. Prime factorisation of a Number
+168. Pow(x,n)
+169. Balanced Paranthesis
+170. Infix to Postfix Conversion
+171. Prefix to Infix Conversion
+172. Prefix to Postfix Conversion
+173. Postfix to Prefix Conversion
+174. Postfix to Infix Conversion
+175. Infix to Prefix Conversion
+176. Next Greater Element
+177. Next Greater Element - 2
+178. Next Smaller Element
+179. Number of Greater Elements to the Right
+180. Trapping Rainwater
+181. Sum of Subarray Minimums
+182. Asteroid Collision
+183. Sum of Subarray Ranges
+184. Remove K Digits
+185. Largest rectangle in a histogram
+186. Maximum Rectangles
+187. Sliding Window Maximum
+188. Online Stock Span
+189. Find the Celebrity
+190. Sum of Subarray Ranges
+191. Maximum of Minimum for Every Window
+192. Binary Tree Representation
+193. Preorder Traversal
+194. Inorder Traversal
+195. Postorder Traversal
+196. Level Order Traversal
+197. Iterative Preorder Traversal
+198. Iterative Inorder Traversal
+199. Postorder Traversal using 2 stacks
+200. Postorder Traversal using 1 stack
+
+### 201�300
+
+201. Preorder, Inorder and Postorder Traversals in One Traversal
+202. Maximum Depth of Binary Tree
+203. Check for Balanced Binary Tree
+204. Diameter of Binary Tree
+205. Maximum Path Sum
+206. Same Tree
+207. Zig Zag Traversal
+208. Boundary Traversal
+209. Vertical Order Traversal
+210. Top View of Binary Tree
+211. Bottom View of Binary Tree
+212. Right/Left View of Binary Tree
+213. Symmetric Binary Tree
+214. Root to Node Path in Binary Tree
+215. LCA in Binary Tree
+216. Maximum Width of Binary Tree
+217. Children Sum Property
+218. Print all the Nodes at a distance of K
+219. Minimum time taken to Burn the Binary Tree
+220. Count total Nodes in a COMPLETE Binary Tree
+221. Requirements needed to construct a unique Binary Tree
+222. Construct Binary Tree from Preorder and Inorder
+223. Construct Binary Tree from Inorder and Postorder
+224. Morris Preorder Traversal
+225. Morris Inorder Traversal
+226. Flatten Binary Tree to Linked List
+227. Introduction to Binary Search Tree
+228. Search in a Binary Search Tree
+229. Find Min/Max in BST
+230. Ceil in a Binary Search Tree
+231. Floor in a Binary Search Tree
+232. Insert a given Node in Binary Search Tree
+233. Delete a Node in Binary Search Tree
+234. Find K-th Smallest/Largest Element in BST
+235. Check if a tree is a BST or BT
+236. LCA in Binary Search Tree
+237. Construct a BST from a Preorder Traversal
+238. Inorder Successor/Predecessor in BST
+239. Two Sum in BST
+240. Recover BST
+241. Largest BST in Binary Tree
+242. Introduction to Heap
+243. Check if an array represents a Min Heap or not
+244. Convert Min Heap to Max Heap
+245. Kth largest/smallest element in an array
+246. Check if a Binary Tree is Heap
+247. Convert BST to Min Heap
+248. Merge two Binary Max Heaps
+249. K-th Largest Sum Contiguous Subarray
+250. Minimum Cost of Ropes
+251. Task Scheduler
+252. Hands of Straights
+253. Connect n ropes with minimum cost
+254. Top K Frequent Elements
+255. K-th largest element in a stream
+256. Merge K Sorted Arrays
+257. Merge K Sorted Linked Lists
+258. K Most Frequent Strings
+259. Introduction to Graph
+260. Graph and Types
+261. Graph Representation
+262. BFS
+263. DFS
+264. Number of Provinces
+265. Number of Islands
+266. Flood Fill Algorithm
+267. Rotten Oranges
+268. Detect Cycle in Undirected Graph using BFS
+269. Detect Cycle in Undirected Graph using DFS
+270. 0/1 Matrix
+271. Surrounded Regions
+272. Number of Enclaves
+273. Word Ladder - I
+274. Word Ladder - II
+275. Number of Distinct Islands
+276. Bipartite Graph
+277. Detect Cycle in Directed Graph using DFS
+278. Detect Cycle in Directed Graph using BFS
+279. Topological Sort
+280. Kahn's Algorithm
+281. Course Schedule
+282. Course Schedule II
+283. Find Eventual Safe States
+284. Alien Dictionary
+285. Shortest Path in Undirected Graph
+286. Shortest Path in Directed Acyclic Graph
+287. Dijkstra's Algorithm
+288. Shortest Path in a Binary Maze
+289. Path With Minimum Effort
+290. Cheapest Flights Within K Stops
+291. Network Delay Time
+292. Number of Ways to Arrive at Destination
+293. Minimum Multiplications to Reach End
+294. Bellman-Ford Algorithm
+295. Floyd Warshall Algorithm
+296. Find the City With the Smallest Number of Neighbors at a Threshold Distance
+297. Minimum Spanning Tree
+298. Prim's Algorithm
+299. Kruskal's Algorithm
+300. Disjoint Set Union
+
+### 301�377
+
+301. Number of Operations to Make Network Connected
+302. Accounts Merge
+303. Number of Islands II
+304. Making a Large Island
+305. Most Stones Removed with Same Row or Column
+306. Bridges in Graph
+307. Articulation Point
+308. Kosaraju's Algorithm
+309. Introduction to Dynamic Programming
+310. Climbing Stairs
+311. Frog Jump
+312. Frog Jump with K distances
+313. Maximum sum of non-adjacent elements
+314. House Robber
+315. House Robber II
+316. Ninja's Training
+317. Grid Unique Paths
+318. Grid Unique Paths II
+319. Minimum Path Sum
+320. Triangle
+321. Minimum Falling Path Sum
+322. Cherry Pickup II
+323. Subset Sum Equal to Target
+324. Partition Equal Subset Sum
+325. Partition Set Into 2 Subsets With Min Absolute Difference
+326. Count Partitions with Given Difference
+327. 0/1 Knapsack
+328. Minimum Coins
+329. Target Sum
+330. Coin Change
+331. Unbounded Knapsack
+332. Rod Cutting
+333. Longest Common Subsequence
+334. Print Longest Common Subsequence
+335. Longest Common Substring
+336. Longest Palindromic Subsequence
+337. Minimum Insertions to Make String Palindrome
+338. Minimum Insertions/Deletions to Convert String
+339. Shortest Common Supersequence
+340. Distinct Subsequences
+341. Edit Distance
+342. Wildcard Matching
+343. Best Time to Buy and Sell Stock II
+344. Buy and Sell Stocks III
+345. Buy and Sell Stocks IV
+346. Buy and Sell Stocks with Cooldown
+347. Buy and Sell Stocks with Transaction Fee
+348. Longest Increasing Subsequence
+349. Printing Longest Increasing Subsequence
+350. Longest Increasing Subsequence - Binary Search
+351. Largest Divisible Subset
+352. Longest String Chain
+353. Longest Bitonic Subsequence
+354. Number of Longest Increasing Subsequences
+355. Matrix Chain Multiplication
+356. Matrix Chain Multiplication - Bottom Up
+357. Minimum Cost to Cut a Stick
+358. Burst Balloons
+359. Boolean Evaluation
+360. Palindrome Partitioning II
+361. Partition Array for Maximum Sum
+362. Maximum Rectangle Area with all 1's
+363. Count Square Submatrices with All Ones
+364. Longest Word with All Prefixes
+365. Number of distinct substrings in a string
+366. Bit PreRequisites for TRIE Problems
+367. Maximum XOR of two numbers in an array
+368. Maximum Xor with an element from an array
+369. Minimum number of bracket reversals to make an expression balanced
+370. Count and say
+371. Hashing In Strings | Theory
+372. Rabin Karp Algorithm
+373. Z function
+374. KMP Algorithm or LPS array
+375. Shortest Palindrome
+376. Longest happy prefix
+377. Count Palindromic Subsequences
+
+### Final count
+
+**Original:** 393
+**Removed:** 16
+**Remaining:** **377**
+
+The removed problems are the ones that would conflict with your **single-function-only judge architecture**.

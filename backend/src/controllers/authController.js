@@ -314,11 +314,8 @@ const googleAuthCallback = async (req, res) => {
         }
 
         if (!existingByEmail.googleId) {
-          return res.redirect(
-            frontendRedirect(
-              "An account with this email already exists. Please log in with your password",
-            ),
-          );
+          existingByEmail.googleId = googleId;
+          await existingByEmail.save();
         }
 
         user = existingByEmail;

@@ -1,324 +1,514 @@
 {
-  "topicTitle": "Backend",
+  "topicTitle": "System Design",
   "questions": [
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "1. What is the primary architectural difference between BSON and JSON in MongoDB?",
+      "subtopicTitle": "HLD",
+      "statement": "What is the primary objective of High-Level Design (HLD)?",
       "options": [
-        "BSON only supports plain string keys and values",
-        "BSON is a binary-encoded serialization format providing additional data types like Date and ObjectId",
-        "BSON requires a predefined relational schema",
-        "JSON compresses nested arrays faster than BSON"
+        "Writing optimized source code",
+        "Designing the system architecture to meet scalability, reliability, and other requirements",
+        "Choosing a programming language only",
+        "Designing the user interface"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "2. What is the maximum single document size limit in MongoDB by default?",
-      "options": ["4 MB", "8 MB", "16 MB", "32 MB"],
-      "correct": "c"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "3. In MongoDB's ObjectId (12 bytes), which component makes up the first 4 bytes?",
+      "subtopicTitle": "HLD",
+      "statement": "Which of the following is an example of vertical scaling?",
       "options": [
-        "A 4-byte incrementing counter",
-        "A 4-byte random value unique to the machine",
-        "A 4-byte Unix epoch timestamp",
-        "A 4-byte process identifier"
+        "Adding three more application servers",
+        "Adding a read replica",
+        "Increasing the RAM and CPU of an existing server",
+        "Adding a CDN"
       ],
       "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "4. Under the CAP theorem, how is a standard MongoDB replica set classified by default?",
+      "subtopicTitle": "HLD",
+      "statement": "What is a major advantage of horizontal scaling?",
       "options": [
-        "AP (Available and Partition-Tolerant)",
-        "CP (Consistent and Partition-Tolerant)",
-        "CA (Consistent and Available without network partitions)",
-        "None of the above"
+        "It always eliminates network latency",
+        "It allows capacity to increase by adding more machines",
+        "It requires no load balancing",
+        "It guarantees strong consistency"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "5. What does the WiredTiger storage engine provide for write concurrency?",
+      "subtopicTitle": "HLD",
+      "statement": "What is a disadvantage of vertical scaling?",
       "options": [
-        "Global database locking",
-        "Collection-level locking",
-        "Document-level concurrency control",
-        "Field-level serialization"
+        "It always requires data sharding",
+        "It has hardware limits and may create a single point of failure",
+        "It cannot increase CPU capacity",
+        "It always increases network complexity"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In Back-of-the-Envelope Estimation, what does QPS represent?",
+      "options": [
+        "Queries Per Storage",
+        "Queries Per Second",
+        "Quality Per Service",
+        "Queues Per Server"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "A service receives 8,640,000 requests per day. What is its approximate average QPS?",
+      "options": ["10 QPS", "50 QPS", "100 QPS", "1,000 QPS"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What does SPOF stand for?",
+      "options": [
+        "Single Process Operating Function",
+        "Single Point of Failure",
+        "Scalable Processing of Files",
+        "Server Protocol Optimization Framework"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which availability level permits approximately 52.6 minutes of downtime per year?",
+      "options": ["99%", "99.9%", "99.99%", "99.999%"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the primary purpose of DNS?",
+      "options": [
+        "Encrypting HTTP requests",
+        "Converting domain names into IP addresses",
+        "Storing application sessions",
+        "Balancing CPU usage"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which component typically provides the final IP address for a domain during DNS resolution?",
+      "options": [
+        "Root DNS server",
+        "TLD DNS server",
+        "Authoritative DNS server",
+        "Client browser only"
       ],
       "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "6. What happens if a MongoDB query executes an aggregation pipeline with $sort without an index and exceeds 100 MB of RAM?",
+      "subtopicTitle": "HLD",
+      "statement": "Which sequence correctly represents the TCP three-way handshake?",
       "options": [
-        "The query automatically switches to a full-table scan",
-        "It throws an error unless allowDiskUse: true is specified",
-        "The server terminates the connection and restarts WiredTiger",
-        "MongoDB truncates the sorted data"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "7. Which write concern guarantees that an operation has been written to the majority of replica set nodes and committed to disk journals?",
-      "options": [
-        "{ w: 0 }",
-        "{ w: 1, j: false }",
-        "{ w: \"majority\", j: true }",
-        "{ w: 2, j: false }"
+        "ACK → SYN → SYN-ACK",
+        "SYN → ACK → FIN",
+        "SYN → SYN-ACK → ACK",
+        "SYN-ACK → FIN → ACK"
       ],
       "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "8. What is a \"Covered Query\" in MongoDB?",
+      "subtopicTitle": "HLD",
+      "statement": "Which protocol is connection-oriented and provides reliable, ordered delivery?",
+      "options": ["UDP", "IP", "TCP", "ICMP"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which is a suitable use case for UDP?",
       "options": [
-        "A query wrapped in an ACID transaction",
-        "A query where all fields requested exist entirely within an index, avoiding document fetches",
-        "A query that utilizes sharding key partitions",
-        "A query run against secondary replica members only"
+        "Reliable file transfer",
+        "Traditional banking transaction processing",
+        "Real-time gaming or VoIP",
+        "Database replication requiring ordered delivery"
+      ],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In a typical scalable web architecture, why are backend servers placed in private subnets?",
+      "options": [
+        "To make them directly accessible to everyone",
+        "To prevent direct public access and reduce exposure",
+        "To eliminate the need for authentication",
+        "To increase DNS resolution speed"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "9. What is the fundamental restriction on Compound Indexes in MongoDB regarding Multi-key indexes?",
+      "subtopicTitle": "HLD",
+      "statement": "What is the primary purpose of a load balancer?",
       "options": [
-        "No compound index can contain arrays",
-        "A compound index cannot include more than one field that contains an array",
-        "Array fields must always be at the end of the compound index",
-        "An index cannot hold both strings and arrays"
+        "To permanently store user data",
+        "To distribute incoming traffic across backend servers",
+        "To replace the database",
+        "To compile application code"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "10. What does a Capped Collection in MongoDB provide?",
+      "subtopicTitle": "HLD",
+      "statement": "Which load-balancing algorithm distributes requests sequentially among servers?",
       "options": [
-        "Collections with strict document size schemas",
-        "High-throughput, fixed-size circular buffers that preserve insertion order",
-        "Encrypted storage collections",
-        "Collections with automated TTL indexing"
+        "Least Connections",
+        "Round Robin",
+        "Resource-Based Routing",
+        "Random Database Sharding"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "11. In Mongoose, what is the key conceptual difference between lean() queries and regular queries?",
+      "subtopicTitle": "HLD",
+      "statement": "Which algorithm considers the number of active connections on each server?",
       "options": [
-        "lean() executes directly on secondary nodes",
-        "lean() returns plain JavaScript objects, skipping Mongoose document hydration and change-tracking",
-        "lean() forces MongoDB to ignore schema validations during insert",
-        "lean() executes queries without requiring a database connection"
+        "Round Robin",
+        "IP Hashing",
+        "Least Connections",
+        "DNS Caching"
       ],
-      "correct": "b"
+      "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "12. Do Mongoose validation rules run by default on findOneAndUpdate() operations?",
+      "subtopicTitle": "HLD",
+      "statement": "What is a key characteristic of an L7 load balancer?",
       "options": [
-        "Yes, all validators run unconditionally",
-        "No, update validators must be explicitly enabled via { runValidators: true }",
-        "Yes, but only for sub-documents",
-        "No, Mongoose never supports validation for updates"
+        "It only examines MAC addresses",
+        "It operates exclusively at the physical layer",
+        "It can route based on HTTP paths, headers, or cookies",
+        "It cannot inspect application-level data"
       ],
-      "correct": "b"
+      "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "13. In Mongoose middleware (hooks), which hook type does NOT have access to the document via this?",
+      "subtopicTitle": "HLD",
+      "statement": "Which is an example of an L4 load balancer?",
       "options": [
-        "Document middleware (e.g., pre('save'))",
-        "Query middleware (e.g., pre('find'))",
-        "Custom instance methods",
-        "Post-init hooks"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "14. What does Mongoose’s populate() method actually execute behind the scenes?",
-      "options": [
-        "A database-level native SQL join",
-        "A client-side separate query to target collections using $in matching the IDs",
-        "A mandatory $lookup aggregation pipeline stage on every call",
-        "A secondary index join in WiredTiger"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "15. What is the role of the __v field generated by Mongoose?",
-      "options": [
-        "Tracking schema migration revisions",
-        "Serving as an internal version key for optimistic concurrency control on array modifications",
-        "Storing the MongoDB server version that wrote the document",
-        "Counting total read/write operations per document"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "16. What is the purpose of Mongoose Virtuals?",
-      "options": [
-        "Creating temporary collections on RAM disks",
-        "Defining document properties that can be manipulated but are not persisted to MongoDB",
-        "Running asynchronous background schema validations",
-        "Generating synthetic index trees"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "17. In a MongoDB sharded cluster, which component routes client queries to the correct shards?",
-      "options": [
-        "mongod primary node",
-        "mongos query router",
-        "Config server election coordinator",
-        "WiredTiger journal router"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "18. What query condition leads to a \"Scatter-Gather\" query across a sharded cluster?",
-      "options": [
-        "A query using a compound index",
-        "A query that does not include the shard key in its filter criteria",
-        "A query performing projecting suppression (_id: 0)",
-        "A query using aggregation without $match"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "19. Which update operator appends a value to an array ONLY if the value does not already exist?",
-      "options": ["$push", "$addToSet", "$setUnion", "$mergeArray"],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "20. What is the fundamental difference between $embed (embedding) and referencing in NoSQL schema design?",
-      "options": [
-        "Referencing cannot enforce 1-to-many relationships",
-        "Embedding provides atomic single-document updates and fast reads; referencing avoids document-growth limits and duplicated data",
-        "Referencing requires all documents to reside in memory simultaneously",
-        "Embedding is strictly prohibited when arrays contain objects"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "21. In MongoDB indexing, what is the ESL (Equality, Sort, Range) rule?",
-      "options": [
-        "The order in which MongoDB sharding assigns keys",
-        "The best practice sequence for ordering fields in a compound index: Equality first, Sort second, Range last",
-        "The internal algorithm used to balance B-trees during split",
-        "The memory eviction priority for dirty cache pages"
-      ],
-      "correct": "b"
-    },
-    {
-      "subtopicTitle": "NoSQL",
-      "statement": "22. What occurs when an un-indexed query execution outputs an IXSCAN stage followed by a COLLSCAN stage in an explain() output?",
-      "options": [
-        "The index was used, but individual documents were fetched from disk to resolve fields (FETCH)",
-        "The query engine abandoned index scanning because of index fragmentation",
-        "The system is running a map-reduce batch fallback",
-        "The collection contains corrupted BSON trees"
+        "A TCP/UDP load balancer",
+        "A database query optimizer",
+        "A CSS proxy",
+        "A DNS root server"
       ],
       "correct": "a"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "23. In Mongoose, what is the key difference between Schema methods and statics?",
+      "subtopicTitle": "HLD",
+      "statement": "What is the purpose of a load balancer health check?",
       "options": [
-        "methods run on schemas; statics run on fields",
-        "methods are instance methods on individual documents; statics are class methods on the compiled Model",
-        "methods cannot be asynchronous; statics can",
-        "statics run prior to validation; methods run after saving"
+        "To increase database storage",
+        "To identify unhealthy backend servers and stop routing traffic to them",
+        "To encrypt passwords",
+        "To generate JWTs"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "24. What does the MongoDB readConcern: \"majority\" guarantee?",
+      "subtopicTitle": "HLD",
+      "statement": "What is a major drawback of sticky sessions?",
       "options": [
-        "The read query returns data calculated across all shards",
-        "The read returns data committed to and acknowledged by a majority of nodes, preventing dirty reads of rolled-back writes",
-        "The query reads only from primary cluster instances",
-        "Secondary nodes are bypassed completely"
+        "They make HTTP impossible",
+        "They create dependency on a particular server and complicate failover and scaling",
+        "They eliminate all session state",
+        "They prevent load balancing entirely"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "25. What happens when you define a TTL (Time-to-Live) index on a compound index?",
+      "subtopicTitle": "HLD",
+      "statement": "In a primary-replica database architecture, which node typically handles writes?",
+      "options": ["Read replica", "CDN", "Primary", "Cache only"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is replication lag?",
       "options": [
-        "The document expires when the first timestamp is reached",
-        "TTL is not supported on compound indexes in MongoDB",
-        "The expiration interval is multiplied across indexed fields",
-        "It converts the index into a partial index"
+        "Delay in DNS resolution",
+        "Delay between a write on the primary and its visibility on a replica",
+        "Delay in compiling code",
+        "Delay in creating a load balancer"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "26. What is the fundamental behavior of Mongoose's discriminators?",
+      "subtopicTitle": "HLD",
+      "statement": "Which replication mode generally provides stronger durability and consistency guarantees but may increase write latency?",
       "options": [
-        "Providing field-level encryption based on user roles",
-        "A schema inheritance mechanism enabling multiple sub-schemas to share the same collection under an identifying key",
-        "Filtering documents during connection pool exhaustion",
-        "Forcing separate collection generation per inheritance tree"
+        "Asynchronous replication",
+        "Synchronous replication",
+        "Lazy caching",
+        "Client-side replication"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "27. Which operation in MongoDB is non-atomic?",
+      "subtopicTitle": "HLD",
+      "statement": "What is database sharding?",
       "options": [
-        "Updating three fields on a single document via updateOne()",
-        "Modifying nested array elements inside one document",
-        "Updating multiple documents via standard updateMany() without multi-document transactions",
-        "Replacing an entire single document via replaceOne()"
+        "Duplicating the same data on every server",
+        "Horizontally partitioning data across multiple database nodes",
+        "Compressing database tables",
+        "Moving all data to a CDN"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In the formula Hash(UserID) % N, what does N generally represent?",
+      "options": [
+        "Number of columns",
+        "Number of database nodes or shards",
+        "Number of users",
+        "Number of replicas per shard"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is a major challenge of choosing a poor shard key?",
+      "options": [
+        "It guarantees perfect distribution",
+        "It can create hot shards and uneven load distribution",
+        "It eliminates the need for indexes",
+        "It prevents all writes"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which statement best describes replication versus sharding?",
+      "options": [
+        "Replication partitions data; sharding duplicates it",
+        "Replication duplicates data; sharding partitions data",
+        "Both always perform exactly the same function",
+        "Neither can improve scalability"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Why are cross-shard JOINs problematic?",
+      "options": [
+        "They always reduce storage usage",
+        "They may require communication across multiple nodes, increasing latency and complexity",
+        "They are faster than local queries in every case",
+        "They eliminate network overhead"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the primary purpose of database failover?",
+      "options": [
+        "To promote a healthy replica or alternate node when the primary fails",
+        "To delete all replicas",
+        "To disable replication permanently",
+        "To move data to the client"
+      ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the major problem with simple modulo hashing when the number of servers changes?",
+      "options": [
+        "It encrypts the keys",
+        "It causes many keys to map to different servers, requiring significant remapping",
+        "It prevents all reads",
+        "It automatically creates replicas"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In consistent hashing, where are keys and servers mapped?",
+      "options": [
+        "A relational table only",
+        "A hash ring",
+        "A FIFO queue",
+        "A DNS TXT record"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the main benefit of consistent hashing?",
+      "options": [
+        "It guarantees zero hotspots",
+        "It minimizes key remapping when nodes are added or removed",
+        "It eliminates the need for caching",
+        "It guarantees strong consistency"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the purpose of virtual nodes in consistent hashing?",
+      "options": [
+        "To create more physical servers",
+        "To improve key distribution and reduce load imbalance across physical nodes",
+        "To encrypt database keys",
+        "To replace replication entirely"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which caching strategy fetches data from the database only after a cache miss and then populates the cache?",
+      "options": ["Cache-aside", "Write-back", "Write-around", "Read-through"],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which caching strategy writes to the cache first and persists to the database asynchronously?",
+      "options": [
+        "Write-through",
+        "Write-around",
+        "Write-back",
+        "Read-through"
       ],
       "correct": "c"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "28. In MongoDB Aggregation, what is the primary role of $facet?",
+      "subtopicTitle": "HLD",
+      "statement": "Which eviction policy removes the least recently accessed items?",
+      "options": ["FIFO", "LFU", "LRU", "MRU"],
+      "correct": "c"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the difference between TTL and an eviction policy?",
       "options": [
-        "Decrypting client-side collections",
-        "Executing multiple aggregation pipelines simultaneously within a single stage on the same input documents",
-        "Flattening multiple nested arrays into a single level",
-        "Enforcing uniqueness across fields"
+        "TTL determines when a key expires; eviction policy determines what to remove when space is needed",
+        "They are exactly the same",
+        "TTL is only used for databases",
+        "Eviction policies determine network routing"
+      ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "According to the CAP theorem, during a network partition, a distributed system must trade off between:",
+      "options": [
+        "Latency and throughput",
+        "Consistency and availability",
+        "CPU and RAM",
+        "Authentication and authorization"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "29. Why might an aggregation pipeline stage using $lookup be inefficient if unindexed?",
+      "subtopicTitle": "HLD",
+      "statement": "Which statement best describes eventual consistency?",
       "options": [
-        "It forces the primary node to perform an election",
-        "It performs an unconditional full collection scan (COLLSCAN) on the from collection for every incoming document",
-        "It automatically invalidates the WiredTiger cache",
-        "It drops partial indexes across foreign keys"
+        "Every read always immediately returns the latest write",
+        "Replicas may temporarily differ but converge if no new updates occur",
+        "Data is never replicated",
+        "Writes are always rejected"
       ],
       "correct": "b"
     },
     {
-      "subtopicTitle": "NoSQL",
-      "statement": "30. What does the strict option do when set to true (default) in a Mongoose Schema?",
+      "subtopicTitle": "HLD",
+      "statement": "Which messaging pattern ensures that a message is processed by one consumer within a consumer group?",
       "options": [
-        "It prevents saving documents if external HTTP calls are active",
-        "It ensures values not specified in the schema model are ignored and omitted from being saved to the database",
-        "It blocks queries containing unindexed parameters",
-        "It enforces JavaScript strict-mode evaluation on all hooks"
+        "Point-to-point queue semantics",
+        "Broadcast to every consumer instance",
+        "DNS round robin",
+        "Database sharding"
       ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In Kafka, what is a partition?",
+      "options": [
+        "An ordered, append-only sequence of messages within a topic",
+        "A database password",
+        "A load-balancer health check",
+        "A user session"
+      ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "In Kafka, what is the role of a consumer group?",
+      "options": [
+        "It ensures every consumer receives every message in the group",
+        "It allows consumers to divide partitions for parallel processing",
+        "It stores DNS records",
+        "It replaces Kafka brokers"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "If a Kafka topic has 3 partitions and a consumer group has 5 consumers, how many consumers can actively consume partitions at the same time?",
+      "options": ["1", "3", "5", "8"],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is a Dead Letter Queue (DLQ) used for?",
+      "options": [
+        "Storing successfully processed messages forever",
+        "Holding messages that repeatedly fail processing for later inspection",
+        "Increasing CPU capacity",
+        "Performing DNS resolution"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which is a key advantage of asynchronous processing using a message queue?",
+      "options": [
+        "It forces all services to remain tightly coupled",
+        "It decouples producers and consumers and can absorb temporary traffic spikes",
+        "It guarantees zero message loss in every configuration",
+        "It eliminates the need for monitoring"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which statement best describes the Saga pattern?",
+      "options": [
+        "It provides a traditional ACID rollback across all independent databases",
+        "It coordinates a distributed business transaction using local transactions and compensating actions",
+        "It is a caching eviction policy",
+        "It is a TCP handshake mechanism"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "What is the main idea of CQRS?",
+      "options": [
+        "Combining all databases into one",
+        "Separating command or write responsibilities from query or read responsibilities",
+        "Replacing APIs with DNS",
+        "Encrypting all database records"
+      ],
+      "correct": "b"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Why are access tokens generally short-lived while refresh tokens are longer-lived?",
+      "options": [
+        "Access tokens are used frequently and should limit the damage if compromised; refresh tokens obtain new access tokens",
+        "Refresh tokens are always sent with every API request",
+        "Access tokens are used only for database backups",
+        "There is no security reason"
+      ],
+      "correct": "a"
+    },
+    {
+      "subtopicTitle": "HLD",
+      "statement": "Which data structure is most suitable for efficient prefix-based search in an autocomplete system?",
+      "options": ["Stack", "Trie", "Linked list", "Binary heap only"],
       "correct": "b"
     }
   ]
