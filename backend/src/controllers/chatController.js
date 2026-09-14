@@ -3,6 +3,7 @@ const {
   consumeGeminiCall,
   refundGeminiCall,
 } = require("../utils/usageService.js");
+const { getNextGeminiClient } = require("../config/geminiAPI.js");
 
 const validateChatRequest = (body) => {
   if (!body || typeof body !== "object") {
@@ -74,7 +75,7 @@ const chatController = async (req, res) => {
       throw limitError;
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
+    const ai = new GoogleGenAI(getNextGeminiClient());
 
     const response = await ai.models.generateContent({
       model: "gemini-3.6-flash",
@@ -148,7 +149,7 @@ const chatController = async (req, res) => {
 
 Remember: Your goal is to help users learn and understand DSA concepts through the lens of the current problem, not just to provide quick answers.
 `,
-        maxOutputTokens: 1000,
+        maxOutputTokens: 5000,
       },
     });
 
