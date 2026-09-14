@@ -41,6 +41,11 @@ function AppNav() {
           Practice Quiz
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/workspace" className={navLinkClass}>
+          Workspace
+        </NavLink>
+      </li>
       {user?.role === "admin" && (
         <li>
           <NavLink

@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import AppNav from "../components/AppNav";
 
 function Homepage() {
+
   const cards = [
     {
       to: "/topics",
@@ -73,7 +74,35 @@ function Homepage() {
       ),
     },
   ];
-
+cards.push({
+  to: "/workspace",
+  title: "My Workspace",
+  description:
+    "Write private Markdown notes, save useful links, and use a productivity timer.",
+  badge: "Personal",
+  icon: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h6l4 4v12a2 2 0 01-2 2z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M13 3v4h4"
+      />
+    </svg>
+  ),
+});
   return (
     <div className="min-h-screen bg-base-100 flex flex-col text-base-content">
       <AppNav />

@@ -21,6 +21,7 @@ import Quiz from "./pages/Quiz.jsx";
 import AdminAddUser from "./pages/AdminAddUser.jsx";
 import AdminTopics from "./pages/AdminTopics.jsx";
 import AdminQuizzes from "./pages/AdminQuizzes.jsx";
+import Workspace from "./pages/Workspace.jsx";
 import { checkAuth } from "./authSlice.js";
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
         <Route path="/admin/user" element={requireAdmin(<AdminAddUser />)} />
         <Route path="/admin/topics" element={requireAdmin(<AdminTopics />)} />
         <Route path="/admin/quizzes" element={requireAdmin(<AdminQuizzes />)} />
+        <Route path="/workspace" element={requireAuth(<Workspace />)} />
         <Route
           path="/problem/:problemId"
           element={requireAuth(<ProblemPage />)}

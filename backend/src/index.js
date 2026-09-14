@@ -17,6 +17,7 @@ const chatRouter = require("./routes/chatRouter.js");
 const userRouter = require("./routes/userRouter.js");
 const topicRouter = require("./routes/topicRouter.js");
 const quizRouter = require("./routes/quizRouter.js");
+const workspaceRouter = require("./routes/workspaceRouter.js");
 // express instance
 const app = express();
 
@@ -42,7 +43,7 @@ apiRouter.use("/chat", chatRouter);
 apiRouter.use("/user", userRouter);
 apiRouter.use("/topic", topicRouter);
 apiRouter.use("/quiz", quizRouter);
-
+apiRouter.use("/workspace", workspaceRouter);
 app.use(apiRouter);
 app.use("/api", apiRouter);
 main()
