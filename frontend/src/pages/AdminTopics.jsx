@@ -42,7 +42,33 @@ function AdminTopics() {
   };
 
   useEffect(() => {
-    fetchTopics();
+    let isMounted = true;
+
+    axiosClient
+      .get("/topic/fetchTopicAll")
+      .then(({ data }) => {
+        if (isMounted) {
+          setTopics(Array.isArray(data) ? data : []);
+        }
+      })
+      .catch((err) => {
+        if (isMounted) {
+          if (err.response?.status === 404) {
+            setTopics([]);
+          } else {
+            setError(err.response?.data?.message || "Failed to fetch topics");
+          }
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const loadTopic = async (id) => {

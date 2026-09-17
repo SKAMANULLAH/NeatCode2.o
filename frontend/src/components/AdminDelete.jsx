@@ -10,23 +10,31 @@ const AdminDelete = () => {
   const [selectedProblem, setSelectedProblem] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  const fetchProblems = async () => {
-    try {
-      setLoading(true);
-
-      const { data } = await axiosClient.get("/problem/fetchProblemAll");
-
-      setProblems(Array.isArray(data) ? data : (data.problems ?? []));
-    } catch (err) {
-      setError("Failed to fetch problems");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProblems();
+    let isMounted = true;
+
+    axiosClient
+      .get("/problem/fetchProblemAll")
+      .then(({ data }) => {
+        if (isMounted) {
+          setProblems(Array.isArray(data) ? data : (data.problems ?? []));
+        }
+      })
+      .catch((err) => {
+        if (isMounted) {
+          setError("Failed to fetch problems");
+          console.error(err);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleDelete = async (id) => {

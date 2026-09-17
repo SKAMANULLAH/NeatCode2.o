@@ -155,42 +155,73 @@ function Subtopic() {
           <article className="space-y-6">
             {/* Header / Title Banner */}
             <div className="border-b border-base-300 pb-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                Lesson Note
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  Lesson Note
+                </span>
+                {topic?.subtopic?.length > 0 && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-base-200 text-base-content/70 text-xs font-mono font-medium">
+                    Lesson {currentIndex + 1} of {topic.subtopic.length}
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-base-200 text-base-content/60 text-xs font-medium">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3 w-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  {Math.max(
+                    1,
+                    Math.ceil(
+                      (subtopic.content?.trim().split(/\s+/).length || 0) / 200,
+                    ),
+                  )}{" "}
+                  min read
+                </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-base-content">
                 {subtopic.title}
               </h1>
+
               {topic?.title && (
-                <p className="mt-2 text-xs sm:text-sm text-base-content/60">
-                  Part of the{" "}
-                  <span className="font-semibold text-base-content">
+                <p className="mt-2 text-xs sm:text-sm text-base-content/60 flex items-center gap-1.5">
+                  <span>Part of</span>
+                  <NavLink
+                    to={`/topics/${topicId}`}
+                    className="font-semibold text-primary hover:underline"
+                  >
                     {topic.title}
-                  </span>{" "}
-                  curriculum
+                  </NavLink>
                 </p>
               )}
             </div>
 
-            {/* Markdown Body Card */}
-            <div className="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-10 shadow-xs leading-relaxed">
-              <div className="prose prose-sm sm:prose-base max-w-none text-base-content/90 prose-headings:text-base-content prose-headings:font-bold prose-code:text-primary prose-code:font-mono prose-pre:bg-base-200/70 prose-pre:border prose-pre:border-base-300 prose-pre:text-base-content">
-                <MarkdownContent content={subtopic.content} />
-              </div>
-            </div>
-
-            {/* Bottom Navigation & Pagination Controls */}
-            <div className="pt-6 border-t border-base-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Top Navigation & Pagination Controls */}
+            <nav
+              aria-label="Top lesson navigation"
+              className="flex items-center justify-between gap-3 pb-1 flex-wrap sm:flex-nowrap"
+            >
               {/* Previous Button */}
               {prevSubtopic ? (
                 <NavLink
                   to={`/topics/${topicId}/subtopics/${prevSubtopic._id}`}
-                  className="btn btn-outline btn-sm sm:btn-md font-semibold gap-2 w-full sm:w-auto"
+                  className="btn btn-outline btn-xs sm:btn-sm font-semibold gap-1.5"
+                  title={`Previous: ${prevSubtopic.title}`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-3.5 w-3.5 shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -202,18 +233,18 @@ function Subtopic() {
                       d="M15 19l-7-7 7-7"
                     />
                   </svg>
-                  <span className="truncate max-w-[150px] sm:max-w-[200px]">
+                  <span className="truncate max-w-[130px] sm:max-w-[180px]">
                     Prev: {prevSubtopic.title}
                   </span>
                 </NavLink>
               ) : (
                 <button
                   disabled
-                  className="btn btn-outline btn-sm sm:btn-md font-semibold gap-2 btn-disabled w-full sm:w-auto opacity-50"
+                  className="btn btn-outline btn-xs sm:btn-sm font-semibold gap-1.5 btn-disabled opacity-40"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-3.5 w-3.5 shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -225,13 +256,13 @@ function Subtopic() {
                       d="M15 19l-7-7 7-7"
                     />
                   </svg>
-                  <span>Previous</span>
+                  <span>First Lesson</span>
                 </button>
               )}
 
-              {/* Counter Indicator */}
+              {/* Progress Indicator */}
               {topic?.subtopic?.length > 0 && (
-                <span className="text-xs font-semibold text-base-content/50 order-first sm:order-none">
+                <span className="text-xs font-semibold text-base-content/60 hidden sm:inline-block">
                   Lesson {currentIndex + 1} of {topic.subtopic.length}
                 </span>
               )}
@@ -240,14 +271,139 @@ function Subtopic() {
               {nextSubtopic ? (
                 <NavLink
                   to={`/topics/${topicId}/subtopics/${nextSubtopic._id}`}
-                  className="btn btn-primary btn-sm sm:btn-md font-semibold gap-2 w-full sm:w-auto shadow-xs"
+                  className="btn btn-primary btn-xs sm:btn-sm font-semibold gap-1.5 shadow-xs"
+                  title={`Next: ${nextSubtopic.title}`}
                 >
-                  <span className="truncate max-w-[150px] sm:max-w-[200px]">
+                  <span className="truncate max-w-[130px] sm:max-w-[180px]">
                     Next: {nextSubtopic.title}
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-3.5 w-3.5 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </NavLink>
+              ) : (
+                <NavLink
+                  to={`/topics/${topicId}`}
+                  className="btn btn-success btn-xs sm:btn-sm text-white font-semibold gap-1.5 shadow-xs"
+                >
+                  <span>Finish Module</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3.5 w-3.5 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </NavLink>
+              )}
+            </nav>
+
+            {/* Markdown Body Card */}
+            <div className="bg-base-100 border border-base-300 rounded-2xl p-5 sm:p-8 md:p-10 shadow-xs leading-relaxed">
+              <div className="prose prose-sm sm:prose-base max-w-none text-base-content/90 prose-headings:text-base-content prose-headings:font-bold prose-code:text-primary prose-code:bg-base-200/70 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-base-200/80 prose-pre:border prose-pre:border-base-300 prose-pre:text-base-content prose-pre:rounded-xl">
+                <MarkdownContent content={subtopic.content} />
+              </div>
+            </div>
+
+            {/* Bottom Navigation & Pagination Controls */}
+            <nav
+              aria-label="Lesson navigation"
+              className="pt-6 border-t border-base-300 flex flex-col sm:flex-row items-center justify-between gap-4"
+            >
+              {/* Previous Button */}
+              {prevSubtopic ? (
+                <NavLink
+                  to={`/topics/${topicId}/subtopics/${prevSubtopic._id}`}
+                  className="btn btn-outline btn-sm sm:btn-md font-semibold gap-2 w-full sm:w-auto"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                  <span className="truncate max-w-[160px] sm:max-w-[200px]">
+                    {prevSubtopic.title}
+                  </span>
+                </NavLink>
+              ) : (
+                <button
+                  disabled
+                  className="btn btn-outline btn-sm sm:btn-md font-semibold gap-2 btn-disabled w-full sm:w-auto opacity-40"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                  <span>First Lesson</span>
+                </button>
+              )}
+
+              {/* Counter Indicator */}
+              {topic?.subtopic?.length > 0 && (
+                <div className="text-center order-first sm:order-none">
+                  <span className="text-xs font-semibold text-base-content/60 block">
+                    Lesson {currentIndex + 1} of {topic.subtopic.length}
+                  </span>
+                  <div className="w-24 h-1.5 bg-base-200 rounded-full mx-auto mt-1.5 overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full transition-all duration-300"
+                      style={{
+                        width: `${Math.round(((currentIndex + 1) / topic.subtopic.length) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Next Button / Complete & Return */}
+              {nextSubtopic ? (
+                <NavLink
+                  to={`/topics/${topicId}/subtopics/${nextSubtopic._id}`}
+                  className="btn btn-primary btn-sm sm:btn-md font-semibold gap-2 w-full sm:w-auto shadow-xs"
+                >
+                  <span className="truncate max-w-[160px] sm:max-w-[200px]">
+                    {nextSubtopic.title}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -268,7 +424,7 @@ function Subtopic() {
                   <span>Finish Module</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -282,7 +438,7 @@ function Subtopic() {
                   </svg>
                 </NavLink>
               )}
-            </div>
+            </nav>
           </article>
         )}
       </main>

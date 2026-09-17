@@ -160,7 +160,7 @@ function QuizList() {
         {!loading && topics.length > 0 && (
           <form onSubmit={startQuiz} className="space-y-6">
             {/* Control Strip */}
-            <div className="bg-base-100 border border-base-300 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-base-100 border border-base-300 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
               <div>
                 <label
                   htmlFor="question-count"
@@ -169,23 +169,84 @@ function QuizList() {
                   Number of Questions
                 </label>
                 <p className="text-xs text-base-content/60">
-                  Select between 1 and 50 questions for this session.
+                  Choose a preset or enter a custom question count (1 to 50).
                 </p>
               </div>
-              <div className="flex items-center gap-3">
-                <input
-                  id="question-count"
-                  type="number"
-                  min="1"
-                  max="150"
-                  value={count}
-                  onChange={(event) => setCount(event.target.value)}
-                  required
-                  className="input input-bordered input-sm sm:input-md w-28 text-center font-mono font-bold focus:outline-2 focus:outline-primary"
-                />
-                <span className="text-xs font-semibold text-base-content/70">
-                  Questions
-                </span>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1.5" role="group" aria-label="Question count presets">
+                  {[5, 10, 15, 20].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setCount(preset)}
+                      className={`btn btn-xs px-2.5 font-mono ${
+                        Number(count) === preset
+                          ? "btn-primary font-bold"
+                          : "btn-ghost border border-base-300"
+                      }`}
+                    >
+                      {preset}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    id="question-count"
+                    type="number"
+                    min="1"
+                    max="150"
+                    value={count}
+                    onChange={(event) => setCount(event.target.value)}
+                    required
+                    className="input input-bordered input-sm w-20 text-center font-mono font-bold focus:outline-2 focus:outline-primary"
+                  />
+                  <span className="text-xs font-semibold text-base-content/70">
+                    Questions
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Bulk Selection Header */}
+            <div className="flex items-center justify-between gap-2 px-1 flex-wrap">
+              <span className="text-xs font-semibold text-base-content/60">
+                {selectedSubtopics.length === 0 ? (
+                  "No subtopics selected yet"
+                ) : (
+                  <span>
+                    Selected:{" "}
+                    <strong className="text-primary font-bold">
+                      {selectedSubtopics.length}
+                    </strong>{" "}
+                    subtopic{selectedSubtopics.length === 1 ? "" : "s"}
+                  </span>
+                )}
+              </span>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const allIds = topics.flatMap((t) =>
+                      (t.subtopic || []).map((s) => String(s._id)),
+                    );
+                    setSelectedSubtopics(allIds);
+                  }}
+                  className="btn btn-ghost btn-xs text-xs text-base-content/70 hover:text-primary"
+                >
+                  Select all topics
+                </button>
+                {selectedSubtopics.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSubtopics([])}
+                    className="btn btn-ghost btn-xs text-xs text-error hover:bg-error/10"
+                  >
+                    Clear selection
+                  </button>
+                )}
               </div>
             </div>
 
@@ -212,7 +273,11 @@ function QuizList() {
                       <legend className="float-none w-auto px-0 text-base sm:text-lg font-bold text-base-content flex items-center gap-2">
                         <span>{topic.title}</span>
                         {subtopics.length > 0 && (
-                          <span className="badge badge-sm badge-ghost text-xs font-normal">
+                          <span className={`badge badge-sm text-xs ${
+                            selectedInTopic.length > 0
+                              ? "badge-primary font-semibold"
+                              : "badge-ghost"
+                          }`}>
                             {selectedInTopic.length}/{subtopics.length} Selected
                           </span>
                         )}

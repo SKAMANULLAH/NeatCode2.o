@@ -207,7 +207,7 @@ function DsaSheet() {
 
         {/* Filter Toolbar */}
         <section className="bg-base-100 border border-base-300 rounded-2xl p-4 sm:p-5 mb-8 shadow-xs">
-          <div className="flex items-center justify-between gap-2 mb-3 pb-3 border-b border-base-300/60">
+          <div className="flex items-center justify-between gap-2 mb-3 pb-3 border-b border-base-300/60 flex-wrap">
             <h2 className="text-sm font-bold text-base-content flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -225,24 +225,46 @@ function DsaSheet() {
               </svg>
               Filter Problems
             </h2>
-            <span className="text-xs text-base-content/60">
-              Showing{" "}
-              <span className="font-semibold text-base-content">
-                {problems.length}
-              </span>{" "}
-              problems
-            </span>
+            <div className="flex items-center gap-2 text-xs text-base-content/60">
+              {(searchInput ||
+                filters.status !== "all" ||
+                filters.difficulty !== "all" ||
+                filters.tag !== "all") && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchInput("");
+                    setSearch("");
+                    setFilters({
+                      difficulty: "all",
+                      tag: "all",
+                      status: "all",
+                    });
+                  }}
+                  className="btn btn-ghost btn-xs text-primary hover:bg-primary/10 font-semibold"
+                >
+                  Reset all filters
+                </button>
+              )}
+              <span>
+                Showing{" "}
+                <span className="font-semibold text-base-content">
+                  {problems.length}
+                </span>{" "}
+                problems
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="relative">
               <input
                 type="search"
-                placeholder="Search problems..."
+                placeholder="Search problems by title..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 aria-label="Search problems"
-                className="input input-bordered input-sm w-full pl-9 text-xs focus:outline-2 focus:outline-primary"
+                className="input input-bordered input-sm w-full pl-9 pr-8 text-xs focus:outline-2 focus:outline-primary"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -258,6 +280,19 @@ function DsaSheet() {
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
+              {searchInput && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchInput("");
+                    setSearch("");
+                  }}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content text-xs p-0.5"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
 
             <select
@@ -271,9 +306,9 @@ function DsaSheet() {
               aria-label="Filter by completion status"
               className="select select-bordered select-sm w-full text-xs focus:outline-2 focus:outline-primary"
             >
-              <option value="all">All Problems</option>
-              <option value="solved">Solved</option>
-              <option value="unsolved">Unsolved</option>
+              <option value="all">All Statuses (Solved & Unsolved)</option>
+              <option value="solved">Solved Only</option>
+              <option value="unsolved">Unsolved Only</option>
             </select>
 
             <select
@@ -294,19 +329,30 @@ function DsaSheet() {
             </select>
           </div>
 
-          <div className="mt-4">
-            <p className="text-xs font-semibold text-base-content/60 mb-2">
-              Tags
-            </p>
+          <div className="mt-4 pt-3 border-t border-base-300/40">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold text-base-content/60">
+                Filter by Topic Tag
+              </p>
+              {filters.tag !== "all" && (
+                <button
+                  type="button"
+                  onClick={() => setFilters({ ...filters, tag: "all" })}
+                  className="text-[11px] text-primary hover:underline font-medium"
+                >
+                  Clear tag
+                </button>
+              )}
+            </div>
             <div
-              className="flex flex-wrap gap-1.5"
+              className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-none flex-nowrap sm:flex-wrap"
               role="group"
               aria-label="Filter by topic tag"
             >
               <button
                 type="button"
                 onClick={() => setFilters({ ...filters, tag: "all" })}
-                className={`btn btn-xs ${
+                className={`btn btn-xs shrink-0 ${
                   filters.tag === "all"
                     ? "btn-primary"
                     : "btn-ghost border border-base-300"
@@ -319,7 +365,7 @@ function DsaSheet() {
                   type="button"
                   key={tag.value}
                   onClick={() => setFilters({ ...filters, tag: tag.value })}
-                  className={`btn btn-xs ${
+                  className={`btn btn-xs shrink-0 ${
                     filters.tag === tag.value
                       ? "btn-primary"
                       : "btn-ghost border border-base-300"
@@ -362,10 +408,10 @@ function DsaSheet() {
           </div>
         )}
 
-        {/* Problems List / Table View */}
-        {!loading && !error && (
+        {/* Problems List / Responsive Table & Mobile Cards */}
+        {!loading && !error && problems.length > 0 && (
           <section className="bg-base-100 border border-base-300 rounded-2xl overflow-hidden shadow-xs">
-            {/* Table Header row */}
+            {/* Table Header row (Desktop / Tablet) */}
             <div className="hidden sm:grid sm:grid-cols-12 px-6 py-3.5 bg-base-200/50 border-b border-base-300 text-xs font-semibold uppercase tracking-wider text-base-content/60">
               <div className="col-span-1 text-center">Status</div>
               <div className="col-span-6">Problem</div>
@@ -382,11 +428,79 @@ function DsaSheet() {
                   <NavLink
                     key={problem._id}
                     to={`/problem/${problem._id}`}
-                    state={{problems}}
-                    className="group flex flex-col sm:grid sm:grid-cols-12 px-4 sm:px-6 py-4 items-start sm:items-center gap-2 sm:gap-0 hover:bg-base-200/40 transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+                    state={{ problems }}
+                    className="group block sm:grid sm:grid-cols-12 px-4 sm:px-6 py-3.5 sm:py-4 hover:bg-base-200/40 transition-colors focus-visible:outline-2 focus-visible:outline-primary"
                   >
-                    {/* Solved Icon Status */}
-                    <div className="sm:col-span-1 flex items-center sm:justify-center">
+                    {/* MOBILE CARD VIEW (< sm) */}
+                    <div className="flex sm:hidden items-start justify-between gap-3">
+                      <div className="flex items-start gap-3 min-w-0">
+                        <div className="mt-0.5">
+                          {solved ? (
+                            <div className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-3 w-3"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                          ) : (
+                            <div className="w-5 h-5 rounded-full border border-base-300 flex items-center justify-center">
+                              <span className="w-1.5 h-1.5 rounded-full bg-base-300" />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-semibold text-base-content group-hover:text-primary transition-colors leading-snug break-words">
+                            {problem.title}
+                          </h3>
+                          <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                            <span
+                              className={`badge badge-xs font-semibold capitalize ${getDifficultyBadgeClass(problem.difficulty)}`}
+                            >
+                              {problem.difficulty}
+                            </span>
+                            <span className="badge badge-xs badge-ghost border-base-300 text-base-content/70">
+                              {PROBLEM_TAG_OPTIONS.find(
+                                (tag) => tag.value === problem.tags,
+                              )?.label || problem.tags}
+                            </span>
+                            {solved && (
+                              <span className="badge badge-xs badge-primary font-medium">
+                                Solved
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-base-content/30 group-hover:text-primary shrink-0 self-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* DESKTOP ROW VIEW (>= sm) */}
+                    <div className="hidden sm:flex col-span-1 items-center justify-center">
                       {solved ? (
                         <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                           <svg
@@ -409,22 +523,15 @@ function DsaSheet() {
                       )}
                     </div>
 
-                    {/* Title */}
-                    <div className="sm:col-span-6 pr-4">
+                    <div className="hidden sm:block col-span-6 pr-4">
                       <div className="flex items-center gap-2">
                         <h3 className="text-sm font-semibold text-base-content group-hover:text-primary transition-colors">
                           {problem.title}
                         </h3>
-                        {solved && (
-                          <span className="badge badge-xs badge-primary font-medium sm:hidden">
-                            Solved
-                          </span>
-                        )}
                       </div>
                     </div>
 
-                    {/* Difficulty Badge */}
-                    <div className="sm:col-span-2 flex sm:justify-center mt-1 sm:mt-0">
+                    <div className="hidden sm:flex col-span-2 justify-center">
                       <span
                         title={getDifficultyBadgeColor(problem.difficulty)}
                         className={`badge badge-sm font-semibold capitalize text-xs ${getDifficultyBadgeClass(problem.difficulty)}`}
@@ -433,8 +540,7 @@ function DsaSheet() {
                       </span>
                     </div>
 
-                    {/* Tag Badge */}
-                    <div className="sm:col-span-2 flex sm:justify-center">
+                    <div className="hidden sm:flex col-span-2 justify-center">
                       <span className="badge badge-sm badge-ghost border-base-300 text-xs text-base-content/70">
                         {PROBLEM_TAG_OPTIONS.find(
                           (tag) => tag.value === problem.tags,
@@ -442,8 +548,7 @@ function DsaSheet() {
                       </span>
                     </div>
 
-                    {/* Chevron Action */}
-                    <div className="sm:col-span-1 hidden sm:flex justify-end text-base-content/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all">
+                    <div className="hidden sm:flex col-span-1 justify-end text-base-content/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"
@@ -465,6 +570,7 @@ function DsaSheet() {
             </div>
           </section>
         )}
+
 
         {/* Empty State */}
         {!loading && !error && problems.length === 0 && (

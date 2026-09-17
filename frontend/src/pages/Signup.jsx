@@ -74,8 +74,16 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-12 text-base-content selection:bg-primary selection:text-primary-content relative">
-      <ThemeToggle className="absolute top-4 right-4" />
+    <div className="min-h-screen bg-base-100 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-12 text-base-content selection:bg-primary selection:text-primary-content relative overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none flex items-center justify-center">
+        <div className="w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px] opacity-70" />
+      </div>
+
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <ThemeToggle />
+      </div>
+
       {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
         <NavLink
@@ -88,19 +96,19 @@ function Signup() {
             <span className="font-normal opacity-90">Code</span>
           </span>
         </NavLink>
-        <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold tracking-tight text-base-content">
+        <h1 className="mt-4 text-2xl sm:text-3xl font-black tracking-tight text-base-content">
           Create an account
         </h1>
         <p className="mt-1 text-sm text-base-content/70">
-          Let's start your coding journey.
+          Get started with your technical interview preparation.
         </p>
       </div>
 
       {/* Main Card */}
-      <div className="w-full sm:max-w-md bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8 shadow-xs">
+      <div className="w-full sm:max-w-md bg-base-100 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-xl backdrop-blur-md">
         {/* Error Feedback Alerts */}
         {(error || googleAuthError) && (
-          <div className="alert alert-error text-xs sm:text-sm mb-6 rounded-xl shadow-xs flex items-start gap-2.5">
+          <div className="alert alert-error text-xs sm:text-sm mb-6 rounded-2xl shadow-xs flex items-start gap-2.5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current shrink-0 h-4 w-4 mt-0.5"
@@ -128,7 +136,7 @@ function Signup() {
             {/* First Name Field */}
             <div className="form-control w-full">
               <label className="label pb-1.5" htmlFor="firstName">
-                <span className="label-text font-semibold text-xs text-base-content">
+                <span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/70">
                   First Name <span className="text-error">*</span>
                 </span>
               </label>
@@ -164,10 +172,10 @@ function Signup() {
             {/* Last Name Field */}
             <div className="form-control w-full">
               <label className="label pb-1.5" htmlFor="lastName">
-                <span className="label-text font-semibold text-xs text-base-content">
+                <span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/70">
                   Last Name{" "}
                   <span className="text-base-content/40 font-normal">
-                    (Optional)
+                    (Opt)
                   </span>
                 </span>
               </label>
@@ -204,7 +212,7 @@ function Signup() {
           {/* Email Field */}
           <div className="form-control w-full">
             <label className="label pb-1.5" htmlFor="email">
-              <span className="label-text font-semibold text-xs text-base-content">
+              <span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/70">
                 Email Address <span className="text-error">*</span>
               </span>
             </label>
@@ -256,7 +264,7 @@ function Signup() {
           {/* Password Field */}
           <div className="form-control w-full">
             <label className="label pb-1.5" htmlFor="password">
-              <span className="label-text font-semibold text-xs text-base-content">
+              <span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/70">
                 Password <span className="text-error">*</span>
               </span>
             </label>
@@ -353,15 +361,15 @@ function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="btn btn-primary w-full text-sm font-semibold shadow-xs mt-2"
+            className="btn btn-primary w-full text-sm font-bold shadow-md mt-2"
           >
             {loading ? (
               <>
                 <span className="loading loading-spinner loading-xs" />
-                <span>Signing Up...</span>
+                <span>Creating Account...</span>
               </>
             ) : (
-              "Sign Up"
+              "Create Account"
             )}
           </button>
         </form>
@@ -375,7 +383,7 @@ function Signup() {
         <button
           type="button"
           onClick={startGoogleAuth}
-          className="btn btn-outline border-base-300 hover:bg-base-200/60 hover:border-base-300 text-base-content w-full text-xs font-semibold gap-2.5 shadow-xs"
+          className="btn btn-outline border-base-300 hover:bg-base-200/60 hover:border-base-300 text-base-content w-full text-xs font-semibold gap-2.5 shadow-2xs"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -395,7 +403,7 @@ function Signup() {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
             />
           </svg>
-          Sign up with Google
+          <span>Sign up with Google</span>
         </button>
 
         {/* Footer Link */}
@@ -408,7 +416,7 @@ function Signup() {
             }}
             className="font-bold text-primary hover:underline ml-1 focus-visible:outline-2 focus-visible:outline-primary rounded-xs"
           >
-            Log in
+            Sign In
           </button>
         </p>
       </div>

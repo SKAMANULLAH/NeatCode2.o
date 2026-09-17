@@ -12,29 +12,34 @@ function TopicDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchTopic = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const { data } = await axiosClient.get(`/topic/fetchTopic/${topicId}`);
-        setTopic(data);
-      } catch (err) {
-        setTopic(null);
-        if (err.response?.status === 404) {
-          setError(err.response?.data?.message || "Topic not found");
-        } else if (err.response?.status === 401) {
-          setError(err.response?.data?.message || "Unauthorized");
-        } else {
-          setError(err.response?.data?.message || "Failed to fetch topic");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    let isMounted = true;
     if (topicId) {
-      fetchTopic();
+      axiosClient
+        .get(`/topic/fetchTopic/${topicId}`)
+        .then(({ data }) => {
+          if (isMounted) {
+            setTopic(data);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          if (isMounted) {
+            setTopic(null);
+            if (err.response?.status === 404) {
+              setError(err.response?.data?.message || "Topic not found");
+            } else if (err.response?.status === 401) {
+              setError(err.response?.data?.message || "Unauthorized");
+            } else {
+              setError(err.response?.data?.message || "Failed to fetch topic");
+            }
+            setLoading(false);
+          }
+        });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [topicId]);
 
   const startTopicQuiz = (event) => {
@@ -60,9 +65,12 @@ function TopicDetail() {
               <li>
                 <NavLink
                   to="/topics"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-primary transition-colors flex items-center gap-1"
                 >
-                  Topics
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  <span>Topics</span>
                 </NavLink>
               </li>
               <li>/</li>
@@ -74,23 +82,9 @@ function TopicDetail() {
 
           <NavLink
             to="/topics"
-            className="btn btn-ghost btn-xs sm:btn-sm gap-1.5 text-base-content/70 hover:text-base-content -mr-2 sm:mr-0"
+            className="btn btn-ghost btn-xs sm:btn-sm gap-1.5 text-base-content/70 hover:text-base-content"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            <span>Back to Topics</span>
+            <span>All Topics</span>
           </NavLink>
         </div>
 
@@ -128,33 +122,32 @@ function TopicDetail() {
         {!loading && !error && topic && (
           <section className="space-y-8">
             {/* Header Card & Quick Quiz Form */}
-            <div className="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8 shadow-xs">
+            <div className="bg-base-100 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-sm">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    Curriculum Module
+                    <span>Curriculum Module</span>
                   </div>
-                  <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+                  <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-base-content">
                     {topic.title}
                   </h1>
                   <p className="mt-2 text-xs sm:text-sm text-base-content/70 max-w-xl leading-relaxed">
-                    Select a subtopic to read its structured markdown notes, or
-                    launch an instant timed quiz to test your comprehension.
+                    Read the detailed lesson walkthroughs below, or launch an instant timed quiz to test your comprehension.
                   </p>
                 </div>
 
                 {/* Inline Quiz Generator Card */}
                 <form
                   onSubmit={startTopicQuiz}
-                  className="p-4 sm:p-5 rounded-xl border border-base-300 bg-base-200/30 flex flex-col sm:flex-row sm:items-center gap-3 shrink-0"
+                  className="p-4 sm:p-5 rounded-2xl border border-base-300 bg-base-200/50 flex flex-col sm:flex-row sm:items-center gap-3 shrink-0"
                 >
                   <div className="form-control">
                     <label
                       className="label py-0 pb-1"
                       htmlFor="topic-quiz-count"
                     >
-                      <span className="label-text text-xs font-semibold text-base-content/70">
+                      <span className="label-text text-xs font-bold uppercase tracking-wider text-base-content/70">
                         Quiz Length
                       </span>
                     </label>
@@ -169,7 +162,7 @@ function TopicDetail() {
                         required
                         className="input input-bordered input-sm w-20 text-center font-mono font-bold focus:outline-2 focus:outline-primary"
                       />
-                      <span className="text-xs text-base-content/60 font-medium">
+                      <span className="text-xs text-base-content/60 font-semibold">
                         Q's
                       </span>
                     </div>
@@ -177,9 +170,9 @@ function TopicDetail() {
 
                   <button
                     type="submit"
-                    className="btn btn-primary btn-sm font-semibold gap-1.5 self-end sm:self-end mt-1 sm:mt-0 shadow-xs"
+                    className="btn btn-primary btn-sm font-bold gap-1.5 self-end sm:self-end mt-1 sm:mt-0 shadow-xs"
                   >
-                    <span>Start Topic Quiz</span>
+                    <span>Start Quiz</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-3.5 w-3.5"
@@ -201,56 +194,41 @@ function TopicDetail() {
 
             {/* Subtopics Listing Section */}
             <div>
-              <div className="flex items-center justify-between border-b border-base-300/60 pb-3 mb-5">
+              <div className="flex items-center justify-between border-b border-base-200 pb-3 mb-5">
                 <h2 className="text-lg font-bold text-base-content flex items-center gap-2">
                   <span>Subtopic Lessons</span>
-                  <span className="badge badge-sm badge-ghost border-base-300 font-semibold">
+                  <span className="badge badge-sm badge-ghost border-base-300 font-bold">
                     {subtopicsCount}{" "}
                     {subtopicsCount === 1 ? "Lesson" : "Lessons"}
                   </span>
                 </h2>
-                <span className="text-xs text-base-content/60">
+                <span className="text-xs text-base-content/60 hidden sm:inline">
                   Select a section to begin reading
                 </span>
               </div>
 
-              {subtopicsCount === 0 && (
+              {subtopicsCount === 0 ? (
                 <div className="text-center py-16 rounded-2xl border border-dashed border-base-300 bg-base-200/20 px-4">
                   <div className="w-12 h-12 rounded-xl bg-base-200 text-base-content/40 flex items-center justify-center mx-auto mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                      />
-                    </svg>
+                    📖
                   </div>
                   <h3 className="text-base font-bold text-base-content">
-                    No subtopics found
+                    No subtopics added yet
                   </h3>
                   <p className="text-xs text-base-content/60 mt-1">
                     This topic does not have subtopic lessons added yet.
                   </p>
                 </div>
-              )}
-
-              {subtopicsCount > 0 && (
+              ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {topic.subtopic.map((subtopic, index) => (
                     <NavLink
                       key={subtopic._id}
                       to={`/topics/${topicId}/subtopics/${subtopic._id}`}
-                      className="group p-5 rounded-2xl border border-base-300 bg-base-100 hover:bg-base-200/40 transition-all duration-200 hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-sm flex items-center justify-between gap-4 focus-visible:outline-2 focus-visible:outline-primary"
+                      className="interactive-card group p-5 rounded-2xl border border-base-300 bg-base-100 hover:border-primary/40 hover:shadow-md flex items-center justify-between gap-4 focus-visible:outline-2 focus-visible:outline-primary"
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary font-mono text-xs font-bold flex items-center justify-center shrink-0">
                           {index + 1}
                         </div>
                         <div className="min-w-0">
@@ -263,7 +241,7 @@ function TopicDetail() {
                         </div>
                       </div>
 
-                      <div className="text-base-content/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0">
+                      <div className="text-base-content/30 group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"

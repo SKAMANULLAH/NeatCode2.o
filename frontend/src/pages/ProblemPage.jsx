@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Editor from "@monaco-editor/react";
-import { useParams, NavLink,useLocation, useNavigate  } from "react-router";
+import { useParams, NavLink, useLocation, useNavigate } from "react-router";
 import axiosClient from "../utils/axiosClient";
 import ChatAI from "../components/ChatAI";
 import Editorial from "../components/Editorial.jsx";
 import AppNav from "../components/AppNav";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../context/useTheme";
+
+const getCodeStorageKey = (id, language) => `problem-code-${id}-${language}`;
 
 const LANGUAGE_CONFIG = {
   javascript: {
@@ -38,13 +40,16 @@ const ProblemPage = () => {
   const [problemError, setProblemError] = useState("");
 
   const [selectedLanguage, setSelectedLanguage] = useState("cpp");
-const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [codes, setCodes] = useState({
     javascript: "",
     java: "",
     cpp: "",
   });
-const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
+  const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
+  const [showFullscreenProblemPanel, setShowFullscreenProblemPanel] =
+    useState(true);
+  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
 
   const [runLoading, setRunLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -63,34 +68,90 @@ const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
   const [solutionMessage, setSolutionMessage] = useState("");
   const [usage, setUsage] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [mobilePanel, setMobilePanel] = useState("problem");
 
   const editorRef = useRef(null);
-const { problemId } = useParams();
-const getCodeStorageKey = (language) => `problem-code-${problemId}-${language}`;
-const { isDark } = useTheme();
+  const monacoRef = useRef(null);
+  const handleRunRef = useRef(null);
+  const handleSubmitRef = useRef(null);
 
-const location = useLocation();
-const navigate = useNavigate();
+  const { problemId } = useParams();
+  const { isDark } = useTheme();
 
-const problemList = location.state?.problems || [];
+  const location = useLocation();
+  const navigate = useNavigate();
 
-const currentProblemIndex = problemList.findIndex(
-  (problem) => problem._id === problemId,
-);
+  const locationProblems = location.state?.problems;
+  const [fetchedProblems, setFetchedProblems] = useState([]);
+  const problemList =
+    locationProblems && locationProblems.length > 0
+      ? locationProblems
+      : fetchedProblems;
 
-const previousProblem =
-  currentProblemIndex > 0 ? problemList[currentProblemIndex - 1] : null;
+  // Auto-fetch problem list fallback so next/prev navigation works even on direct URL visit or refresh
+  useEffect(() => {
+    if (!locationProblems?.length && fetchedProblems.length === 0) {
+      axiosClient
+        .get("/problem/fetchProblemAll")
+        .then((response) => {
+          if (Array.isArray(response.data)) {
+            setFetchedProblems(response.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to load problem list for navigation:", err);
+        });
+    }
+  }, [locationProblems, fetchedProblems.length]);
 
-const nextProblem =
-  currentProblemIndex >= 0 && currentProblemIndex < problemList.length - 1
-    ? problemList[currentProblemIndex + 1]
-    : null;
+  const currentProblemIndex = problemList.findIndex(
+    (problem) => problem._id === problemId,
+  );
+
+  const previousProblem =
+    currentProblemIndex > 0 ? problemList[currentProblemIndex - 1] : null;
+
+  const nextProblem =
+    currentProblemIndex >= 0 && currentProblemIndex < problemList.length - 1
+      ? problemList[currentProblemIndex + 1]
+      : null;
+
+  const navigateToPrevious = useCallback(() => {
+    if (previousProblem) {
+      setRunResult(null);
+      setSubmitResult(null);
+      setSelectedSubmission(null);
+      setSubmissions([]);
+      setActiveRightTab("code");
+      navigate(`/problem/${previousProblem._id}`, {
+        state: { problems: problemList },
+      });
+    }
+  }, [previousProblem, problemList, navigate]);
+
+  const navigateToNext = useCallback(() => {
+    if (nextProblem) {
+      setRunResult(null);
+      setSubmitResult(null);
+      setSelectedSubmission(null);
+      setSubmissions([]);
+      setActiveRightTab("code");
+      navigate(`/problem/${nextProblem._id}`, {
+        state: { problems: problemList },
+      });
+    }
+  }, [nextProblem, problemList, navigate]);
 
   useEffect(() => {
     const fetchProblem = async () => {
       try {
         setFetchingProblem(true);
         setProblemError("");
+        setRunResult(null);
+        setSubmitResult(null);
+        setSelectedSubmission(null);
+        setSubmissions([]);
+        setActiveRightTab("code");
 
         const response = await axiosClient.get(
           `/problem/fetchProblem/${problemId}`,
@@ -131,7 +192,7 @@ const nextProblem =
 const restoredCodes = { ...initialCodes };
 
 Object.keys(initialCodes).forEach((language) => {
-  const savedCode = localStorage.getItem(getCodeStorageKey(language));
+  const savedCode = localStorage.getItem(getCodeStorageKey(problemId, language));
 
   if (savedCode !== null) {
     restoredCodes[language] = savedCode;
@@ -268,10 +329,78 @@ const handleEditorChange = (value) => {
     [selectedLanguage]: newCode,
   }));
 
-  localStorage.setItem(getCodeStorageKey(selectedLanguage), newCode);
+  localStorage.setItem(getCodeStorageKey(problemId, selectedLanguage), newCode);
 };
-  const handleEditorDidMount = (editor) => {
+
+  const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
+    monacoRef.current = monaco;
+
+    // Alt + Shift + Down: Copy line down
+    editor.addAction({
+      id: "action-copy-line-down",
+      label: "Copy Line Down",
+      keybindings: [
+        monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.DownArrow,
+      ],
+      run: (ed) => {
+        ed.trigger("keyboard", "editor.action.copyLinesDownAction");
+      },
+    });
+
+    // Alt + Shift + Up: Copy line up
+    editor.addAction({
+      id: "action-copy-line-up",
+      label: "Copy Line Up",
+      keybindings: [
+        monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.UpArrow,
+      ],
+      run: (ed) => {
+        ed.trigger("keyboard", "editor.action.copyLinesUpAction");
+      },
+    });
+
+    // Alt + Down: Move line down
+    editor.addAction({
+      id: "action-move-line-down",
+      label: "Move Line Down",
+      keybindings: [monaco.KeyMod.Alt | monaco.KeyCode.DownArrow],
+      run: (ed) => {
+        ed.trigger("keyboard", "editor.action.moveLinesDownAction");
+      },
+    });
+
+    // Alt + Up: Move line up
+    editor.addAction({
+      id: "action-move-line-up",
+      label: "Move Line Up",
+      keybindings: [monaco.KeyMod.Alt | monaco.KeyCode.UpArrow],
+      run: (ed) => {
+        ed.trigger("keyboard", "editor.action.moveLinesUpAction");
+      },
+    });
+
+    // Ctrl + Enter or Cmd + Enter: Run code
+    editor.addAction({
+      id: "action-run-code",
+      label: "Run Code",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+      run: () => {
+        handleRunRef.current?.();
+      },
+    });
+
+    // Ctrl + Shift + Enter: Submit code
+    editor.addAction({
+      id: "action-submit-code",
+      label: "Submit Code",
+      keybindings: [
+        monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.Enter,
+      ],
+      run: () => {
+        handleSubmitRef.current?.();
+      },
+    });
   };
 
   const handleCopyCode = async () => {
@@ -299,7 +428,7 @@ const handleResetCode = () => {
     [selectedLanguage]: initialCode,
   }));
 
-  localStorage.removeItem(getCodeStorageKey(selectedLanguage));
+  localStorage.removeItem(getCodeStorageKey(problemId, selectedLanguage));
 
   setShowResetConfirm(false);
 };
@@ -311,6 +440,7 @@ const handleResetCode = () => {
   const handleRun = async () => {
     setRunLoading(true);
     setRunResult(null);
+    setMobilePanel("editor");
 
     try {
       const config = LANGUAGE_CONFIG[selectedLanguage];
@@ -324,6 +454,9 @@ const handleResetCode = () => {
       applyUsage(response.data.usage);
       setRunResult(response.data);
       setActiveRightTab("testcase");
+      if (isEditorFullscreen) {
+        setShowFullscreenProblemPanel(true);
+      }
     } catch (error) {
       console.error("Error running code:", error);
       applyUsage(error.response?.data?.usage);
@@ -343,6 +476,9 @@ const handleResetCode = () => {
       });
 
       setActiveRightTab("testcase");
+      if (isEditorFullscreen) {
+        setShowFullscreenProblemPanel(true);
+      }
     } finally {
       setRunLoading(false);
     }
@@ -351,6 +487,7 @@ const handleResetCode = () => {
   const handleSubmitCode = async () => {
     setSubmitLoading(true);
     setSubmitResult(null);
+    setMobilePanel("editor");
 
     try {
       const config = LANGUAGE_CONFIG[selectedLanguage];
@@ -364,6 +501,9 @@ const handleResetCode = () => {
       applyUsage(response.data.usage);
       setSubmitResult(response.data);
       setActiveRightTab("result");
+      if (isEditorFullscreen) {
+        setShowFullscreenProblemPanel(true);
+      }
 
       if (response.data.message === "accepted" || response.data.solved) {
         setSolved(true);
@@ -388,10 +528,63 @@ const handleResetCode = () => {
       });
 
       setActiveRightTab("result");
+      if (isEditorFullscreen) {
+        setShowFullscreenProblemPanel(true);
+      }
     } finally {
       setSubmitLoading(false);
     }
   };
+
+  useEffect(() => {
+    handleRunRef.current = handleRun;
+    handleSubmitRef.current = handleSubmitCode;
+  });
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      // Escape exits fullscreen
+      if (e.key === "Escape" && isEditorFullscreen) {
+        setIsEditorFullscreen(false);
+        return;
+      }
+
+      // Alt + Left: Previous Problem
+      if (e.altKey && !e.ctrlKey && !e.shiftKey && e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigateToPrevious();
+        return;
+      }
+
+      // Alt + Right: Next Problem
+      if (e.altKey && !e.ctrlKey && !e.shiftKey && e.key === "ArrowRight") {
+        e.preventDefault();
+        navigateToNext();
+        return;
+      }
+
+      // Ctrl + Enter (outside Monaco focus or inside modal)
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === "Enter") {
+        const targetTag = e.target?.tagName?.toLowerCase();
+        if (targetTag !== "input" && targetTag !== "textarea") {
+          e.preventDefault();
+          handleRunRef.current?.();
+        }
+      }
+
+      // Ctrl + Shift + Enter
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "Enter") {
+        const targetTag = e.target?.tagName?.toLowerCase();
+        if (targetTag !== "input" && targetTag !== "textarea") {
+          e.preventDefault();
+          handleSubmitRef.current?.();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [isEditorFullscreen, navigateToPrevious, navigateToNext]);
 
   const getLanguageForMonaco = (language) => {
     return LANGUAGE_CONFIG[language].monacoLanguage;
@@ -573,6 +766,72 @@ const handleResetCode = () => {
     <div className="h-screen flex flex-col bg-base-200 text-base-content overflow-hidden">
       <AppNav />
 
+      {/* Mobile Top View Switcher (< lg) */}
+      <div className="lg:hidden flex items-center justify-between px-3 py-2 bg-base-100 border-b border-base-300 shrink-0">
+        <div className="inline-flex p-0.5 rounded-xl bg-base-200 w-full max-w-sm mx-auto">
+          <button
+            type="button"
+            onClick={() => setMobilePanel("problem")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+              mobilePanel === "problem"
+                ? "bg-base-100 text-base-content shadow-xs"
+                : "text-base-content/60 hover:text-base-content"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              />
+            </svg>
+            <span>Problem</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobilePanel("editor")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+              mobilePanel === "editor"
+                ? "bg-base-100 text-base-content shadow-xs"
+                : "text-base-content/60 hover:text-base-content"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+              />
+            </svg>
+            <span>Code & Console</span>
+            {(runResult || submitResult) && (
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  runResult?.message === "accepted" ||
+                  submitResult?.message === "accepted"
+                    ? "bg-success"
+                    : "bg-error"
+                }`}
+              />
+            )}
+          </button>
+        </div>
+      </div>
+
       {/* Main Split-Pane Workspace */}
       <div
         ref={containerRef}
@@ -583,77 +842,138 @@ const handleResetCode = () => {
       >
         {/* Left Panel */}
         <div
-          className="flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0 min-w-0"
+          className={`flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0 min-w-0 ${
+            mobilePanel === "problem" ? "flex-1 w-full" : "hidden lg:flex"
+          }`}
           style={{
             flexBasis: `${leftPanelSize}%`,
             flexShrink: 0,
           }}
         >
           {/* Left Tabs Bar */}
-          <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-base-300 bg-base-200/70 shrink-0 overflow-x-auto">
-            <button
-              onClick={() => setActiveLeftTab("description")}
-              type="button"
-              className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                activeLeftTab === "description"
-                  ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                  : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-              }`}
-            >
-              Description
-            </button>
-            <button
-              onClick={() => setActiveLeftTab("editorial")}
-              type="button"
-              className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                activeLeftTab === "editorial"
-                  ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                  : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-              }`}
-            >
-              Editorial
-            </button>
-            <button
-              onClick={() => setActiveLeftTab("solutions")}
-              type="button"
-              className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                activeLeftTab === "solutions"
-                  ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                  : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-              }`}
-            >
-              Solutions
-            </button>
-            <button
-              onClick={() => setActiveLeftTab("submissions")}
-              type="button"
-              className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                activeLeftTab === "submissions"
-                  ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                  : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-              }`}
-            >
-              Submissions
-            </button>
-            <button
-              onClick={() => setActiveLeftTab("chatAI")}
-              type="button"
-              className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center gap-1.5 transition-colors duration-150 ${
-                activeLeftTab === "chatAI"
-                  ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                  : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3.5 w-3.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+          <div className="flex items-center justify-between gap-1 px-2 py-1.5 border-b border-base-300 bg-base-200/70 shrink-0">
+            <div className="flex items-center gap-0.5 overflow-x-auto min-w-0">
+              <button
+                onClick={() => setActiveLeftTab("description")}
+                type="button"
+                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+                  activeLeftTab === "description"
+                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
+                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
+                }`}
               >
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-              </svg>
-              ChatAI
-            </button>
+                Description
+              </button>
+              <button
+                onClick={() => setActiveLeftTab("editorial")}
+                type="button"
+                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+                  activeLeftTab === "editorial"
+                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
+                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
+                }`}
+              >
+                Editorial
+              </button>
+              <button
+                onClick={() => setActiveLeftTab("solutions")}
+                type="button"
+                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+                  activeLeftTab === "solutions"
+                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
+                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
+                }`}
+              >
+                Solutions
+              </button>
+              <button
+                onClick={() => setActiveLeftTab("submissions")}
+                type="button"
+                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+                  activeLeftTab === "submissions"
+                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
+                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
+                }`}
+              >
+                Submissions
+              </button>
+              <button
+                onClick={() => setActiveLeftTab("chatAI")}
+                type="button"
+                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center gap-1.5 transition-colors duration-150 ${
+                  activeLeftTab === "chatAI"
+                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
+                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                </svg>
+                ChatAI
+              </button>
+            </div>
+
+            {/* Universal Next / Previous Navigation Controls (Visible across all tabs) */}
+            <div className="flex items-center gap-1 shrink-0 ml-auto pl-2">
+              <button
+                type="button"
+                disabled={!previousProblem}
+                onClick={navigateToPrevious}
+                className="btn btn-ghost btn-xs h-7 px-2 rounded-md font-medium border border-base-300/80 disabled:opacity-30 disabled:border-transparent flex items-center gap-1 hover:border-base-content/30"
+                aria-label="Previous Problem"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2.5"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                <span className="hidden sm:inline text-xs">Prev</span>
+              </button>
+
+              {problemList.length > 0 && currentProblemIndex >= 0 && (
+                <span className="text-[11px] font-mono font-medium text-base-content/50 px-1 hidden md:inline">
+                  {currentProblemIndex + 1}/{problemList.length}
+                </span>
+              )}
+
+              <button
+                type="button"
+                disabled={!nextProblem}
+                onClick={navigateToNext}
+                className="btn btn-primary btn-xs h-7 px-2.5 rounded-md font-medium flex items-center gap-1 disabled:opacity-30 shadow-xs"
+                aria-label="Next Problem"
+              >
+                <span className="hidden sm:inline text-xs">Next</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2.5"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Left Panel Body */}
@@ -704,35 +1024,7 @@ const handleResetCode = () => {
                           </div>
                         )}
                   </div>
-                  <div className="flex items-center justify-between gap-3 mt-5">
-                    <button
-                      type="button"
-                      disabled={!previousProblem}
-                      onClick={() =>
-                        previousProblem &&
-                        navigate(`/problem/${previousProblem._id}`, {
-                          state: { problems: problemList },
-                        })
-                      }
-                      className="btn btn-sm btn-ghost border border-base-300"
-                    >
-                      ← Previous
-                    </button>
-
-                    <button
-                      type="button"
-                      disabled={!nextProblem}
-                      onClick={() =>
-                        nextProblem &&
-                        navigate(`/problem/${nextProblem._id}`, {
-                          state: { problems: problemList },
-                        })
-                      }
-                      className="btn btn-sm btn-primary"
-                    >
-                      Next →
-                    </button>
-                  </div>
+               
                 </div>
 
                 <div className="max-w-none text-[15px] leading-[1.75] text-base-content/80 whitespace-pre-line border-t border-base-300/70 pt-5">
@@ -1115,17 +1407,19 @@ const handleResetCode = () => {
           </div>
         </div>
 
-        {/* Resizer Splitter Divider */}
+        {/* Resizer Splitter Divider (Desktop only) */}
         <div
           onPointerDown={handleResizeStart}
-          className="w-full lg:w-1 h-2 lg:h-full bg-base-300 hover:bg-primary/40 transition-colors duration-150 cursor-row-resize lg:cursor-col-resize shrink-0 relative group touch-none"
+          className="hidden lg:block w-1 h-full bg-base-300 hover:bg-primary/40 transition-colors duration-150 cursor-col-resize shrink-0 relative group touch-none"
         >
           <div className="absolute inset-0 -top-2 -bottom-2 -left-1 -right-1" />
         </div>
 
         {/* Right Panel */}
         <div
-          className="flex flex-col overflow-hidden bg-base-100 min-h-0 min-w-0"
+          className={`flex flex-col overflow-hidden bg-base-100 min-h-0 min-w-0 ${
+            mobilePanel === "editor" ? "flex-1 w-full" : "hidden lg:flex"
+          }`}
           style={{
             flexBasis: `${100 - leftPanelSize}%`,
             flexShrink: 0,
@@ -1200,142 +1494,680 @@ const handleResetCode = () => {
                 <div
                   className={`${
                     isEditorFullscreen
-                      ? "fixed inset-0 z-[90] bg-base-100"
-                      : "flex-1 min-h-0 border-b border-base-300 relative"
+                      ? "fixed inset-0 z-[90] bg-base-100 flex flex-col min-h-0 overflow-hidden"
+                      : "flex-1 min-h-0 border-b border-base-300 relative flex flex-col"
                   }`}
                 >
-                  <div className="absolute top-3 right-3 z-10 flex gap-2">
-                    {/* Copy Button */}
-                    <button
-                      type="button"
-                      onClick={handleCopyCode}
-                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
-                    >
-                      {copied ? "Copied!" : "Copy"}
-                    </button>
+                  {isEditorFullscreen ? (
+                    /* Fullscreen Top Header Toolbar */
+                    <div className="h-12 px-2 sm:px-4 bg-base-200/90 border-b border-base-300 flex items-center justify-between gap-1.5 sm:gap-2 shrink-0 overflow-x-auto no-scrollbar">
+                      {/* Left: Exit Fullscreen & Problem Info & Prev/Next */}
+                      <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditorFullscreen(false)}
+                          className="btn btn-ghost btn-xs h-8 px-2 sm:px-2.5 rounded-lg border border-base-300 flex items-center gap-1.5 text-xs font-semibold text-base-content/80 hover:text-base-content shrink-0"
+                          title="Exit Fullscreen (Esc)"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                          <span className="hidden sm:inline lg:hidden">
+                            Exit
+                          </span>
+                          <span className="hidden lg:inline">
+                            Exit Fullscreen
+                          </span>
+                          <kbd className="hidden xl:inline-block kbd kbd-xs text-[10px]">
+                            Esc
+                          </kbd>
+                        </button>
 
-                    {/* Reset Button */}
-                    <button
-                      type="button"
-                      onClick={() => setShowResetConfirm(true)}
-                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
-                    >
-                      Reset
-                    </button>
+                        <div className="h-4 w-px bg-base-300 hidden lg:block shrink-0" />
 
-                    {/* Fullscreen Button */}
-                    <button
-                      type="button"
-                      onClick={() => setIsEditorFullscreen((prev) => !prev)}
-                      className="h-8 px-3 rounded-md bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-sm"
-                      title={
-                        isEditorFullscreen ? "Exit fullscreen" : "Fullscreen"
-                      }
-                      aria-label={
-                        isEditorFullscreen ? "Exit fullscreen" : "Fullscreen"
-                      }
-                    >
-                      {isEditorFullscreen ? "↙" : "⛶"}
-                    </button>
-                  </div>
+                        {/* Problem Title & Badge: Shown on large screens to avoid crowding toolbar on small screens */}
+                        <div className="hidden lg:flex items-center gap-2 min-w-0">
+                          <span className="font-bold text-sm text-base-content truncate max-w-[150px] xl:max-w-xs">
+                            {problem.title}
+                          </span>
+                          <div
+                            className={`badge badge-xs sm:badge-sm font-semibold capitalize rounded-md shrink-0 ${
+                              problem.difficulty === "easy"
+                                ? "badge-success text-success-content"
+                                : problem.difficulty === "medium"
+                                  ? "badge-warning text-warning-content"
+                                  : "badge-error text-error-content"
+                            }`}
+                          >
+                            {problem.difficulty}
+                          </div>
+                        </div>
 
-                  <Editor
-                    height="100%"
-                    language={getLanguageForMonaco(selectedLanguage)}
-                    value={codes[selectedLanguage] || ""}
-                    onChange={handleEditorChange}
-                    onMount={handleEditorDidMount}
-                    theme={isDark ? "vs-dark" : "light"}
-                    options={{
-                      fontSize: 14,
-                      minimap: {
-                        enabled: false,
-                      },
-                      scrollBeyondLastLine: false,
-                      automaticLayout: true,
-                      tabSize: 2,
-                      insertSpaces: true,
-                      wordWrap: "on",
-                      lineNumbers: "on",
-                      glyphMargin: false,
-                      folding: true,
-                      lineDecorationsWidth: 10,
-                      lineNumbersMinChars: 3,
-                      renderLineHighlight: "line",
-                      selectOnLineNumbers: true,
-                      roundedSelection: false,
-                      readOnly: false,
-                      cursorStyle: "line",
-                      mouseWheelZoom: true,
-                    }}
-                  />
-                </div>
+                        {/* Prev / Next buttons inside fullscreen */}
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            disabled={!previousProblem}
+                            onClick={navigateToPrevious}
+                            className="btn btn-ghost btn-xs h-7 px-1.5 sm:px-2 rounded-md border border-base-300/80 disabled:opacity-30 disabled:border-transparent flex items-center gap-1"
+                            aria-label="Previous Problem"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3.5 w-3.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2.5"
+                                d="M15 19l-7-7 7-7"
+                              />
+                            </svg>
+                            <span className="hidden xl:inline text-xs">
+                              Prev
+                            </span>
+                          </button>
 
-                {/* Action & Usage Controls Footer */}
-                <div className="p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setActiveRightTab("testcase")}
-                      className="btn btn-ghost btn-xs h-8 min-h-8 px-2.5 rounded-md font-medium gap-1 text-base-content/60 hover:text-base-content"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                          <button
+                            type="button"
+                            disabled={!nextProblem}
+                            onClick={navigateToNext}
+                            className="btn btn-primary btn-xs h-7 px-1.5 sm:px-2.5 rounded-md flex items-center gap-1 disabled:opacity-30"
+                            aria-label="Next Problem"
+                          >
+                            <span className="hidden xl:inline text-xs">
+                              Next
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3.5 w-3.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2.5"
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right: Language, Actions, Right Panel Toggle, Run & Submit */}
+                      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                        <select
+                          value={selectedLanguage}
+                          onChange={(e) => handleLanguageChange(e.target.value)}
+                          className="h-8 px-1.5 sm:px-2 text-xs font-medium bg-base-100 text-base-content border border-base-300 rounded-md outline-none cursor-pointer focus:border-primary shrink-0"
+                        >
+                          {["javascript", "java", "cpp"].map((language) => (
+                            <option key={language} value={language}>
+                              {LANGUAGE_CONFIG[language].label}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Copy Code */}
+                        <button
+                          type="button"
+                          onClick={handleCopyCode}
+                          className="btn btn-ghost btn-xs h-8 px-2 rounded-lg border border-base-300 text-xs font-medium shrink-0 flex items-center gap-1"
+                          title="Copy Code"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span className="hidden md:inline">
+                            {copied ? "Copied!" : "Copy"}
+                          </span>
+                        </button>
+
+                        {/* Reset Code */}
+                        <button
+                          type="button"
+                          onClick={() => setShowResetConfirm(true)}
+                          className="btn btn-ghost btn-xs h-8 px-2 rounded-lg border border-base-300 text-xs font-medium shrink-0 flex items-center gap-1"
+                          title="Reset Code"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                            />
+                          </svg>
+                          <span className="hidden md:inline">Reset</span>
+                        </button>
+
+                        {/* Shortcuts modal button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowShortcutsModal(true)}
+                          className="btn btn-ghost btn-xs h-8 px-2 rounded-lg border border-base-300 text-xs font-medium hidden sm:flex items-center gap-1 shrink-0"
+                          title="View Keyboard Shortcuts"
+                        >
+                          <span>⌨</span>
+                          <span className="hidden xl:inline">Shortcuts</span>
+                        </button>
+
+                        <div className="h-4 w-px bg-base-300 mx-0.5 hidden sm:block shrink-0" />
+
+                        {/* Toggle Right Panel (Problem Statement & TestCases) */}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowFullscreenProblemPanel((prev) => !prev)
+                          }
+                          className={`btn btn-xs h-8 px-2 sm:px-2.5 rounded-lg border font-semibold text-xs flex items-center gap-1.5 transition-all shrink-0 ${
+                            showFullscreenProblemPanel
+                              ? "bg-primary/10 text-primary border-primary/40 hover:bg-primary/20"
+                              : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
+                          }`}
+                          title="Toggle Problem Statement & TestCases Panel on Right"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                          <span className="hidden md:inline">
+                            {showFullscreenProblemPanel
+                              ? "Hide Problem"
+                              : "Show Problem"}
+                          </span>
+                          <span className="hidden sm:inline md:hidden text-[11px]">
+                            {showFullscreenProblemPanel ? "Hide" : "Problem"}
+                          </span>
+                        </button>
+
+                        {/* Run Button */}
+                        <button
+                          type="button"
+                          onClick={handleRun}
+                          disabled={runLoading || submitLoading}
+                          className="btn btn-outline btn-xs h-8 px-2.5 sm:px-3 rounded-lg font-semibold flex items-center gap-1 shrink-0"
+                        >
+                          {runLoading ? (
+                            <span className="loading loading-spinner loading-xs" />
+                          ) : (
+                            <>
+                              <span>Run</span>
+                              <kbd className="hidden xl:inline-block kbd kbd-xs text-[9px] bg-base-200">
+                                Ctrl+↵
+                              </kbd>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Submit Button */}
+                        <button
+                          type="button"
+                          onClick={handleSubmitCode}
+                          disabled={runLoading || submitLoading}
+                          className="btn btn-primary btn-xs h-8 px-2.5 sm:px-3 rounded-lg font-semibold flex items-center gap-1 shadow-xs shrink-0"
+                        >
+                          {submitLoading ? (
+                            <span className="loading loading-spinner loading-xs" />
+                          ) : (
+                            <>
+                              <span>Submit</span>
+                              <kbd className="hidden xl:inline-block kbd kbd-xs text-[9px] bg-primary-content/20 text-primary-content">
+                                Ctrl+⇧+↵
+                              </kbd>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Floating Top Right Buttons in Normal Mode */
+                    <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5">
+                      {/* Copy Button */}
+                      <button
+                        type="button"
+                        onClick={handleCopyCode}
+                        className="btn btn-xs h-7 min-h-7 px-2.5 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      Console
-                    </button>
+                        {copied ? (
+                          <>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-success"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <span className="text-success font-semibold">
+                              Copied!
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-base-content/60"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              />
+                            </svg>
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
 
-                    {usage && (
-                      <span className="text-[11px] text-base-content/50 font-mono hidden md:inline-block">
-                        {usage.codeOperations?.unlimited
-                          ? "Code: unlimited"
-                          : `Code: ${usage.codeOperations?.used ?? 0}/${usage.codeOperations?.limit ?? 0}`}
-                        {" • "}
-                        {usage.gemini?.unlimited
-                          ? "Gemini: unlimited"
-                          : `Gemini: ${usage.gemini?.used ?? 0}/${usage.gemini?.limit ?? 0}`}
-                      </span>
+                      {/* Reset Button */}
+                      <button
+                        type="button"
+                        onClick={() => setShowResetConfirm(true)}
+                        className="btn btn-xs h-7 min-h-7 px-2.5 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1 text-base-content/70"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3 w-3"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                          />
+                        </svg>
+                        <span>Reset</span>
+                      </button>
+
+                      {/* Shortcuts Button */}
+                      <button
+                        type="button"
+                        onClick={() => setShowShortcutsModal(true)}
+                        className="btn btn-xs h-7 min-h-7 px-2 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1 text-base-content/70"
+                        title="Keyboard Shortcuts"
+                      >
+                        <span>⌨</span>
+                      </button>
+
+                      {/* Fullscreen Button */}
+                      <button
+                        type="button"
+                        onClick={() => setIsEditorFullscreen(true)}
+                        className="btn btn-xs h-7 min-h-7 px-2 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center justify-center text-base-content/70"
+                        title="Enter Fullscreen"
+                        aria-label="Enter Fullscreen"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3 w-3"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Main Work Area: Editor & (in Fullscreen) Right Problem Panel */}
+                  <div className="flex-1 flex min-h-0 overflow-hidden">
+                    {/* Monaco Editor */}
+                    <div className="flex-1 h-full min-w-0 relative">
+                      <Editor
+                        height="100%"
+                        language={getLanguageForMonaco(selectedLanguage)}
+                        value={codes[selectedLanguage] || ""}
+                        onChange={handleEditorChange}
+                        onMount={handleEditorDidMount}
+                        theme={isDark ? "vs-dark" : "light"}
+                        options={{
+                          fontSize: 14,
+                          minimap: {
+                            enabled: false,
+                          },
+                          scrollBeyondLastLine: false,
+                          automaticLayout: true,
+                          tabSize: 2,
+                          insertSpaces: true,
+                          wordWrap: "on",
+                          lineNumbers: "on",
+                          glyphMargin: false,
+                          folding: true,
+                          lineDecorationsWidth: 10,
+                          lineNumbersMinChars: 3,
+                          renderLineHighlight: "line",
+                          selectOnLineNumbers: true,
+                          roundedSelection: false,
+                          readOnly: false,
+                          cursorStyle: "line",
+                          mouseWheelZoom: true,
+                        }}
+                      />
+                    </div>
+
+                    {/* Fullscreen Mode: Right-Side Problem Statement & TestCases Panel */}
+                    {isEditorFullscreen && showFullscreenProblemPanel && (
+                      <aside
+                        aria-label="Problem statement and test cases"
+                        className="fixed inset-x-0 top-12 bottom-0 z-30 sm:static sm:inset-auto w-full sm:w-[340px] md:w-[380px] lg:w-[440px] xl:w-[500px] max-w-full sm:max-w-[48vw] border-l border-base-300 bg-base-100 flex flex-col min-h-0 shrink-0 shadow-2xl sm:shadow-lg"
+                      >
+                        {/* Panel Header */}
+                        <div className="px-3.5 sm:px-4 py-2.5 bg-base-200/70 border-b border-base-300 flex items-center justify-between shrink-0">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-xs font-bold uppercase tracking-wider text-base-content/70 truncate">
+                              Problem & Test Cases
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setShowFullscreenProblemPanel(false)}
+                            className="btn btn-ghost btn-xs h-7 px-2 rounded-md text-xs font-medium text-base-content/70 hover:text-base-content flex items-center gap-1"
+                            title="Close Problem Panel"
+                          >
+                            <span className="hidden sm:inline">Close</span>
+                            <span>✕</span>
+                          </button>
+                        </div>
+
+                        {/* Panel Scrollable Body */}
+                        <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-4 sm:space-y-5">
+                          <div>
+                            <h2 className="text-lg font-bold tracking-tight text-base-content">
+                              {problem.title}
+                            </h2>
+                            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                              <div
+                                className={`badge badge-sm font-semibold capitalize rounded-md ${
+                                  problem.difficulty === "easy"
+                                    ? "badge-success text-success-content"
+                                    : problem.difficulty === "medium"
+                                      ? "badge-warning text-warning-content"
+                                      : "badge-error text-error-content"
+                                }`}
+                              >
+                                {problem.difficulty}
+                              </div>
+                              {Array.isArray(problem.tags)
+                                ? problem.tags.map((tag, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="badge badge-sm badge-ghost border-base-300 text-xs font-medium"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))
+                                : problem.tags && (
+                                    <span className="badge badge-sm badge-ghost border-base-300 text-xs font-medium">
+                                      {problem.tags}
+                                    </span>
+                                  )}
+                              {solved && (
+                                <span className="badge badge-xs badge-primary font-semibold rounded-md">
+                                  Solved
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Problem Description */}
+                          <div className="text-xs sm:text-[13px] leading-relaxed text-base-content/85 whitespace-pre-line border-t border-base-200 pt-3">
+                            {problem.description}
+                          </div>
+
+                          {/* Test Cases / Examples */}
+                          {problem.visibleTestCases?.length > 0 && (
+                            <div className="space-y-3.5 border-t border-base-200 pt-3">
+                              <h3 className="text-xs font-bold uppercase tracking-wider text-base-content/60">
+                                Visible Test Cases
+                              </h3>
+                              {problem.visibleTestCases.map((example, idx) => (
+                                <div
+                                  key={idx}
+                                  className="rounded-xl border border-base-300 bg-base-200/40 p-3.5 space-y-2"
+                                >
+                                  <h4 className="text-xs font-bold text-base-content flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                    Example {idx + 1}
+                                  </h4>
+                                  <div className="space-y-2 text-xs">
+                                    <div>
+                                      <span className="text-[10px] font-semibold text-base-content/55 block mb-1">
+                                        Input
+                                      </span>
+                                      <pre className="p-2.5 rounded-lg bg-base-100 border border-base-300 font-mono text-xs overflow-x-auto text-base-content">
+                                        {example.input}
+                                      </pre>
+                                    </div>
+                                    <div>
+                                      <span className="text-[10px] font-semibold text-base-content/55 block mb-1">
+                                        Output
+                                      </span>
+                                      <pre className="p-2.5 rounded-lg bg-base-100 border border-base-300 font-mono text-xs overflow-x-auto text-base-content">
+                                        {example.output}
+                                      </pre>
+                                    </div>
+                                    {example.explanation && (
+                                      <div>
+                                        <span className="text-[10px] font-semibold text-base-content/55 block mb-0.5">
+                                          Explanation
+                                        </span>
+                                        <p className="text-base-content/75 text-xs leading-relaxed">
+                                          {example.explanation}
+                                        </p>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Latest Execution Summary (if Run or Submit took place) */}
+                          {(runResult || submitResult) && (
+                            <div className="border-t border-base-200 pt-3 space-y-2">
+                              <h3 className="text-xs font-bold uppercase tracking-wider text-base-content/60">
+                                Active Execution Output
+                              </h3>
+                              {runResult && (
+                                <div
+                                  className={`p-3 rounded-xl border text-xs font-mono ${
+                                    runResult.message === "accepted"
+                                      ? "bg-success/10 border-success/30 text-success"
+                                      : "bg-error/10 border-error/30 text-error"
+                                  }`}
+                                >
+                                  <div className="font-bold uppercase tracking-wide">
+                                    Run Result: {runResult.message}
+                                  </div>
+                                  <div className="mt-1">
+                                    Passed: {runResult.testCasesPassed} /{" "}
+                                    {runResult.testCasesTotal}
+                                  </div>
+                                  {runResult.error && (
+                                    <pre className="mt-2 p-2 bg-base-100 text-error rounded-lg overflow-x-auto text-[11px]">
+                                      {runResult.error}
+                                    </pre>
+                                  )}
+                                </div>
+                              )}
+                              {submitResult && (
+                                <div
+                                  className={`p-3 rounded-xl border text-xs font-mono ${
+                                    submitResult.message === "accepted"
+                                      ? "bg-success/10 border-success/30 text-success"
+                                      : "bg-error/10 border-error/30 text-error"
+                                  }`}
+                                >
+                                  <div className="font-bold uppercase tracking-wide">
+                                    Submit Result: {submitResult.message}
+                                  </div>
+                                  <div className="mt-1">
+                                    Passed: {submitResult.testCasesPassed} /{" "}
+                                    {submitResult.testCasesTotal}
+                                  </div>
+                                  {submitResult.error && (
+                                    <pre className="mt-2 p-2 bg-base-100 text-error rounded-lg overflow-x-auto text-[11px]">
+                                      {submitResult.error}
+                                    </pre>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </aside>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 justify-end">
-                    <button
-                      onClick={handleRun}
-                      disabled={runLoading || submitLoading}
-                      type="button"
-                      className="btn btn-outline btn-sm h-9 min-h-9 min-w-[88px] rounded-lg font-semibold tracking-tight"
-                    >
-                      {runLoading ? (
-                        <span className="loading loading-spinner loading-xs" />
-                      ) : (
-                        "Run"
-                      )}
-                    </button>
-
-                    <button
-                      onClick={handleSubmitCode}
-                      disabled={runLoading || submitLoading}
-                      type="button"
-                      className="btn btn-primary btn-sm h-9 min-h-9 min-w-[96px] rounded-lg font-semibold tracking-tight shadow-sm"
-                    >
-                      {submitLoading ? (
-                        <span className="loading loading-spinner loading-xs" />
-                      ) : (
-                        "Submit"
-                      )}
-                    </button>
-                  </div>
                 </div>
+
+                {/* Action & Usage Controls Footer (Hidden when in Fullscreen mode since Fullscreen has its own header) */}
+                {!isEditorFullscreen && (
+                  <div className="p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setActiveRightTab("testcase")}
+                        className="btn btn-ghost btn-xs h-8 min-h-8 px-2.5 rounded-md font-medium gap-1 text-base-content/60 hover:text-base-content"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3.5 w-3.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                        Console
+                      </button>
+
+                      {usage && (
+                        <span className="text-[11px] text-base-content/50 font-mono hidden md:inline-block">
+                          {usage.codeOperations?.unlimited
+                            ? "Code: unlimited"
+                            : `Code: ${usage.codeOperations?.used ?? 0}/${usage.codeOperations?.limit ?? 0}`}
+                          {" • "}
+                          {usage.gemini?.unlimited
+                            ? "Gemini: unlimited"
+                            : `Gemini: ${usage.gemini?.used ?? 0}/${usage.gemini?.limit ?? 0}`}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 justify-end">
+                      <button
+                        type="button"
+                        onClick={() => setShowShortcutsModal(true)}
+                        className="btn btn-ghost btn-xs h-9 px-2 rounded-lg border border-base-300 text-xs font-medium text-base-content/70 hover:text-base-content flex items-center gap-1"
+                        title="Keyboard Shortcuts"
+                      >
+                        <span>⌨</span>
+                        <span className="hidden sm:inline">Shortcuts</span>
+                      </button>
+
+                      <button
+                        onClick={handleRun}
+                        disabled={runLoading || submitLoading}
+                        type="button"
+                        className="btn btn-outline btn-sm h-9 min-h-9 min-w-[88px] rounded-lg font-semibold tracking-tight flex items-center gap-1.5"
+                      >
+                        {runLoading ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <>
+                            <span>Run</span>
+                            <kbd className="hidden sm:inline-block kbd kbd-xs text-[10px] bg-base-200">
+                              Ctrl+↵
+                            </kbd>
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        onClick={handleSubmitCode}
+                        disabled={runLoading || submitLoading}
+                        type="button"
+                        className="btn btn-primary btn-sm h-9 min-h-9 min-w-[96px] rounded-lg font-semibold tracking-tight shadow-sm flex items-center gap-1.5"
+                      >
+                        {submitLoading ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <>
+                            <span>Submit</span>
+                            <kbd className="hidden sm:inline-block kbd kbd-xs text-[10px] bg-primary-content/20 text-primary-content">
+                              Ctrl+⇧+↵
+                            </kbd>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1704,6 +2536,147 @@ const handleResetCode = () => {
                   Reset Code
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Keyboard Shortcuts Cheat Sheet Modal */}
+      {showShortcutsModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowShortcutsModal(false)}
+          />
+
+          <div className="relative w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 shadow-2xl p-6">
+            <div className="flex items-center justify-between pb-3.5 border-b border-base-200 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">⌨</span>
+                <h3 className="text-base font-bold text-base-content">
+                  Coding & Navigation Shortcuts
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowShortcutsModal(false)}
+                className="btn btn-ghost btn-xs btn-circle text-base-content/60 hover:text-base-content"
+                aria-label="Close shortcuts modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-1 text-xs">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-base-content/50 pt-1 pb-0.5">
+                Editor Code Editing
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Duplicate / Copy Line Down
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">Shift</kbd>+
+                  <kbd className="kbd kbd-xs">↓</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Duplicate / Copy Line Up
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">Shift</kbd>+
+                  <kbd className="kbd kbd-xs">↑</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Move Line Down
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">↓</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Move Line Up
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">↑</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Toggle Line Comment
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Ctrl</kbd>+
+                  <kbd className="kbd kbd-xs">/</kbd>
+                </div>
+              </div>
+
+              <div className="text-[11px] font-bold uppercase tracking-wider text-base-content/50 pt-3 pb-0.5">
+                Run, Submit & Navigation
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Run Code
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Ctrl</kbd>+
+                  <kbd className="kbd kbd-xs">↵</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Submit Solution
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Ctrl</kbd>+
+                  <kbd className="kbd kbd-xs">Shift</kbd>+
+                  <kbd className="kbd kbd-xs">↵</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Previous Problem
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">←</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-base-200/60">
+                <span className="text-base-content/85 font-medium">
+                  Next Problem
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Alt</kbd>+
+                  <kbd className="kbd kbd-xs">→</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-base-content/85 font-medium">
+                  Exit Fullscreen
+                </span>
+                <div className="flex items-center gap-1">
+                  <kbd className="kbd kbd-xs">Esc</kbd>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end pt-3 border-t border-base-200">
+              <button
+                type="button"
+                onClick={() => setShowShortcutsModal(false)}
+                className="btn btn-sm btn-primary rounded-xl font-semibold px-5"
+              >
+                Got it
+              </button>
             </div>
           </div>
         </div>

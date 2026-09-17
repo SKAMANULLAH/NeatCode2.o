@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink, useParams, useSearchParams } from "react-router";
 import axiosClient from "../utils/axiosClient";
 import AppNav from "../components/AppNav";
@@ -9,8 +9,13 @@ function Quiz() {
   const { title } = useParams();
   const [searchParams] = useSearchParams();
   const countParam = searchParams.get("count");
-  const topicIds = searchParams.getAll("topicId");
-  const subtopicIds = searchParams.getAll("subtopicId");
+  const topicIdsKey = searchParams.getAll("topicId").join(",");
+  const subtopicIdsKey = searchParams.getAll("subtopicId").join(",");
+
+  const topicIds = useMemo(
+    () => (topicIdsKey ? topicIdsKey.split(",") : []),
+    [topicIdsKey],
+  );
 
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -36,8 +41,14 @@ function Quiz() {
 
         const params = new URLSearchParams();
         params.set("count", String(count));
-        topicIds.forEach((id) => params.append("topicId", id));
-        subtopicIds.forEach((id) => params.append("subtopicId", id));
+        if (topicIdsKey) {
+          topicIdsKey.split(",").forEach((id) => params.append("topicId", id));
+        }
+        if (subtopicIdsKey) {
+          subtopicIdsKey
+            .split(",")
+            .forEach((id) => params.append("subtopicId", id));
+        }
 
         const response = title
           ? await axiosClient.get(
@@ -61,7 +72,7 @@ function Quiz() {
     };
 
     fetchQuiz();
-  }, [title, countParam, topicIds.join(","), subtopicIds.join(",")]);
+  }, [title, countParam, topicIdsKey, subtopicIdsKey]);
 
   const handleSelect = (questionIndex, choiceKey) => {
     if (submitted) return;
@@ -178,13 +189,24 @@ function Quiz() {
 
               {/* Progress / Answering Meta */}
               {!submitted && totalQuestions > 0 && (
-                <div className="mt-5 pt-4 border-t border-base-300/60 flex items-center justify-between text-xs">
-                  <span className="text-base-content/60">
-                    Answered questions
-                  </span>
-                  <span className="font-mono font-semibold text-base-content">
-                    {answeredCount} / {totalQuestions}
-                  </span>
+                <div className="mt-5 pt-4 border-t border-base-300/60">
+                  <div className="flex items-center justify-between text-xs mb-2">
+                    <span className="text-base-content/60 font-medium">
+                      Answering Progress
+                    </span>
+                    <span className="font-mono font-semibold text-base-content">
+                      {answeredCount} / {totalQuestions} Answered (
+                      {Math.round((answeredCount / totalQuestions) * 100)}%)
+                    </span>
+                  </div>
+                  <div className="w-full bg-base-200 h-2 rounded-full overflow-hidden">
+                    <div
+                      className="bg-primary h-full transition-all duration-300 rounded-full"
+                      style={{
+                        width: `${Math.round((answeredCount / totalQuestions) * 100)}%`,
+                      }}
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -386,27 +408,84 @@ function Quiz() {
 
             {/* Results Card */}
             {submitted && (
-              <div className="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8 shadow-xs text-center space-y-3">
-                <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-2 font-bold text-lg">
-                  {scorePercentage}%
+              <div className="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-10 shadow-xs text-center space-y-6">
+                <div className="inline-flex flex-col items-center">
+                  <div
+                    className={`w-20 h-20 rounded-full flex items-center justify-center font-extrabold text-2xl mb-3 shadow-inner ${
+                      scorePercentage >= 80
+                        ? "bg-success/15 text-success border-2 border-success/30"
+                        : scorePercentage >= 50
+                          ? "bg-warning/15 text-warning border-2 border-warning/30"
+                          : "bg-error/15 text-error border-2 border-error/30"
+                    }`}
+                  >
+                    {scorePercentage}%
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-base-content">
+                    {scorePercentage >= 80
+                      ? "Outstanding Performance! 🌟"
+                      : scorePercentage >= 50
+                        ? "Good Job! Keep Practicing 📈"
+                        : "Review Recommended 💪"}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-base-content/65 mt-1 max-w-md mx-auto leading-relaxed">
+                    {scorePercentage >= 80
+                      ? "You've demonstrated a strong command of this topic material."
+                      : scorePercentage >= 50
+                        ? "Solid effort! Revisit the questions marked in red below to improve."
+                        : "Spend some more time reviewing lesson notes and try another quiz session."}
+                  </p>
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight text-base-content">
-                  Quiz Results
-                </h2>
-                <p className="text-sm text-base-content/70">
-                  Final Score:{" "}
-                  <span className="font-bold text-primary text-base font-mono">
-                    {score} / {quiz.question.length}
-                  </span>
-                </p>
-                <div className="pt-4">
+
+                {/* Score Breakdown Grid */}
+                <div className="grid grid-cols-3 gap-3 max-w-md mx-auto">
+                  <div className="p-3 bg-base-200/50 border border-base-300 rounded-xl text-center">
+                    <span className="text-[11px] font-semibold text-base-content/55 uppercase tracking-wide block mb-1">
+                      Correct
+                    </span>
+                    <span className="text-lg sm:text-xl font-mono font-extrabold text-success">
+                      {score}
+                    </span>
+                  </div>
+
+                  <div className="p-3 bg-base-200/50 border border-base-300 rounded-xl text-center">
+                    <span className="text-[11px] font-semibold text-base-content/55 uppercase tracking-wide block mb-1">
+                      Incorrect
+                    </span>
+                    <span className="text-lg sm:text-xl font-mono font-extrabold text-error">
+                      {totalQuestions - score}
+                    </span>
+                  </div>
+
+                  <div className="p-3 bg-base-200/50 border border-base-300 rounded-xl text-center">
+                    <span className="text-[11px] font-semibold text-base-content/55 uppercase tracking-wide block mb-1">
+                      Total
+                    </span>
+                    <span className="text-lg sm:text-xl font-mono font-extrabold text-base-content">
+                      {totalQuestions}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.scrollTo({ top: 400, behavior: "smooth" });
+                    }}
+                    className="btn btn-outline btn-sm font-semibold w-full sm:w-auto"
+                  >
+                    Review Answers Below
+                  </button>
+
                   <NavLink
                     to={
                       topicIds.length === 1
                         ? `/topics/${topicIds[0]}`
                         : "/quizzes"
                     }
-                    className="btn btn-primary btn-sm font-semibold"
+                    className="btn btn-primary btn-sm font-semibold w-full sm:w-auto shadow-xs"
                   >
                     {topicIds.length === 1
                       ? "Return to Topic"

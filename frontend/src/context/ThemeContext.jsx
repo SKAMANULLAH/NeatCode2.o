@@ -1,16 +1,11 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   applyTheme,
   DARK_THEME,
   LIGHT_THEME,
   readTheme,
 } from "../utils/theme";
-
-const ThemeContext = createContext({
-  theme: LIGHT_THEME,
-  isDark: false,
-  toggleTheme: () => {},
-});
+import { ThemeContext } from "./ThemeContextDef";
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
@@ -37,5 +32,3 @@ export function ThemeProvider({ children }) {
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
-
-export const useTheme = () => useContext(ThemeContext);

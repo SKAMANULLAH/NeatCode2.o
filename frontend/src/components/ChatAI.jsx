@@ -37,7 +37,6 @@ function ChatAI({ problem, onUsageUpdate }) {
   } = useForm();
 
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
