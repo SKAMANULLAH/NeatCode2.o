@@ -49,11 +49,11 @@ const submitCode = async (req, res) => {
 
     const testCases = problem.invisibleTestCases;
 
-    if (!testCases || testCases.length !== 20) {
+    if (!testCases) {
       return sendError(
         res,
         400,
-        "Problem must contain exactly 20 hidden test cases",
+        "Test Cases are required",
       );
     }
 
@@ -77,7 +77,7 @@ const submitCode = async (req, res) => {
       language,
       status: "pending",
       testCasesPassed: 0,
-      testCasesTotal: 20,
+      testCasesTotal: testCases.length,
       time: 0,
       memory: 0,
       errorMessage: "",
@@ -91,7 +91,7 @@ const submitCode = async (req, res) => {
         language,
         versionIndex,
       },
-      20,
+      testCases.length,
     );
 
     submission.status = result.status;
@@ -125,9 +125,9 @@ const submitCode = async (req, res) => {
       message: result.status,
       status: result.status,
       passed: result.testCasesPassed,
-      total: 20,
+      total: testCases.length,
       testCasesPassed: result.testCasesPassed,
-      testCasesTotal: 20,
+      testCasesTotal: testCases.length,
       testCase: result.status === "wrongAnswer" ? result.testCase : undefined,
       error: result.error || null,
       solved,
@@ -191,7 +191,7 @@ const runCode = async (req, res) => {
 
     const testCases = problem.visibleTestCases;
 
-    if (!testCases || testCases.length !== 3) {
+    if (!testCases || testCases.length ===0) {
       return sendError(res, 400, "No test cases available");
     }
 
@@ -216,7 +216,7 @@ const runCode = async (req, res) => {
         language,
         versionIndex,
       },
-      3,
+      testCases.length,
     );
 
     return res.status(200).json({
