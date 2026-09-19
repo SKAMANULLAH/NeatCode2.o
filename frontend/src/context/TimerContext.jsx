@@ -87,7 +87,7 @@ export function TimerProvider({ children }) {
     }));
 
     playChime();
-    toast.success("Focus session completed! Great job! 🎉", {
+    toast.success("Focus session completed! Great job!", {
       duration: 6000,
       icon: "⏰",
     });

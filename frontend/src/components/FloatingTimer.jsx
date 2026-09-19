@@ -23,7 +23,6 @@ export default function FloatingTimer() {
   const widgetRef = useRef(null);
   const [pos, setPos] = useState(() => {
     if (floatingPosition) return floatingPosition;
-    // Default to bottom right on initial render
     if (typeof window !== "undefined") {
       return {
         x: Math.max(16, window.innerWidth - 320),
@@ -34,9 +33,20 @@ export default function FloatingTimer() {
   });
 
   const [isDragging, setIsDragging] = useState(false);
-  const dragStartRef = useRef({ pointerX: 0, pointerY: 0, startX: 0, startY: 0 });
+  const dragStartRef = useRef({
+    pointerX: 0,
+    pointerY: 0,
+    startX: 0,
+    startY: 0,
+  });
+  const posRef = useRef(pos);
 
-  // Keep within bounds on window resize
+  // Keep a ref synchronized with current pos to avoid stale closures
+  useEffect(() => {
+    posRef.current = pos;
+  }, [pos]);
+
+  // Keep within bounds on window resize without triggering re-render loops
   useEffect(() => {
     const handleResize = () => {
       if (!widgetRef.current) return;
@@ -47,31 +57,33 @@ export default function FloatingTimer() {
       setPos((current) => {
         const clampedX = Math.min(Math.max(16, current.x), maxX);
         const clampedY = Math.min(Math.max(16, current.y), maxY);
-        if (clampedX !== current.x || clampedY !== current.y) {
-          const newPos = { x: clampedX, y: clampedY };
-          setFloatingPosition(newPos);
-          return newPos;
-        }
-        return current;
+        return { x: clampedX, y: clampedY };
       });
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [setFloatingPosition]);
+  }, []);
 
   const handlePointerDown = (e) => {
-    // Only drag with primary mouse button or touch
     if (e.button && e.button !== 0) return;
-    // Don't drag if clicked on a button or interactive child
     if (e.target.closest("button") || e.target.closest("input")) return;
+
+    // Prevent mobile browser gestures and pull-to-refresh
+    if (e.cancelable) e.preventDefault();
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
 
     setIsDragging(true);
     dragStartRef.current = {
       pointerX: e.clientX,
       pointerY: e.clientY,
-      startX: pos.x,
-      startY: pos.y,
+      startX: posRef.current.x,
+      startY: posRef.current.y,
     };
 
     const handlePointerMove = (moveEvent) => {
@@ -84,27 +96,47 @@ export default function FloatingTimer() {
       const maxX = Math.max(16, window.innerWidth - widgetWidth - 16);
       const maxY = Math.max(16, window.innerHeight - widgetHeight - 16);
 
-      const nextX = Math.min(Math.max(16, dragStartRef.current.startX + deltaX), maxX);
-      const nextY = Math.min(Math.max(16, dragStartRef.current.startY + deltaY), maxY);
+      const nextX = Math.min(
+        Math.max(16, dragStartRef.current.startX + deltaX),
+        maxX,
+      );
+      const nextY = Math.min(
+        Math.max(16, dragStartRef.current.startY + deltaY),
+        maxY,
+      );
 
       setPos({ x: nextX, y: nextY });
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (upEvent) => {
       setIsDragging(false);
+      try {
+        e.currentTarget.releasePointerCapture(upEvent.pointerId);
+      } catch {
+        // ignore
+      }
+
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
-      setFloatingPosition(pos);
+      window.removeEventListener("pointercancel", handlePointerUp);
+
+      // Persist only once drag finishes cleanly
+      if (typeof setFloatingPosition === "function") {
+        setFloatingPosition(posRef.current);
+      }
     };
 
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
   };
 
   if (!isFloating) return null;
 
   const progressPercent =
-    duration > 0 ? Math.min(100, Math.max(0, ((duration - timeLeft) / duration) * 100)) : 0;
+    duration > 0
+      ? Math.min(100, Math.max(0, ((duration - timeLeft) / duration) * 100))
+      : 0;
 
   return (
     <div
@@ -113,7 +145,7 @@ export default function FloatingTimer() {
         left: `${pos.x}px`,
         top: `${pos.y}px`,
       }}
-      className={`fixed z-[9999] select-none transition-shadow duration-200 ${
+      className={`fixed z-[9999] select-none touch-none transition-shadow duration-200 ${
         isDragging ? "cursor-grabbing shadow-2xl scale-[1.01]" : "shadow-xl"
       }`}
     >
@@ -121,9 +153,8 @@ export default function FloatingTimer() {
       {isMinimized ? (
         <div
           onPointerDown={handlePointerDown}
-          className="flex items-center gap-2.5 px-3.5 py-2 rounded-full border border-base-300 bg-base-100/95 backdrop-blur-md cursor-grab active:cursor-grabbing shadow-lg hover:border-primary/50 transition-all"
+          className="touch-none flex items-center gap-2.5 px-3.5 py-2 rounded-full border border-base-300 bg-base-100/95 backdrop-blur-md cursor-grab active:cursor-grabbing shadow-lg hover:border-primary/50 transition-all"
         >
-          {/* Drag grip icon */}
           <div className="flex items-center gap-0.5 text-base-content/40 hover:text-base-content/70">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,19 +172,16 @@ export default function FloatingTimer() {
             </svg>
           </div>
 
-          {/* Pulse status indicator */}
           <span
             className={`w-2 h-2 rounded-full ${
               isTimerRunning ? "bg-primary animate-pulse" : "bg-base-content/30"
             }`}
           />
 
-          {/* Time digits */}
           <span className="font-mono text-sm font-bold tracking-tight text-base-content">
             {formatTimerDisplay(timeLeft)}
           </span>
 
-          {/* Quick Play/Pause button */}
           <button
             type="button"
             onClick={isTimerRunning ? pauseTimer : startTimer}
@@ -191,7 +219,6 @@ export default function FloatingTimer() {
             )}
           </button>
 
-          {/* Expand button */}
           <button
             type="button"
             onClick={toggleMinimize}
@@ -214,7 +241,6 @@ export default function FloatingTimer() {
             </svg>
           </button>
 
-          {/* Close/Dock button */}
           <button
             type="button"
             onClick={() => setIsFloating(false)}
@@ -240,10 +266,9 @@ export default function FloatingTimer() {
       ) : (
         /* ---------------- EXPANDED CARD MODE ---------------- */
         <div className="w-72 sm:w-80 rounded-2xl border border-base-300 bg-base-100/95 backdrop-blur-md shadow-2xl overflow-hidden">
-          {/* Header & Drag Handle */}
           <div
             onPointerDown={handlePointerDown}
-            className="px-4 py-2.5 bg-base-200/80 border-b border-base-300 flex items-center justify-between cursor-grab active:cursor-grabbing"
+            className="touch-none px-4 py-2.5 bg-base-200/80 border-b border-base-300 flex items-center justify-between cursor-grab active:cursor-grabbing"
           >
             <div className="flex items-center gap-2">
               <svg
@@ -264,16 +289,13 @@ export default function FloatingTimer() {
                 Focus Timer
               </span>
               <span
-                className={`badge badge-xs ${
-                  isTimerRunning ? "badge-primary" : "badge-ghost"
-                }`}
+                className={`badge badge-xs ${isTimerRunning ? "badge-primary" : "badge-ghost"}`}
               >
                 {isTimerRunning ? "Running" : "Paused"}
               </span>
             </div>
 
             <div className="flex items-center gap-1">
-              {/* Minimize button */}
               <button
                 type="button"
                 onClick={toggleMinimize}
@@ -296,7 +318,6 @@ export default function FloatingTimer() {
                 </svg>
               </button>
 
-              {/* Close/Dock button */}
               <button
                 type="button"
                 onClick={() => setIsFloating(false)}
@@ -321,7 +342,6 @@ export default function FloatingTimer() {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <div className="w-full bg-base-300 h-1">
             <div
               className="bg-primary h-1 transition-all duration-300 ease-out"
@@ -329,14 +349,11 @@ export default function FloatingTimer() {
             />
           </div>
 
-          {/* Body */}
           <div className="p-4 flex flex-col items-center">
-            {/* Time display */}
             <div className="my-2 font-mono text-4xl sm:text-5xl font-extrabold tracking-tight text-base-content">
               {formatTimerDisplay(timeLeft)}
             </div>
 
-            {/* Controls */}
             <div className="flex items-center gap-2 mt-2">
               <button
                 type="button"
@@ -413,7 +430,6 @@ export default function FloatingTimer() {
               </button>
             </div>
 
-            {/* Presets */}
             <div className="flex items-center gap-1.5 mt-4 pt-3 border-t border-base-200 w-full justify-center">
               {[5, 15, 25, 45].map((mins) => (
                 <button
@@ -429,10 +445,11 @@ export default function FloatingTimer() {
               ))}
             </div>
 
-            {/* Footer tip */}
             <p className="text-[10px] text-base-content/50 mt-2.5 text-center flex items-center gap-1">
               <span>●</span>
-              <span>Continues counting in other tabs • Drag header to move</span>
+              <span>
+                Continues counting in other tabs • Drag header to move
+              </span>
             </p>
           </div>
         </div>

@@ -478,19 +478,24 @@ export default function Workspace() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
               <div className="flex items-center gap-2 text-xs font-medium text-base-content/60 mb-2">
-                <RouterLink to="/" className="hover:text-primary transition-colors">
+                <RouterLink
+                  to="/"
+                  className="hover:text-primary transition-colors"
+                >
                   Home
                 </RouterLink>
                 <span>/</span>
-                <span className="text-base-content font-semibold">Workspace</span>
+                <span className="text-base-content font-semibold">
+                  Workspace
+                </span>
               </div>
 
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                 Personal Workspace
               </h1>
               <p className="mt-1 text-sm text-base-content/70 max-w-xl">
-                Organize your study notes, save essential web resources, and maintain
-                laser focus with the persistent multi-tab timer.
+                Organize your study notes, save essential web resources, and
+                maintain laser focus with the persistent multi-tab timer.
               </p>
             </div>
 
@@ -523,7 +528,9 @@ export default function Workspace() {
                     <span>Timer</span>
                     <span
                       className={`w-1.5 h-1.5 rounded-full ${
-                        isTimerRunning ? "bg-primary animate-pulse" : "bg-base-content/30"
+                        isTimerRunning
+                          ? "bg-primary animate-pulse"
+                          : "bg-base-content/30"
                       }`}
                     />
                   </div>
@@ -567,53 +574,52 @@ export default function Workspace() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Navigation Tabs */}
         <div className="flex items-center justify-between border-b border-base-300 pb-4 mb-6 sm:mb-8">
-          <div className="flex items-center gap-2 p-1 bg-base-200 rounded-xl">
+          <div className="grid grid-cols-3 gap-1 p-1 bg-base-200 rounded-xl w-full">
             <button
               type="button"
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                 activeSection === "notes"
                   ? "bg-base-100 text-primary shadow-xs"
                   : "text-base-content/65 hover:text-base-content hover:bg-base-100/50"
               }`}
               onClick={() => setActiveSection("notes")}
             >
-              <span>Markdown Notes</span>
-              <span className="badge badge-sm badge-ghost font-normal">
+              <span>Notes</span>
+              <span className="badge badge-xs sm:badge-sm badge-ghost font-normal px-1.5">
                 {notes.length}
               </span>
             </button>
 
             <button
               type="button"
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                 activeSection === "links"
                   ? "bg-base-100 text-primary shadow-xs"
                   : "text-base-content/65 hover:text-base-content hover:bg-base-100/50"
               }`}
               onClick={() => setActiveSection("links")}
             >
-              <span>Web Bookmarks</span>
-              <span className="badge badge-sm badge-ghost font-normal">
+              <span>Bookmarks</span>
+              <span className="badge badge-xs sm:badge-sm badge-ghost font-normal px-1.5">
                 {links.length}
               </span>
             </button>
 
             <button
               type="button"
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                 activeSection === "timer"
                   ? "bg-base-100 text-primary shadow-xs"
                   : "text-base-content/65 hover:text-base-content hover:bg-base-100/50"
               }`}
               onClick={() => setActiveSection("timer")}
             >
-              <span>Focus Timer</span>
+              <span>Timer</span>
               {isTimerRunning && (
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0" />
               )}
             </button>
           </div>
-
           {/* Quick Add Buttons on right */}
           <div className="hidden sm:flex items-center gap-2">
             {activeSection === "notes" && (
@@ -845,7 +851,9 @@ export default function Workspace() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => insertMarkdownSyntax("[", "](https://)")}
+                          onClick={() =>
+                            insertMarkdownSyntax("[", "](https://)")
+                          }
                           className="btn btn-xs btn-ghost"
                           title="Link [title](url)"
                         >
@@ -858,7 +866,9 @@ export default function Workspace() {
                         <button
                           type="button"
                           className={`btn btn-xs join-item ${
-                            noteMode === "edit" ? "btn-primary font-bold" : "btn-ghost"
+                            noteMode === "edit"
+                              ? "btn-primary font-bold"
+                              : "btn-ghost"
                           }`}
                           onClick={() => setNoteMode("edit")}
                         >
@@ -867,7 +877,9 @@ export default function Workspace() {
                         <button
                           type="button"
                           className={`btn btn-xs join-item ${
-                            noteMode === "split" ? "btn-primary font-bold" : "btn-ghost"
+                            noteMode === "split"
+                              ? "btn-primary font-bold"
+                              : "btn-ghost"
                           }`}
                           onClick={() => setNoteMode("split")}
                         >
@@ -876,7 +888,9 @@ export default function Workspace() {
                         <button
                           type="button"
                           className={`btn btn-xs join-item ${
-                            noteMode === "preview" ? "btn-primary font-bold" : "btn-ghost"
+                            noteMode === "preview"
+                              ? "btn-primary font-bold"
+                              : "btn-ghost"
                           }`}
                           onClick={() => setNoteMode("preview")}
                         >
@@ -902,7 +916,8 @@ export default function Workspace() {
                           <MarkdownContent content={noteContent} />
                         ) : (
                           <p className="text-base-content/40 italic">
-                            Nothing to preview yet. Switch back to Write mode to draft your note.
+                            Nothing to preview yet. Switch back to Write mode to
+                            draft your note.
                           </p>
                         )}
                       </div>
@@ -915,7 +930,9 @@ export default function Workspace() {
                           className="textarea textarea-bordered w-full min-h-80 font-mono text-sm leading-relaxed"
                           placeholder="Write markdown here..."
                           value={noteContent}
-                          onChange={(event) => setNoteContent(event.target.value)}
+                          onChange={(event) =>
+                            setNoteContent(event.target.value)
+                          }
                         />
                         <div className="bg-base-200/40 border border-base-300 rounded-xl p-5 min-h-80 max-h-[400px] overflow-y-auto prose dark:prose-invert max-w-none">
                           {noteContent.trim() ? (
@@ -933,7 +950,10 @@ export default function Workspace() {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4 pt-4 border-t border-base-200">
                       <div className="text-xs text-base-content/50">
                         {noteContent.length} characters •{" "}
-                        {noteContent.trim() ? noteContent.trim().split(/\s+/).length : 0} words
+                        {noteContent.trim()
+                          ? noteContent.trim().split(/\s+/).length
+                          : 0}{" "}
+                        words
                       </div>
 
                       <div className="flex justify-end gap-2.5">
@@ -971,7 +991,9 @@ export default function Workspace() {
                                   d="M5 13l4 4L19 7"
                                 />
                               </svg>
-                              <span>{editingNoteId ? "Update Note" : "Save Note"}</span>
+                              <span>
+                                {editingNoteId ? "Update Note" : "Save Note"}
+                              </span>
                             </>
                           )}
                         </button>
@@ -989,7 +1011,9 @@ export default function Workspace() {
                   📝
                 </div>
                 <h3 className="font-bold text-lg">
-                  {noteSearch ? "No matching notes found" : "No notes saved yet"}
+                  {noteSearch
+                    ? "No matching notes found"
+                    : "No notes saved yet"}
                 </h3>
                 <p className="text-sm text-base-content/60 mt-1 max-w-md mx-auto">
                   {noteSearch
@@ -1031,11 +1055,14 @@ export default function Workspace() {
                           <span className="text-[11px] text-base-content/50 mt-0.5 block">
                             Updated{" "}
                             {note.updatedAt
-                              ? new Date(note.updatedAt).toLocaleDateString(undefined, {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })
+                              ? new Date(note.updatedAt).toLocaleDateString(
+                                  undefined,
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  },
+                                )
                               : "Recently"}
                           </span>
                         </div>
@@ -1280,7 +1307,9 @@ export default function Workspace() {
                         className="textarea textarea-bordered w-full text-sm"
                         placeholder="Key points or summary of what this website provides..."
                         value={linkDescription}
-                        onChange={(event) => setLinkDescription(event.target.value)}
+                        onChange={(event) =>
+                          setLinkDescription(event.target.value)
+                        }
                         rows={2}
                       />
                     </div>
@@ -1323,7 +1352,9 @@ export default function Workspace() {
                   🔖
                 </div>
                 <h3 className="font-bold text-lg">
-                  {linkSearch ? "No matching bookmarks found" : "No bookmarks saved yet"}
+                  {linkSearch
+                    ? "No matching bookmarks found"
+                    : "No bookmarks saved yet"}
                 </h3>
                 <p className="text-sm text-base-content/60 mt-1 max-w-md mx-auto">
                   {linkSearch
@@ -1511,15 +1542,17 @@ export default function Workspace() {
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-base-200 border border-base-300 text-xs font-semibold mb-3">
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isTimerRunning ? "bg-primary animate-pulse" : "bg-base-content/30"
+                      isTimerRunning
+                        ? "bg-primary animate-pulse"
+                        : "bg-base-content/30"
                     }`}
                   />
                   <span>
                     {isTimerRunning
                       ? "Focus Session in Progress"
                       : timeLeft === 0
-                      ? "Session Completed"
-                      : "Ready to Focus"}
+                        ? "Session Completed"
+                        : "Ready to Focus"}
                   </span>
                 </div>
 
@@ -1625,7 +1658,11 @@ export default function Workspace() {
                           onClick={() => setPresetDuration(minutes)}
                         >
                           {minutes} min
-                          {minutes === 25 ? " (Pomodoro)" : minutes === 5 ? " (Quick)" : ""}
+                          {minutes === 25
+                            ? " (Pomodoro)"
+                            : minutes === 5
+                              ? " (Quick)"
+                              : ""}
                         </button>
                       );
                     })}
@@ -1635,14 +1672,14 @@ export default function Workspace() {
                 {/* Floating Widget Toggle Banner */}
                 <div className="mt-8 p-4 rounded-2xl bg-base-200/70 border border-base-300 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-left">
                   <div className="flex items-center gap-3">
-                   
                     <div>
                       <h4 className="font-bold text-sm text-base-content">
                         Movable Floating Timer
                       </h4>
                       <p className="text-xs text-base-content/70 mt-0.5">
-                        Pop out the timer to drag it anywhere across your screen. It
-                        continues running even when you switch to other browser tabs!
+                        Pop out the timer to drag it anywhere across your
+                        screen. It continues running even when you switch to
+                        other browser tabs!
                       </p>
                     </div>
                   </div>
@@ -1670,13 +1707,15 @@ export default function Workspace() {
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                       />
                     </svg>
-                    <span>{isFloating ? "Hide Floating Widget" : "Launch Floating Timer"}</span>
+                    <span>
+                      {isFloating
+                        ? "Hide Floating Widget"
+                        : "Launch Floating Timer"}
+                    </span>
                   </button>
                 </div>
               </div>
             </div>
-
-           
           </section>
         )}
       </main>

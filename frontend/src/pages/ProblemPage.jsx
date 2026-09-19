@@ -2,10 +2,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Editor from "@monaco-editor/react";
 import { useParams, NavLink, useLocation, useNavigate } from "react-router";
 import axiosClient from "../utils/axiosClient";
-import ChatAI from "../components/ChatAI";
-import Editorial from "../components/Editorial.jsx";
+import ProblemContent from "../components/ProblemContent";
 import AppNav from "../components/AppNav";
 import { useTheme } from "../context/useTheme";
+import Whiteboard from "../components/Whiteboard";
+import FloatingWindow from "../components/FloatingWindow";
 
 const getCodeStorageKey = (id, language) => `problem-code-${id}-${language}`;
 
@@ -33,9 +34,39 @@ const LANGUAGE_CONFIG = {
 };
 
 const ProblemPage = () => {
-  const [leftPanelSize, setLeftPanelSize] = useState(50);
+  const [leftPanelSize, setLeftPanelSize] = useState(() => {
+    try {
+      const saved = localStorage.getItem("problem-page-left-size");
+      return saved ? Math.max(20, Math.min(80, Number(saved))) : 50;
+    } catch {
+      return 50;
+    }
+  });
   const [isResizing, setIsResizing] = useState(false);
   const containerRef = useRef(null);
+
+  // Floating Window Visibility State with LocalStorage Persistence
+  const [showProblemWindow, setShowProblemWindow] = useState(() => {
+    try {
+      const saved = localStorage.getItem("problem-page-show-problem");
+      return saved !== null ? saved === "true" : true;
+    } catch {
+      return true;
+    }
+  });
+
+  const [showWhiteboardWindow, setShowWhiteboardWindow] = useState(() => {
+    try {
+      const saved = localStorage.getItem("problem-page-show-whiteboard");
+      return saved === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  // Dynamic Z-Index Layer Management ('problem' vs 'whiteboard')
+  const [topWindow, setTopWindow] = useState("problem");
+
   const [problem, setProblem] = useState(null);
   const [problemError, setProblemError] = useState("");
 
@@ -47,8 +78,6 @@ const ProblemPage = () => {
     cpp: "",
   });
   const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
-  const [showFullscreenProblemPanel, setShowFullscreenProblemPanel] =
-    useState(true);
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
 
   const [runLoading, setRunLoading] = useState(false);
@@ -68,7 +97,7 @@ const ProblemPage = () => {
   const [solutionMessage, setSolutionMessage] = useState("");
   const [usage, setUsage] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [mobilePanel, setMobilePanel] = useState("problem");
+  const [mobilePanel, setMobilePanel] = useState("problem"); // 'problem' | 'editor' | 'board'
 
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
@@ -87,6 +116,38 @@ const ProblemPage = () => {
     locationProblems && locationProblems.length > 0
       ? locationProblems
       : fetchedProblems;
+
+  // Toggle Floating Problem Window
+  const toggleProblemWindow = useCallback(() => {
+    setShowProblemWindow((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("problem-page-show-problem", String(next));
+      } catch {
+        /* ignore */
+      }
+      if (next) {
+        setTopWindow("problem");
+      }
+      return next;
+    });
+  }, []);
+
+  // Toggle Floating Whiteboard Window
+  const toggleWhiteboardWindow = useCallback(() => {
+    setShowWhiteboardWindow((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("problem-page-show-whiteboard", String(next));
+      } catch {
+        /* ignore */
+      }
+      if (next) {
+        setTopWindow("whiteboard");
+      }
+      return next;
+    });
+  }, []);
 
   // Auto-fetch problem list fallback so next/prev navigation works even on direct URL visit or refresh
   useEffect(() => {
@@ -189,17 +250,17 @@ const ProblemPage = () => {
           }
         });
 
-const restoredCodes = { ...initialCodes };
+        const restoredCodes = { ...initialCodes };
 
-Object.keys(initialCodes).forEach((language) => {
-  const savedCode = localStorage.getItem(getCodeStorageKey(problemId, language));
+        Object.keys(initialCodes).forEach((language) => {
+          const savedCode = localStorage.getItem(getCodeStorageKey(problemId, language));
 
-  if (savedCode !== null) {
-    restoredCodes[language] = savedCode;
-  }
-});
+          if (savedCode !== null) {
+            restoredCodes[language] = savedCode;
+          }
+        });
 
-setCodes(restoredCodes);
+        setCodes(restoredCodes);
         try {
           const solutionResponse = await axiosClient.get(
             `/problem/fetchProblem/${problemId}/solution`,
@@ -321,16 +382,17 @@ setCodes(restoredCodes);
       loadUsage();
     }
   }, [problemId]);
-const handleEditorChange = (value) => {
-  const newCode = value || "";
 
-  setCodes((prev) => ({
-    ...prev,
-    [selectedLanguage]: newCode,
-  }));
+  const handleEditorChange = (value) => {
+    const newCode = value || "";
 
-  localStorage.setItem(getCodeStorageKey(problemId, selectedLanguage), newCode);
-};
+    setCodes((prev) => ({
+      ...prev,
+      [selectedLanguage]: newCode,
+    }));
+
+    localStorage.setItem(getCodeStorageKey(problemId, selectedLanguage), newCode);
+  };
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
@@ -416,22 +478,23 @@ const handleEditorChange = (value) => {
       console.error("Failed to copy code:", error);
     }
   };
-const handleResetCode = () => {
-  const initialCode =
-    problem?.startCode?.find(
-      (item) =>
-        item.language === LANGUAGE_CONFIG[selectedLanguage].databaseLanguage,
-    )?.initialCode || "";
 
-  setCodes((previousCodes) => ({
-    ...previousCodes,
-    [selectedLanguage]: initialCode,
-  }));
+  const handleResetCode = () => {
+    const initialCode =
+      problem?.startCode?.find(
+        (item) =>
+          item.language === LANGUAGE_CONFIG[selectedLanguage].databaseLanguage,
+      )?.initialCode || "";
 
-  localStorage.removeItem(getCodeStorageKey(problemId, selectedLanguage));
+    setCodes((previousCodes) => ({
+      ...previousCodes,
+      [selectedLanguage]: initialCode,
+    }));
 
-  setShowResetConfirm(false);
-};
+    localStorage.removeItem(getCodeStorageKey(problemId, selectedLanguage));
+
+    setShowResetConfirm(false);
+  };
 
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
@@ -455,7 +518,7 @@ const handleResetCode = () => {
       setRunResult(response.data);
       setActiveRightTab("testcase");
       if (isEditorFullscreen) {
-        setShowFullscreenProblemPanel(true);
+        setShowProblemWindow(true);
       }
     } catch (error) {
       console.error("Error running code:", error);
@@ -477,7 +540,7 @@ const handleResetCode = () => {
 
       setActiveRightTab("testcase");
       if (isEditorFullscreen) {
-        setShowFullscreenProblemPanel(true);
+        setShowProblemWindow(true);
       }
     } finally {
       setRunLoading(false);
@@ -502,7 +565,7 @@ const handleResetCode = () => {
       setSubmitResult(response.data);
       setActiveRightTab("result");
       if (isEditorFullscreen) {
-        setShowFullscreenProblemPanel(true);
+        setShowProblemWindow(true);
       }
 
       if (response.data.message === "accepted" || response.data.solved) {
@@ -529,7 +592,7 @@ const handleResetCode = () => {
 
       setActiveRightTab("result");
       if (isEditorFullscreen) {
-        setShowFullscreenProblemPanel(true);
+        setShowProblemWindow(true);
       }
     } finally {
       setSubmitLoading(false);
@@ -590,22 +653,6 @@ const handleResetCode = () => {
     return LANGUAGE_CONFIG[language].monacoLanguage;
   };
 
-  const getDifficultyBadgeColor = (difficulty) => {
-    switch (difficulty?.toLowerCase()) {
-      case "easy":
-        return "badge-success";
-
-      case "medium":
-        return "badge-warning";
-
-      case "hard":
-        return "badge-error";
-
-      default:
-        return "badge-neutral";
-    }
-  };
-
   const getSubmissionStatusText = (status) => {
     switch (status) {
       case "accepted":
@@ -634,41 +681,9 @@ const handleResetCode = () => {
     }
   };
 
-  const getSubmissionBadge = (status) => {
-    switch (status) {
-      case "accepted":
-        return "badge-success";
-
-      case "pending":
-        return "badge-warning";
-
-      default:
-        return "badge-error";
-    }
-  };
-
-  const formatMemory = (memory) => {
-    if (memory === undefined || memory === null) return "N/A";
-
-    const numericMemory = Number(memory);
-
-    if (Number.isNaN(numericMemory)) return memory;
-
-    if (numericMemory < 1024) return `${numericMemory} KB`;
-
-    return `${(numericMemory / 1024).toFixed(2)} MB`;
-  };
-
-  const formatSubmissionDate = (dateString) => {
-    if (!dateString) return "N/A";
-
-    return new Date(dateString).toLocaleString();
-  };
-
   const handleResizeStart = (e) => {
     e.preventDefault();
     setIsResizing(true);
-
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
@@ -679,11 +694,9 @@ const handleResetCode = () => {
       if (!containerRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
-
       const isDesktop = window.innerWidth >= 1024;
 
       let percentage;
-
       if (isDesktop) {
         percentage = ((e.clientX - rect.left) / rect.width) * 100;
       } else {
@@ -691,8 +704,12 @@ const handleResetCode = () => {
       }
 
       percentage = Math.max(20, Math.min(80, percentage));
-
       setLeftPanelSize(percentage);
+      try {
+        localStorage.setItem("problem-page-left-size", String(percentage));
+      } catch {
+        /* ignore */
+      }
     };
 
     const handlePointerUp = () => {
@@ -701,10 +718,12 @@ const handleResetCode = () => {
 
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
     };
   }, [isResizing]);
 
@@ -763,7 +782,7 @@ const handleResetCode = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-base-200 text-base-content overflow-hidden">
+    <div className="h-screen flex flex-col bg-base-200 text-base-content overflow-hidden relative">
       <AppNav />
 
       {/* Mobile Top View Switcher (< lg) */}
@@ -771,7 +790,9 @@ const handleResetCode = () => {
         <div className="inline-flex p-0.5 rounded-xl bg-base-200 w-full max-w-sm mx-auto">
           <button
             type="button"
-            onClick={() => setMobilePanel("problem")}
+            onClick={() => {
+              setMobilePanel("problem");
+            }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
               mobilePanel === "problem"
                 ? "bg-base-100 text-base-content shadow-xs"
@@ -796,7 +817,9 @@ const handleResetCode = () => {
           </button>
           <button
             type="button"
-            onClick={() => setMobilePanel("editor")}
+            onClick={() => {
+              setMobilePanel("editor");
+            }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
               mobilePanel === "editor"
                 ? "bg-base-100 text-base-content shadow-xs"
@@ -829,20 +852,50 @@ const handleResetCode = () => {
               />
             )}
           </button>
+          {/* Mobile Board Switcher */}
+          <button
+            type="button"
+            onClick={() => {
+              setMobilePanel("board");
+              setShowWhiteboardWindow(true);
+              setTopWindow("whiteboard");
+            }}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+              mobilePanel === "board" || (showWhiteboardWindow && topWindow === "whiteboard")
+                ? "bg-base-100 text-base-content shadow-xs"
+                : "text-base-content/60 hover:text-base-content"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+            <span>Board</span>
+          </button>
         </div>
       </div>
 
       {/* Main Split-Pane Workspace */}
       <div
         ref={containerRef}
-        className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden relative"
+        className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden relative select-text"
         style={{
           userSelect: isResizing ? "none" : undefined,
         }}
       >
-        {/* Left Panel */}
+        {/* Left Panel: Docked Problem Statement */}
         <div
-          className={`flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0 min-w-0 ${
+          className={`flex flex-col overflow-hidden bg-base-100 border-r border-base-300 min-h-0 min-w-0 select-text ${
             mobilePanel === "problem" ? "flex-1 w-full" : "hidden lg:flex"
           }`}
           style={{
@@ -850,561 +903,26 @@ const handleResetCode = () => {
             flexShrink: 0,
           }}
         >
-          {/* Left Tabs Bar */}
-          <div className="flex items-center justify-between gap-1 px-2 py-1.5 border-b border-base-300 bg-base-200/70 shrink-0">
-            <div className="flex items-center gap-0.5 overflow-x-auto min-w-0">
-              <button
-                onClick={() => setActiveLeftTab("description")}
-                type="button"
-                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                  activeLeftTab === "description"
-                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                }`}
-              >
-                Description
-              </button>
-              <button
-                onClick={() => setActiveLeftTab("editorial")}
-                type="button"
-                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                  activeLeftTab === "editorial"
-                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                }`}
-              >
-                Editorial
-              </button>
-              <button
-                onClick={() => setActiveLeftTab("solutions")}
-                type="button"
-                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                  activeLeftTab === "solutions"
-                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                }`}
-              >
-                Solutions
-              </button>
-              <button
-                onClick={() => setActiveLeftTab("submissions")}
-                type="button"
-                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
-                  activeLeftTab === "submissions"
-                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                }`}
-              >
-                Submissions
-              </button>
-              <button
-                onClick={() => setActiveLeftTab("chatAI")}
-                type="button"
-                className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center gap-1.5 transition-colors duration-150 ${
-                  activeLeftTab === "chatAI"
-                    ? "bg-base-100 text-base-content shadow-sm border border-base-300"
-                    : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
-                }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                </svg>
-                ChatAI
-              </button>
-            </div>
-
-            {/* Universal Next / Previous Navigation Controls (Visible across all tabs) */}
-            <div className="flex items-center gap-1 shrink-0 ml-auto pl-2">
-              <button
-                type="button"
-                disabled={!previousProblem}
-                onClick={navigateToPrevious}
-                className="btn btn-ghost btn-xs h-7 px-2 rounded-md font-medium border border-base-300/80 disabled:opacity-30 disabled:border-transparent flex items-center gap-1 hover:border-base-content/30"
-                aria-label="Previous Problem"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.5"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                <span className="hidden sm:inline text-xs">Prev</span>
-              </button>
-
-              {problemList.length > 0 && currentProblemIndex >= 0 && (
-                <span className="text-[11px] font-mono font-medium text-base-content/50 px-1 hidden md:inline">
-                  {currentProblemIndex + 1}/{problemList.length}
-                </span>
-              )}
-
-              <button
-                type="button"
-                disabled={!nextProblem}
-                onClick={navigateToNext}
-                className="btn btn-primary btn-xs h-7 px-2.5 rounded-md font-medium flex items-center gap-1 disabled:opacity-30 shadow-xs"
-                aria-label="Next Problem"
-              >
-                <span className="hidden sm:inline text-xs">Next</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.5"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Left Panel Body */}
-          <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0">
-            {activeLeftTab === "description" && (
-              <div className="space-y-7">
-                <div>
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="text-[11px] font-semibold text-base-content/45 uppercase tracking-[0.14em]">
-                      Problem
-                    </span>
-                    {solved && (
-                      <span className="badge badge-xs badge-primary font-semibold rounded-md">
-                        Solved
-                      </span>
-                    )}
-                  </div>
-                  <h1 className="text-[1.65rem] leading-tight font-semibold tracking-tight text-base-content">
-                    {problem.title}
-                  </h1>
-
-                  <div className="flex flex-wrap items-center gap-1.5 mt-3.5">
-                    <div
-                      title={getDifficultyBadgeColor(problem.difficulty)}
-                      className={`badge badge-sm font-semibold capitalize rounded-md ${
-                        problem.difficulty === "easy"
-                          ? "badge-success text-success-content"
-                          : problem.difficulty === "medium"
-                            ? "badge-warning text-warning-content"
-                            : "badge-error text-error-content"
-                      }`}
-                    >
-                      {problem.difficulty}
-                    </div>
-
-                    {Array.isArray(problem.tags)
-                      ? problem.tags.map((tag, index) => (
-                          <div
-                            key={index}
-                            className="badge badge-sm badge-ghost border-base-300 text-base-content/65 font-medium rounded-md"
-                          >
-                            {tag}
-                          </div>
-                        ))
-                      : problem.tags && (
-                          <div className="badge badge-sm badge-ghost border-base-300 text-base-content/65 font-medium rounded-md">
-                            {problem.tags}
-                          </div>
-                        )}
-                  </div>
-               
-                </div>
-
-                <div className="max-w-none text-[15px] leading-[1.75] text-base-content/80 whitespace-pre-line border-t border-base-300/70 pt-5">
-                  {problem.description}
-                </div>
-
-                <div className="border-t border-base-300/70 pt-5">
-                  <h3 className="text-[11px] font-semibold text-base-content/50 uppercase tracking-[0.14em] mb-4">
-                    Examples
-                  </h3>
-
-                  <div className="space-y-4">
-                    {problem.visibleTestCases?.map((example, index) => (
-                      <div
-                        key={index}
-                        className="rounded-xl border border-base-300 bg-base-200/40 p-4 space-y-3"
-                      >
-                        <h4 className="text-[11px] font-semibold text-base-content flex items-center gap-1.5 uppercase tracking-[0.12em]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          Example {index + 1}
-                        </h4>
-
-                        <div className="space-y-3 text-xs">
-                          <div>
-                            <strong className="text-[11px] font-semibold text-base-content/55 block mb-1.5 tracking-wide">
-                              Input
-                            </strong>
-                            <pre className="p-3 rounded-lg bg-base-100 border border-base-300 font-mono text-[12.5px] leading-relaxed overflow-x-auto text-base-content">
-                              {example.input}
-                            </pre>
-                          </div>
-
-                          <div>
-                            <strong className="text-[11px] font-semibold text-base-content/55 block mb-1.5 tracking-wide">
-                              Output
-                            </strong>
-                            <pre className="p-3 rounded-lg bg-base-100 border border-base-300 font-mono text-[12.5px] leading-relaxed overflow-x-auto text-base-content">
-                              {example.output}
-                            </pre>
-                          </div>
-
-                          {example.explanation && (
-                            <div>
-                              <strong className="text-[11px] font-semibold text-base-content/55 block mb-1 tracking-wide">
-                                Explanation
-                              </strong>
-                              <p className="text-base-content/75 text-[13px] leading-relaxed">
-                                {example.explanation}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeLeftTab === "editorial" && (
-              <div className="space-y-4">
-                <div className="border-b border-base-300/70 pb-3.5">
-                  <h2 className="text-lg font-semibold tracking-tight text-base-content">
-                    Video Editorial
-                  </h2>
-                  <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
-                    Watch the author's explanation and conceptual breakdown.
-                  </p>
-                </div>
-
-                <div>
-                  {problem.videoUrl ? (
-                    <Editorial videoUrl={problem.videoUrl} />
-                  ) : (
-                    <div className="text-center py-12 rounded-xl border border-dashed border-base-300 bg-base-200/30">
-                      <p className="text-sm font-medium text-base-content/65">
-                        No editorial is available for this problem.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {activeLeftTab === "solutions" && (
-              <div className="space-y-4">
-                <div className="border-b border-base-300/70 pb-3.5">
-                  <h2 className="text-lg font-semibold tracking-tight text-base-content">
-                    Official Reference Solutions
-                  </h2>
-                  <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
-                    Verified canonical implementations across supported
-                    languages.
-                  </p>
-                </div>
-
-                {referenceSolution.length > 0 ? (
-                  <div className="space-y-4">
-                    {referenceSolution.map((solution, index) => (
-                      <div
-                        key={solution._id || index}
-                        className="rounded-xl border border-base-300 bg-base-200/20 overflow-hidden"
-                      >
-                        <div className="px-4 py-2.5 bg-base-200/60 border-b border-base-300 flex items-center justify-between">
-                          <h3 className="text-[13px] font-semibold tracking-tight text-base-content">
-                            {problem.title}
-                          </h3>
-                          <span className="badge badge-primary badge-sm font-mono font-semibold rounded-md">
-                            {solution.language}
-                          </span>
-                        </div>
-                        <pre className="p-4 text-[12.5px] font-mono overflow-x-auto leading-relaxed bg-base-100 text-base-content">
-                          <code>{solution.completeCode}</code>
-                        </pre>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 px-4 rounded-xl border border-dashed border-base-300 bg-base-200/30">
-                    <p className="text-sm font-medium text-base-content/65">
-                      {solutionMessage ||
-                        (solved
-                          ? "No official solution is available for this problem."
-                          : "You can only see the solution after solving this problem.")}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeLeftTab === "submissions" && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-base-300/70 pb-3.5">
-                  <div>
-                    <h2 className="text-lg font-semibold tracking-tight text-base-content">
-                      Submission History
-                    </h2>
-                    <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
-                      Your historical test and evaluation runs.
-                    </p>
-                  </div>
-                  {submissions.length > 0 && (
-                    <div className="badge badge-ghost border-base-300 text-[11px] font-semibold rounded-md">
-                      {submissions.length} total
-                    </div>
-                  )}
-                </div>
-
-                {submissionLoading && (
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <span className="loading loading-spinner loading-md text-primary mb-2" />
-                    <p className="text-xs text-base-content/60">
-                      Loading submissions...
-                    </p>
-                  </div>
-                )}
-
-                {!submissionLoading && submissionError && (
-                  <div className="alert alert-error text-xs rounded-xl">
-                    <span>{submissionError}</span>
-                  </div>
-                )}
-
-                {!submissionLoading &&
-                  !submissionError &&
-                  submissions.length === 0 && (
-                    <div className="text-center py-12 rounded-xl border border-dashed border-base-300 bg-base-200/30">
-                      <p className="text-sm font-medium text-base-content/65">
-                        No submissions found for this problem.
-                      </p>
-                    </div>
-                  )}
-
-                {!submissionLoading &&
-                  !submissionError &&
-                  submissions.length > 0 && (
-                    <>
-                      <div className="overflow-x-auto border border-base-300 rounded-xl bg-base-100">
-                        <table className="table table-xs w-full">
-                          <thead>
-                            <tr className="bg-base-200/70 text-base-content/50 text-[11px] uppercase tracking-[0.08em]">
-                              <th>#</th>
-                              <th>Language</th>
-                              <th>Status</th>
-                              <th>Runtime</th>
-                              <th>Memory</th>
-                              <th>Test Cases</th>
-                              <th>Submitted</th>
-                              <th className="text-right">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {submissions.map((submission, index) => (
-                              <tr
-                                key={submission._id || index}
-                                className="hover:bg-base-200/50 transition-colors"
-                              >
-                                <td className="font-mono font-medium text-base-content/60">
-                                  {submissions.length - index}
-                                </td>
-                                <td className="font-mono font-semibold">
-                                  {submission.language || "N/A"}
-                                </td>
-                                <td>
-                                  <span
-                                    title={getSubmissionBadge(
-                                      submission.status,
-                                    )}
-                                    className={`badge badge-xs font-semibold capitalize rounded-md ${
-                                      submission.status === "accepted"
-                                        ? "badge-success text-success-content"
-                                        : submission.status === "pending"
-                                          ? "badge-warning text-warning-content"
-                                          : "badge-error text-error-content"
-                                    }`}
-                                  >
-                                    {getSubmissionStatusText(submission.status)}
-                                  </span>
-                                </td>
-                                <td className="font-mono text-xs text-base-content/80">
-                                  {submission.time ??
-                                    submission.runtime ??
-                                    "N/A"}{" "}
-                                  sec
-                                </td>
-                                <td className="font-mono text-xs text-base-content/80">
-                                  {formatMemory(submission.memory)}
-                                </td>
-                                <td className="font-mono text-xs text-base-content/80">
-                                  {submission.testCasesPassed ?? 0}/
-                                  {submission.testCasesTotal ?? 0}
-                                </td>
-                                <td className="text-xs text-base-content/55">
-                                  {formatSubmissionDate(submission.createdAt)}
-                                </td>
-                                <td className="text-right">
-                                  <button
-                                    className="btn btn-ghost btn-xs text-primary hover:bg-primary/10 font-semibold rounded-md"
-                                    onClick={() =>
-                                      setSelectedSubmission(submission)
-                                    }
-                                  >
-                                    Code
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </>
-                  )}
-
-                {/* Submission Code Modal */}
-                {selectedSubmission && (
-                  <div
-                    className="modal modal-open"
-                    role="dialog"
-                    aria-modal="true"
-                  >
-                    <div className="modal-box max-w-2xl bg-base-100 border border-base-300 rounded-2xl shadow-xl p-6">
-                      <div className="flex items-center justify-between border-b border-base-300 pb-3.5 mb-4">
-                        <div>
-                          <h3 className="text-base font-semibold tracking-tight text-base-content">
-                            Submission Details
-                          </h3>
-                          <p className="text-[11px] font-mono text-base-content/55 uppercase tracking-wide mt-1">
-                            Language: {selectedSubmission.language || "N/A"}
-                          </p>
-                        </div>
-                        <button
-                          className="btn btn-sm btn-circle btn-ghost"
-                          onClick={() => setSelectedSubmission(null)}
-                          aria-label="Close submission details"
-                        >
-                          ✕
-                        </button>
-                      </div>
-
-                      <div className="space-y-4 text-xs">
-                        <div className="flex flex-wrap items-center gap-2 p-3 bg-base-200/50 rounded-xl border border-base-300">
-                          <span
-                            title={getSubmissionBadge(
-                              selectedSubmission.status,
-                            )}
-                            className={`badge badge-sm font-semibold capitalize rounded-md ${
-                              selectedSubmission.status === "accepted"
-                                ? "badge-success text-success-content"
-                                : selectedSubmission.status === "pending"
-                                  ? "badge-warning text-warning-content"
-                                  : "badge-error text-error-content"
-                            }`}
-                          >
-                            {getSubmissionStatusText(selectedSubmission.status)}
-                          </span>
-                          <span className="font-mono">
-                            Runtime:{" "}
-                            {selectedSubmission.time ??
-                              selectedSubmission.runtime ??
-                              "N/A"}{" "}
-                            sec
-                          </span>
-                          <span>•</span>
-                          <span className="font-mono">
-                            Memory: {formatMemory(selectedSubmission.memory)}
-                          </span>
-                          <span>•</span>
-                          <span className="font-mono">
-                            Passed: {selectedSubmission.testCasesPassed ?? 0}/
-                            {selectedSubmission.testCasesTotal ?? 0}
-                          </span>
-                        </div>
-
-                        {selectedSubmission.errorMessage && (
-                          <div>
-                            <h4 className="font-bold text-error mb-1">
-                              Execution Error
-                            </h4>
-                            <pre className="p-3 bg-error/10 text-error border border-error/20 rounded-xl font-mono text-[12.5px] overflow-x-auto leading-relaxed">
-                              {selectedSubmission.errorMessage}
-                            </pre>
-                          </div>
-                        )}
-
-                        <div>
-                          <p className="font-semibold tracking-tight text-base-content mb-1.5">
-                            Submitted Code
-                          </p>
-                          <pre className="p-4 bg-base-200/60 border border-base-300 rounded-xl font-mono text-[12.5px] overflow-x-auto leading-relaxed max-h-96">
-                            <code>
-                              {selectedSubmission.code ||
-                                "Submitted code is not available."}
-                            </code>
-                          </pre>
-                        </div>
-                      </div>
-
-                      <div className="modal-action mt-6 pt-3 border-t border-base-300">
-                        <button
-                          className="btn btn-sm btn-ghost font-medium rounded-lg"
-                          onClick={() => setSelectedSubmission(null)}
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </div>
-                    <div
-                      className="modal-backdrop bg-black/40 backdrop-blur-[2px]"
-                      onClick={() => setSelectedSubmission(null)}
-                    >
-                      <button aria-label="Close">close</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeLeftTab === "chatAI" && (
-              <div className="space-y-4 h-full flex flex-col">
-                <div className="border-b border-base-300/70 pb-3.5 shrink-0">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-semibold tracking-tight text-base-content">
-                      AI Mentor Assistant
-                    </h2>
-                    <span className="badge badge-primary badge-xs rounded-md">
-                      Active
-                    </span>
-                  </div>
-                  <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
-                    Ask for conceptual hints, edge cases, and asymptotic
-                    complexity walk-throughs without spoilers.
-                  </p>
-                </div>
-
-                <div className="flex-1 min-h-0">
-                  <ChatAI problem={problem} onUsageUpdate={applyUsage} />
-                </div>
-              </div>
-            )}
-          </div>
+          <ProblemContent
+            problem={problem}
+            activeLeftTab={activeLeftTab}
+            setActiveLeftTab={setActiveLeftTab}
+            solved={solved}
+            previousProblem={previousProblem}
+            navigateToPrevious={navigateToPrevious}
+            nextProblem={nextProblem}
+            navigateToNext={navigateToNext}
+            currentProblemIndex={currentProblemIndex}
+            problemList={problemList}
+            referenceSolution={referenceSolution}
+            solutionMessage={solutionMessage}
+            submissions={submissions}
+            submissionLoading={submissionLoading}
+            submissionError={submissionError}
+            selectedSubmission={selectedSubmission}
+            setSelectedSubmission={setSelectedSubmission}
+            applyUsage={applyUsage}
+          />
         </div>
 
         {/* Resizer Splitter Divider (Desktop only) */}
@@ -1415,9 +933,9 @@ const handleResetCode = () => {
           <div className="absolute inset-0 -top-2 -bottom-2 -left-1 -right-1" />
         </div>
 
-        {/* Right Panel */}
+        {/* Right Panel: Monaco Editor & Console */}
         <div
-          className={`flex flex-col overflow-hidden bg-base-100 min-h-0 min-w-0 ${
+          className={`flex flex-col overflow-hidden bg-base-100 min-h-0 min-w-0 select-text ${
             mobilePanel === "editor" ? "flex-1 w-full" : "hidden lg:flex"
           }`}
           style={{
@@ -1426,7 +944,7 @@ const handleResetCode = () => {
           }}
         >
           {/* Right Tabs Bar */}
-          <div className="flex items-center justify-between px-2 py-1.5 border-b border-base-300 bg-base-200/70 shrink-0">
+          <div className="flex items-center justify-between px-2 py-1.5 border-b border-base-300 bg-base-200/70 shrink-0 gap-1">
             <div className="flex items-center gap-0.5">
               <button
                 onClick={() => setActiveRightTab("code")}
@@ -1463,27 +981,59 @@ const handleResetCode = () => {
               </button>
             </div>
 
-            {activeRightTab === "code" && (
-              <div className="relative">
-                <select
-                  value={selectedLanguage}
-                  onChange={(e) => handleLanguageChange(e.target.value)}
-                  className="h-8 px-3 pr-8 rounded-md text-xs font-medium
-                 bg-base-100 text-base-content
-                 border border-base-300
-                 outline-none cursor-pointer
-                 hover:border-base-content/30
-                 focus:border-primary
-                 transition-colors"
+            <div className="flex items-center gap-1.5">
+
+              {/* Whiteboard Window Toggle */}
+              <button
+                type="button"
+                onClick={toggleWhiteboardWindow}
+                className={`btn btn-xs h-8 px-2 sm:px-2.5 rounded-md border font-semibold text-xs flex items-center gap-1.5 transition-all shrink-0 ${
+                  showWhiteboardWindow
+                    ? "bg-primary text-primary-content border-primary shadow-xs"
+                    : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
+                }`}
+                title="Toggle Floating Whiteboard / Scratchpad"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  {["javascript", "java", "cpp"].map((language) => (
-                    <option key={language} value={language}>
-                      {LANGUAGE_CONFIG[language].label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  />
+                </svg>
+                <span className="hidden sm:inline">Whiteboard</span>
+                <span className="sm:hidden text-[11px]">Board</span>
+              </button>
+
+              {activeRightTab === "code" && (
+                <div className="relative">
+                  <select
+                    value={selectedLanguage}
+                    onChange={(e) => handleLanguageChange(e.target.value)}
+                    className="h-8 px-2 sm:px-3 pr-7 sm:pr-8 rounded-md text-xs font-medium
+                   bg-base-100 text-base-content
+                   border border-base-300
+                   outline-none cursor-pointer
+                   hover:border-base-content/30
+                   focus:border-primary
+                   transition-colors"
+                  >
+                    {["javascript", "java", "cpp"].map((language) => (
+                      <option key={language} value={language}>
+                        {LANGUAGE_CONFIG[language].label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right Panel Body */}
@@ -1536,7 +1086,7 @@ const handleResetCode = () => {
 
                         <div className="h-4 w-px bg-base-300 hidden lg:block shrink-0" />
 
-                        {/* Problem Title & Badge: Shown on large screens to avoid crowding toolbar on small screens */}
+                        {/* Problem Title & Badge */}
                         <div className="hidden lg:flex items-center gap-2 min-w-0">
                           <span className="font-bold text-sm text-base-content truncate max-w-[150px] xl:max-w-xs">
                             {problem.title}
@@ -1610,7 +1160,7 @@ const handleResetCode = () => {
                         </div>
                       </div>
 
-                      {/* Right: Language, Actions, Right Panel Toggle, Run & Submit */}
+                      {/* Right: Actions, Fullscreen 3-Column, Floating Board, Problem Panel Toggle, Run & Submit */}
                       <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                         <select
                           value={selectedLanguage}
@@ -1687,18 +1237,16 @@ const handleResetCode = () => {
 
                         <div className="h-4 w-px bg-base-300 mx-0.5 hidden sm:block shrink-0" />
 
-                        {/* Toggle Right Panel (Problem Statement & TestCases) */}
+                        {/* Problem Window Toggle in Fullscreen */}
                         <button
                           type="button"
-                          onClick={() =>
-                            setShowFullscreenProblemPanel((prev) => !prev)
-                          }
+                          onClick={toggleProblemWindow}
                           className={`btn btn-xs h-8 px-2 sm:px-2.5 rounded-lg border font-semibold text-xs flex items-center gap-1.5 transition-all shrink-0 ${
-                            showFullscreenProblemPanel
-                              ? "bg-primary/10 text-primary border-primary/40 hover:bg-primary/20"
+                            showProblemWindow
+                              ? "bg-primary text-primary-content border-primary shadow-xs"
                               : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
                           }`}
-                          title="Toggle Problem Statement & TestCases Panel on Right"
+                          title="Toggle Floating Problem Statement Panel"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1714,14 +1262,37 @@ const handleResetCode = () => {
                               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                             />
                           </svg>
-                          <span className="hidden md:inline">
-                            {showFullscreenProblemPanel
-                              ? "Hide Problem"
-                              : "Show Problem"}
-                          </span>
-                          <span className="hidden sm:inline md:hidden text-[11px]">
-                            {showFullscreenProblemPanel ? "Hide" : "Problem"}
-                          </span>
+                          <span className="hidden md:inline">Problem</span>
+                          <span className="hidden sm:inline md:hidden text-[11px]">Problem</span>
+                        </button>
+
+                        {/* Whiteboard Window Toggle in Fullscreen */}
+                        <button
+                          type="button"
+                          onClick={toggleWhiteboardWindow}
+                          className={`btn btn-xs h-8 px-2 sm:px-2.5 rounded-lg border font-semibold text-xs flex items-center gap-1.5 transition-all shrink-0 ${
+                            showWhiteboardWindow
+                              ? "bg-primary text-primary-content border-primary shadow-xs"
+                              : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
+                          }`}
+                          title="Toggle Floating Whiteboard / Scratchpad"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            />
+                          </svg>
+                          <span className="hidden md:inline">Whiteboard</span>
+                          <span className="hidden sm:inline md:hidden text-[11px]">Board</span>
                         </button>
 
                         {/* Run Button */}
@@ -1870,10 +1441,10 @@ const handleResetCode = () => {
                     </div>
                   )}
 
-                  {/* Main Work Area: Editor & (in Fullscreen) Right Problem Panel */}
-                  <div className="flex-1 flex min-h-0 overflow-hidden">
-                    {/* Monaco Editor */}
-                    <div className="flex-1 h-full min-w-0 relative">
+                  {/* Main Work Area: Monaco Editor */}
+                  <div className="flex-1 flex min-h-0 overflow-hidden relative select-text">
+                    {/* Monaco Editor Sub-container */}
+                    <div className="h-full min-w-0 relative flex-1 select-text">
                       <Editor
                         height="100%"
                         language={getLanguageForMonaco(selectedLanguage)}
@@ -1905,183 +1476,10 @@ const handleResetCode = () => {
                         }}
                       />
                     </div>
-
-                    {/* Fullscreen Mode: Right-Side Problem Statement & TestCases Panel */}
-                    {isEditorFullscreen && showFullscreenProblemPanel && (
-                      <aside
-                        aria-label="Problem statement and test cases"
-                        className="fixed inset-x-0 top-12 bottom-0 z-30 sm:static sm:inset-auto w-full sm:w-[340px] md:w-[380px] lg:w-[440px] xl:w-[500px] max-w-full sm:max-w-[48vw] border-l border-base-300 bg-base-100 flex flex-col min-h-0 shrink-0 shadow-2xl sm:shadow-lg"
-                      >
-                        {/* Panel Header */}
-                        <div className="px-3.5 sm:px-4 py-2.5 bg-base-200/70 border-b border-base-300 flex items-center justify-between shrink-0">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-xs font-bold uppercase tracking-wider text-base-content/70 truncate">
-                              Problem & Test Cases
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setShowFullscreenProblemPanel(false)}
-                            className="btn btn-ghost btn-xs h-7 px-2 rounded-md text-xs font-medium text-base-content/70 hover:text-base-content flex items-center gap-1"
-                            title="Close Problem Panel"
-                          >
-                            <span className="hidden sm:inline">Close</span>
-                            <span>✕</span>
-                          </button>
-                        </div>
-
-                        {/* Panel Scrollable Body */}
-                        <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-4 sm:space-y-5">
-                          <div>
-                            <h2 className="text-lg font-bold tracking-tight text-base-content">
-                              {problem.title}
-                            </h2>
-                            <div className="flex flex-wrap items-center gap-1.5 mt-2">
-                              <div
-                                className={`badge badge-sm font-semibold capitalize rounded-md ${
-                                  problem.difficulty === "easy"
-                                    ? "badge-success text-success-content"
-                                    : problem.difficulty === "medium"
-                                      ? "badge-warning text-warning-content"
-                                      : "badge-error text-error-content"
-                                }`}
-                              >
-                                {problem.difficulty}
-                              </div>
-                              {Array.isArray(problem.tags)
-                                ? problem.tags.map((tag, idx) => (
-                                    <span
-                                      key={idx}
-                                      className="badge badge-sm badge-ghost border-base-300 text-xs font-medium"
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))
-                                : problem.tags && (
-                                    <span className="badge badge-sm badge-ghost border-base-300 text-xs font-medium">
-                                      {problem.tags}
-                                    </span>
-                                  )}
-                              {solved && (
-                                <span className="badge badge-xs badge-primary font-semibold rounded-md">
-                                  Solved
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Problem Description */}
-                          <div className="text-xs sm:text-[13px] leading-relaxed text-base-content/85 whitespace-pre-line border-t border-base-200 pt-3">
-                            {problem.description}
-                          </div>
-
-                          {/* Test Cases / Examples */}
-                          {problem.visibleTestCases?.length > 0 && (
-                            <div className="space-y-3.5 border-t border-base-200 pt-3">
-                              <h3 className="text-xs font-bold uppercase tracking-wider text-base-content/60">
-                                Visible Test Cases
-                              </h3>
-                              {problem.visibleTestCases.map((example, idx) => (
-                                <div
-                                  key={idx}
-                                  className="rounded-xl border border-base-300 bg-base-200/40 p-3.5 space-y-2"
-                                >
-                                  <h4 className="text-xs font-bold text-base-content flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                    Example {idx + 1}
-                                  </h4>
-                                  <div className="space-y-2 text-xs">
-                                    <div>
-                                      <span className="text-[10px] font-semibold text-base-content/55 block mb-1">
-                                        Input
-                                      </span>
-                                      <pre className="p-2.5 rounded-lg bg-base-100 border border-base-300 font-mono text-xs overflow-x-auto text-base-content">
-                                        {example.input}
-                                      </pre>
-                                    </div>
-                                    <div>
-                                      <span className="text-[10px] font-semibold text-base-content/55 block mb-1">
-                                        Output
-                                      </span>
-                                      <pre className="p-2.5 rounded-lg bg-base-100 border border-base-300 font-mono text-xs overflow-x-auto text-base-content">
-                                        {example.output}
-                                      </pre>
-                                    </div>
-                                    {example.explanation && (
-                                      <div>
-                                        <span className="text-[10px] font-semibold text-base-content/55 block mb-0.5">
-                                          Explanation
-                                        </span>
-                                        <p className="text-base-content/75 text-xs leading-relaxed">
-                                          {example.explanation}
-                                        </p>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* Latest Execution Summary (if Run or Submit took place) */}
-                          {(runResult || submitResult) && (
-                            <div className="border-t border-base-200 pt-3 space-y-2">
-                              <h3 className="text-xs font-bold uppercase tracking-wider text-base-content/60">
-                                Active Execution Output
-                              </h3>
-                              {runResult && (
-                                <div
-                                  className={`p-3 rounded-xl border text-xs font-mono ${
-                                    runResult.message === "accepted"
-                                      ? "bg-success/10 border-success/30 text-success"
-                                      : "bg-error/10 border-error/30 text-error"
-                                  }`}
-                                >
-                                  <div className="font-bold uppercase tracking-wide">
-                                    Run Result: {runResult.message}
-                                  </div>
-                                  <div className="mt-1">
-                                    Passed: {runResult.testCasesPassed} /{" "}
-                                    {runResult.testCasesTotal}
-                                  </div>
-                                  {runResult.error && (
-                                    <pre className="mt-2 p-2 bg-base-100 text-error rounded-lg overflow-x-auto text-[11px]">
-                                      {runResult.error}
-                                    </pre>
-                                  )}
-                                </div>
-                              )}
-                              {submitResult && (
-                                <div
-                                  className={`p-3 rounded-xl border text-xs font-mono ${
-                                    submitResult.message === "accepted"
-                                      ? "bg-success/10 border-success/30 text-success"
-                                      : "bg-error/10 border-error/30 text-error"
-                                  }`}
-                                >
-                                  <div className="font-bold uppercase tracking-wide">
-                                    Submit Result: {submitResult.message}
-                                  </div>
-                                  <div className="mt-1">
-                                    Passed: {submitResult.testCasesPassed} /{" "}
-                                    {submitResult.testCasesTotal}
-                                  </div>
-                                  {submitResult.error && (
-                                    <pre className="mt-2 p-2 bg-base-100 text-error rounded-lg overflow-x-auto text-[11px]">
-                                      {submitResult.error}
-                                    </pre>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </aside>
-                    )}
                   </div>
                 </div>
 
-                {/* Action & Usage Controls Footer (Hidden when in Fullscreen mode since Fullscreen has its own header) */}
+                {/* Action & Usage Controls Footer (Normal Mode) */}
                 {!isEditorFullscreen && (
                   <div className="p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
                     <div className="flex items-center gap-2">
@@ -2172,7 +1570,7 @@ const handleResetCode = () => {
             )}
 
             {activeRightTab === "testcase" && (
-              <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0 select-text">
                 <div className="border-b border-base-300/70 pb-3.5 mb-5">
                   <h3 className="text-lg font-semibold tracking-tight text-base-content">
                     Test Execution Results
@@ -2257,7 +1655,7 @@ const handleResetCode = () => {
                               <span className="text-[11px] text-base-content/55 block mb-1.5 font-semibold tracking-wide">
                                 Expected Output
                               </span>
-                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content">
+                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content select-text cursor-text">
                                 {runResult.expected}
                               </pre>
                             </div>
@@ -2268,7 +1666,7 @@ const handleResetCode = () => {
                               <span className="text-[11px] text-base-content/55 block mb-1.5 font-semibold tracking-wide">
                                 Your Output
                               </span>
-                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content">
+                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content select-text cursor-text">
                                 {runResult.actual}
                               </pre>
                             </div>
@@ -2279,7 +1677,7 @@ const handleResetCode = () => {
                               <span className="text-[11px] text-error block mb-1.5 font-semibold tracking-wide">
                                 Error Trace
                               </span>
-                              <pre className="p-3 rounded-lg bg-error/10 text-error border border-error/20 overflow-x-auto text-[12.5px] leading-relaxed">
+                              <pre className="p-3 rounded-lg bg-error/10 text-error border border-error/20 overflow-x-auto text-[12.5px] leading-relaxed select-text cursor-text">
                                 {runResult.error}
                               </pre>
                             </div>
@@ -2326,7 +1724,7 @@ const handleResetCode = () => {
             )}
 
             {activeRightTab === "result" && (
-              <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0 select-text">
                 <div className="border-b border-base-300/70 pb-3.5 mb-5">
                   <h3 className="text-lg font-semibold tracking-tight text-base-content">
                     Comprehensive Submission Result
@@ -2424,7 +1822,7 @@ const handleResetCode = () => {
                               <span className="text-[11px] text-base-content/55 block mb-1.5 font-semibold tracking-wide">
                                 Failed Test Case
                               </span>
-                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content">
+                              <pre className="p-3 rounded-lg bg-base-100 border border-base-300 overflow-x-auto text-[12.5px] leading-relaxed text-base-content select-text cursor-text">
                                 {submitResult.testCase}
                               </pre>
                             </div>
@@ -2435,7 +1833,7 @@ const handleResetCode = () => {
                               <span className="text-[11px] text-error block mb-1.5 font-semibold tracking-wide">
                                 Error Trace
                               </span>
-                              <pre className="p-3 rounded-lg bg-error/10 text-error border border-error/20 overflow-x-auto text-[12.5px] leading-relaxed">
+                              <pre className="p-3 rounded-lg bg-error/10 text-error border border-error/20 overflow-x-auto text-[12.5px] leading-relaxed select-text cursor-text">
                                 {submitResult.error}
                               </pre>
                             </div>
@@ -2478,18 +1876,146 @@ const handleResetCode = () => {
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Floating Problem Statement Window */}
+      {isEditorFullscreen && showProblemWindow && problem && (
+        <FloatingWindow
+          id="problem"
+          title={problem.title}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3.5 w-3.5 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          }
+          headerExtra={
+            <span
+              className={`badge badge-xs font-semibold capitalize rounded-md ${
+                problem.difficulty === "easy"
+                  ? "badge-success text-success-content"
+                  : problem.difficulty === "medium"
+                    ? "badge-warning text-warning-content"
+                    : "badge-error text-error-content"
+              }`}
+            >
+              {problem.difficulty}
+            </span>
+          }
+          isOpen={showProblemWindow}
+          onClose={() => {
+            setShowProblemWindow(false);
+            try {
+              localStorage.setItem("problem-page-show-problem", "false");
+            } catch {
+              /* ignore */
+            }
+          }}
+          isActive={topWindow === "problem"}
+          onFocus={() => setTopWindow("problem")}
+          defaultPos={{
+            x: typeof window !== "undefined" ? Math.max(20, window.innerWidth - 560) : 20,
+            y: 56,
+            width: typeof window !== "undefined" ? Math.min(540, Math.max(340, window.innerWidth * 0.45)) : 520,
+            height: typeof window !== "undefined" ? Math.min(680, window.innerHeight - 80) : 580,
+          }}
+          storageKey="floating-window-problem-fullscreen"
+          minWidth={320}
+          minHeight={260}
+        >
+          <ProblemContent
+            problem={problem}
+            activeLeftTab={activeLeftTab}
+            setActiveLeftTab={setActiveLeftTab}
+            solved={solved}
+            previousProblem={previousProblem}
+            navigateToPrevious={navigateToPrevious}
+            nextProblem={nextProblem}
+            navigateToNext={navigateToNext}
+            currentProblemIndex={currentProblemIndex}
+            problemList={problemList}
+            referenceSolution={referenceSolution}
+            solutionMessage={solutionMessage}
+            submissions={submissions}
+            submissionLoading={submissionLoading}
+            submissionError={submissionError}
+            selectedSubmission={selectedSubmission}
+            setSelectedSubmission={setSelectedSubmission}
+            applyUsage={applyUsage}
+          />
+        </FloatingWindow>
+      )}
+
+      {/* Floating Whiteboard Window */}
+      <FloatingWindow
+        id="whiteboard"
+        title="Whiteboard Scratchpad"
+        icon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-3.5 w-3.5 text-primary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
+          </svg>
+        }
+        isOpen={showWhiteboardWindow}
+        onClose={() => {
+          setShowWhiteboardWindow(false);
+          try {
+            localStorage.setItem("problem-page-show-whiteboard", "false");
+          } catch {
+            /* ignore */
+          }
+        }}
+        isActive={topWindow === "whiteboard"}
+        onFocus={() => setTopWindow("whiteboard")}
+        defaultPos={{
+          x: typeof window !== "undefined" ? Math.max(20, window.innerWidth - 560) : 700,
+          y: 56,
+          width: typeof window !== "undefined" ? Math.min(540, Math.max(340, window.innerWidth * 0.42)) : 480,
+          height: typeof window !== "undefined" ? Math.min(680, window.innerHeight - 80) : 580,
+        }}
+        storageKey="floating-window-whiteboard"
+        minWidth={320}
+        minHeight={260}
+      >
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+          <Whiteboard
+            key={problemId}
+            problemId={problemId}
+            isDark={isDark}
+            isFloating={true}
+          />
+        </div>
+      </FloatingWindow>
+
+      {/* Reset Confirmation Modal */}
       {showResetConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowResetConfirm(false)}
           />
 
-          {/* Modal */}
           <div className="relative w-full max-w-md rounded-2xl border border-base-300 bg-base-100 shadow-2xl">
             <div className="p-6">
-              {/* Icon */}
               <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-warning/10 text-warning mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -2507,18 +2033,15 @@ const handleResetCode = () => {
                 </svg>
               </div>
 
-              {/* Title */}
               <h3 className="text-lg font-bold text-base-content">
                 Reset Code?
               </h3>
 
-              {/* Message */}
               <p className="mt-2 text-sm leading-relaxed text-base-content/65">
                 Your current changes will be lost and the original starter code
                 will be restored.
               </p>
 
-              {/* Buttons */}
               <div className="flex justify-end gap-2 mt-6">
                 <button
                   type="button"

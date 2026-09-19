@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useSearchParams } from "react-router";
 import axiosClient from "../utils/axiosClient";
 import AppNav from "../components/AppNav";
 import { PROBLEM_TAG_OPTIONS } from "../utils/problemTags";
 
 function DsaSheet() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialSearch = searchParams.get("search") || "";
+  const initialTag = searchParams.get("tag") || "all";
+  const initialDifficulty = searchParams.get("difficulty") || "all";
+  const initialStatus = searchParams.get("status") || "all";
+
   const [problems, setProblems] = useState([]);
   const [totalProblems, setTotalProblems] = useState(0);
   const [solvedCount, setSolvedCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchInput, setSearchInput] = useState("");
-  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState(initialSearch);
+  const [search, setSearch] = useState(initialSearch);
 
   const [filters, setFilters] = useState({
-    difficulty: "all",
-    tag: "all",
-    status: "all",
+    difficulty: initialDifficulty,
+    tag: initialTag,
+    status: initialStatus,
   });
 
   useEffect(() => {
@@ -26,6 +33,17 @@ function DsaSheet() {
 
     return () => clearTimeout(timer);
   }, [searchInput]);
+
+  useEffect(() => {
+    const nextParams = {};
+    if (search) nextParams.search = search;
+    if (filters.tag !== "all") nextParams.tag = filters.tag;
+    if (filters.difficulty !== "all")
+      nextParams.difficulty = filters.difficulty;
+    if (filters.status !== "all") nextParams.status = filters.status;
+
+    setSearchParams(nextParams, { replace: true });
+  }, [search, filters, setSearchParams]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -240,6 +258,7 @@ function DsaSheet() {
                       tag: "all",
                       status: "all",
                     });
+                    setSearchParams({}, { replace: true });
                   }}
                   className="btn btn-ghost btn-xs text-primary hover:bg-primary/10 font-semibold"
                 >
@@ -570,7 +589,6 @@ function DsaSheet() {
             </div>
           </section>
         )}
-
 
         {/* Empty State */}
         {!loading && !error && problems.length === 0 && (
