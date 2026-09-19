@@ -1387,7 +1387,19 @@ export default function Workspace() {
                   return (
                     <article
                       key={link._id}
-                      className="group card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-md transition-all duration-200 rounded-2xl overflow-hidden flex flex-col justify-between"
+                      tabIndex={0}
+                      role="link"
+                      onClick={() => {
+                        const selection = window.getSelection()?.toString();
+                        if (selection && selection.trim().length > 0) return;
+                        window.open(link.url, "_blank", "noopener,noreferrer");
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && e.target === e.currentTarget) {
+                          window.open(link.url, "_blank", "noopener,noreferrer");
+                        }
+                      }}
+                      className="group card bg-base-100 border border-base-300 hover:border-primary/50 hover:shadow-lg transition-all duration-200 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/40"
                     >
                       <div className="p-5">
                         {/* Hostname Badge & Favicon */}
@@ -1409,7 +1421,10 @@ export default function Workspace() {
                           <div className="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
                             <button
                               type="button"
-                              onClick={() => openEditLink(link)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openEditLink(link);
+                              }}
                               className="btn btn-ghost btn-xs btn-circle text-base-content/50 hover:text-primary"
                               title="Edit link"
                             >
@@ -1431,7 +1446,10 @@ export default function Workspace() {
 
                             <button
                               type="button"
-                              onClick={() => deleteLink(link._id, link.title)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteLink(link._id, link.title);
+                              }}
                               className="btn btn-ghost btn-xs btn-circle text-base-content/50 hover:text-error"
                               title="Delete link"
                             >
@@ -1472,7 +1490,10 @@ export default function Workspace() {
                       <div className="p-4 pt-0 flex items-center justify-between gap-2 border-t border-base-200/60 mt-2">
                         <button
                           type="button"
-                          onClick={() => copyLinkUrl(link.url)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copyLinkUrl(link.url);
+                          }}
                           className="btn btn-ghost btn-xs text-base-content/60 hover:text-base-content gap-1"
                         >
                           <svg
@@ -1496,6 +1517,7 @@ export default function Workspace() {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
                           className="btn btn-primary btn-xs gap-1 shadow-2xs"
                         >
                           <span>Visit</span>
