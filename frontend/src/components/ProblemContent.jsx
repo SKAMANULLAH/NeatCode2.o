@@ -89,7 +89,7 @@ const ProblemContent = ({
           <button
             onClick={() => setActiveLeftTab("description")}
             type="button"
-            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center justify-center transition-colors duration-150 ${
               activeLeftTab === "description"
                 ? "bg-base-100 text-base-content shadow-sm border border-base-300"
                 : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
@@ -100,7 +100,7 @@ const ProblemContent = ({
           <button
             onClick={() => setActiveLeftTab("editorial")}
             type="button"
-            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center justify-center transition-colors duration-150 ${
               activeLeftTab === "editorial"
                 ? "bg-base-100 text-base-content shadow-sm border border-base-300"
                 : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
@@ -111,7 +111,7 @@ const ProblemContent = ({
           <button
             onClick={() => setActiveLeftTab("solutions")}
             type="button"
-            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center justify-center transition-colors duration-150 ${
               activeLeftTab === "solutions"
                 ? "bg-base-100 text-base-content shadow-sm border border-base-300"
                 : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
@@ -122,7 +122,7 @@ const ProblemContent = ({
           <button
             onClick={() => setActiveLeftTab("submissions")}
             type="button"
-            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap transition-colors duration-150 ${
+            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center justify-center transition-colors duration-150 ${
               activeLeftTab === "submissions"
                 ? "bg-base-100 text-base-content shadow-sm border border-base-300"
                 : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
@@ -133,7 +133,7 @@ const ProblemContent = ({
           <button
             onClick={() => setActiveLeftTab("chatAI")}
             type="button"
-            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center gap-1.5 transition-colors duration-150 ${
+            className={`h-8 px-3 rounded-md text-[13px] font-medium tracking-tight whitespace-nowrap inline-flex items-center justify-center gap-1.5 transition-colors duration-150 ${
               activeLeftTab === "chatAI"
                 ? "bg-base-100 text-base-content shadow-sm border border-base-300"
                 : "text-base-content/55 hover:text-base-content hover:bg-base-100/70 border border-transparent"
@@ -210,8 +210,32 @@ const ProblemContent = ({
       </div>
 
       {/* Left Panel Body */}
-      <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0">
-        {activeLeftTab === "description" && (
+      {activeLeftTab === "chatAI" ? (
+        <div className="flex-1 min-h-0 flex flex-col p-4 sm:p-6 overflow-hidden">
+          <div className="space-y-4 h-full flex flex-col">
+            <div className="border-b border-base-300/70 pb-3.5 shrink-0">
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-semibold tracking-tight text-base-content">
+                  AI Mentor Assistant
+                </h2>
+                <span className="badge badge-primary badge-xs rounded-md">
+                  Active
+                </span>
+              </div>
+              <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
+                Ask for conceptual hints, edge cases, and asymptotic
+                complexity walk-throughs without spoilers.
+              </p>
+            </div>
+
+            <div className="flex-1 min-h-0">
+              <ChatAI problem={problem} onUsageUpdate={applyUsage} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-0">
+          {activeLeftTab === "description" && (
           <div className="space-y-7">
             <div>
               <div className="flex items-center gap-2 mb-2.5">
@@ -613,30 +637,8 @@ const ProblemContent = ({
             )}
           </div>
         )}
-
-        {activeLeftTab === "chatAI" && (
-          <div className="space-y-4 h-full flex flex-col">
-            <div className="border-b border-base-300/70 pb-3.5 shrink-0">
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold tracking-tight text-base-content">
-                  AI Mentor Assistant
-                </h2>
-                <span className="badge badge-primary badge-xs rounded-md">
-                  Active
-                </span>
-              </div>
-              <p className="text-[13px] text-base-content/55 mt-1 leading-relaxed">
-                Ask for conceptual hints, edge cases, and asymptotic
-                complexity walk-throughs without spoilers.
-              </p>
-            </div>
-
-            <div className="flex-1 min-h-0">
-              <ChatAI problem={problem} onUsageUpdate={applyUsage} />
-            </div>
-          </div>
-        )}
       </div>
+      )}
     </div>
   );
 };

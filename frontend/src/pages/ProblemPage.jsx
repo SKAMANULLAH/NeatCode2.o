@@ -479,6 +479,48 @@ const ProblemPage = () => {
     }
   };
 
+  const handleSelectAllCode = () => {
+    if (editorRef.current) {
+      const model = editorRef.current.getModel();
+      if (model) {
+        editorRef.current.setSelection(model.getFullModelRange());
+        editorRef.current.focus();
+      }
+    }
+  };
+
+  const handleSelectLineCode = () => {
+    if (editorRef.current) {
+      const position = editorRef.current.getPosition();
+      if (position) {
+        const lineNumber = position.lineNumber;
+        const lineContent =
+          editorRef.current.getModel()?.getLineContent(lineNumber) || "";
+        editorRef.current.setSelection({
+          startLineNumber: lineNumber,
+          startColumn: 1,
+          endLineNumber: lineNumber,
+          endColumn: lineContent.length + 1,
+        });
+        editorRef.current.focus();
+      }
+    }
+  };
+
+  const handleUndoCode = () => {
+    if (editorRef.current) {
+      editorRef.current.trigger("mobileBar", "undo");
+      editorRef.current.focus();
+    }
+  };
+
+  const handleRedoCode = () => {
+    if (editorRef.current) {
+      editorRef.current.trigger("mobileBar", "redo");
+      editorRef.current.focus();
+    }
+  };
+
   const handleResetCode = () => {
     const initialCode =
       problem?.startCode?.find(
@@ -699,11 +741,14 @@ const ProblemPage = () => {
       let percentage;
       if (isDesktop) {
         percentage = ((e.clientX - rect.left) / rect.width) * 100;
+        const minLeftPct = Math.max(25, (320 / rect.width) * 100);
+        const maxLeftPct = Math.min(72, ((rect.width - 360) / rect.width) * 100);
+        percentage = Math.max(minLeftPct, Math.min(maxLeftPct, percentage));
       } else {
         percentage = ((e.clientY - rect.top) / rect.height) * 100;
+        percentage = Math.max(20, Math.min(80, percentage));
       }
 
-      percentage = Math.max(20, Math.min(80, percentage));
       setLeftPanelSize(percentage);
       try {
         localStorage.setItem("problem-page-left-size", String(percentage));
@@ -1335,109 +1380,154 @@ const ProblemPage = () => {
                       </div>
                     </div>
                   ) : (
-                    /* Floating Top Right Buttons in Normal Mode */
-                    <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5">
-                      {/* Copy Button */}
-                      <button
-                        type="button"
-                        onClick={handleCopyCode}
-                        className="btn btn-xs h-7 min-h-7 px-2.5 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1"
-                      >
-                        {copied ? (
-                          <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-3 w-3 text-success"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="text-success font-semibold">
-                              Copied!
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-3 w-3 text-base-content/60"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                              />
-                            </svg>
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
+                    /* Editor Toolbar in Normal Mode - Sits above code, never overlaps lines */
+                    <div className="px-2.5 sm:px-3 py-1 bg-base-200/60 border-b border-base-300/80 flex items-center justify-between gap-2 shrink-0 select-none">
+                      {/* Left: Mobile Selection & Edit Helpers */}
+                      <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+                        <span className="text-[11px] font-mono font-medium text-base-content/50 uppercase tracking-wider hidden sm:inline mr-1">
+                          {selectedLanguage}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={handleSelectAllCode}
+                            className="btn btn-ghost btn-xs h-6 px-2 rounded text-[11px] font-medium border border-base-300/80 hover:border-base-content/30"
+                            title="Select All Code (Mobile & Desktop)"
+                          >
+                            Select All
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleSelectLineCode}
+                            className="btn btn-ghost btn-xs h-6 px-2 rounded text-[11px] font-medium border border-base-300/80 hover:border-base-content/30 hidden xs:inline-flex"
+                            title="Select Current Line"
+                          >
+                            Line
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleUndoCode}
+                            className="btn btn-ghost btn-xs h-6 px-1.5 rounded text-[11px] border border-base-300/80 hover:border-base-content/30"
+                            title="Undo"
+                          >
+                            ↺
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleRedoCode}
+                            className="btn btn-ghost btn-xs h-6 px-1.5 rounded text-[11px] border border-base-300/80 hover:border-base-content/30"
+                            title="Redo"
+                          >
+                            ↻
+                          </button>
+                        </div>
+                      </div>
 
-                      {/* Reset Button */}
-                      <button
-                        type="button"
-                        onClick={() => setShowResetConfirm(true)}
-                        className="btn btn-xs h-7 min-h-7 px-2.5 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1 text-base-content/70"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-3 w-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      {/* Right: Actions (Copy, Reset, Shortcuts, Fullscreen) */}
+                      <div className="flex items-center gap-1 shrink-0">
+                        {/* Copy Button */}
+                        <button
+                          type="button"
+                          onClick={handleCopyCode}
+                          className="btn btn-ghost btn-xs h-6 px-2 rounded-md border border-base-300/80 text-[11px] font-medium hover:border-base-content/30 shadow-2xs flex items-center gap-1"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                          />
-                        </svg>
-                        <span>Reset</span>
-                      </button>
+                          {copied ? (
+                            <>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-3 w-3 text-success"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              <span className="text-success font-semibold">
+                                Copied!
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-3 w-3 text-base-content/60"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                />
+                              </svg>
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
 
-                      {/* Shortcuts Button */}
-                      <button
-                        type="button"
-                        onClick={() => setShowShortcutsModal(true)}
-                        className="btn btn-xs h-7 min-h-7 px-2 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center gap-1 text-base-content/70"
-                        title="Keyboard Shortcuts"
-                      >
-                        <span>⌨</span>
-                      </button>
-
-                      {/* Fullscreen Button */}
-                      <button
-                        type="button"
-                        onClick={() => setIsEditorFullscreen(true)}
-                        className="btn btn-xs h-7 min-h-7 px-2 rounded-lg bg-base-100/90 border border-base-300 text-xs font-medium hover:bg-base-200 shadow-xs flex items-center justify-center text-base-content/70"
-                        title="Enter Fullscreen"
-                        aria-label="Enter Fullscreen"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-3 w-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                        {/* Reset Button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowResetConfirm(true)}
+                          className="btn btn-ghost btn-xs h-6 px-2 rounded-md border border-base-300/80 text-[11px] font-medium hover:border-base-content/30 shadow-2xs flex items-center gap-1 text-base-content/70"
+                          title="Reset Code"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                            />
+                          </svg>
+                          <span className="hidden sm:inline">Reset</span>
+                        </button>
+
+                        {/* Shortcuts Button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowShortcutsModal(true)}
+                          className="btn btn-ghost btn-xs h-6 px-1.5 rounded-md border border-base-300/80 text-[11px] font-medium hover:border-base-content/30 shadow-2xs text-base-content/70 hidden sm:flex items-center"
+                          title="Keyboard Shortcuts"
+                        >
+                          <span>⌨</span>
+                        </button>
+
+                        {/* Fullscreen Button */}
+                        <button
+                          type="button"
+                          onClick={() => setIsEditorFullscreen(true)}
+                          className="btn btn-ghost btn-xs h-6 px-1.5 rounded-md border border-base-300/80 text-[11px] font-medium hover:border-base-content/30 shadow-2xs text-base-content/70"
+                          title="Enter Fullscreen"
+                          aria-label="Enter Fullscreen"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   )}
 
@@ -1465,7 +1555,7 @@ const ProblemPage = () => {
                           lineNumbers: "on",
                           glyphMargin: false,
                           folding: true,
-                          lineDecorationsWidth: 10,
+                          lineDecorationsWidth: 12,
                           lineNumbersMinChars: 3,
                           renderLineHighlight: "line",
                           selectOnLineNumbers: true,
@@ -1473,6 +1563,9 @@ const ProblemPage = () => {
                           readOnly: false,
                           cursorStyle: "line",
                           mouseWheelZoom: true,
+                          dragAndDrop: false,
+                          contextmenu: true,
+                          smoothScrolling: true,
                         }}
                       />
                     </div>
@@ -1481,12 +1574,12 @@ const ProblemPage = () => {
 
                 {/* Action & Usage Controls Footer (Normal Mode) */}
                 {!isEditorFullscreen && (
-                  <div className="p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-                    <div className="flex items-center gap-2">
+                  <div className="p-2 sm:p-3 bg-base-100 border-t border-base-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       <button
                         type="button"
                         onClick={() => setActiveRightTab("testcase")}
-                        className="btn btn-ghost btn-xs h-8 min-h-8 px-2.5 rounded-md font-medium gap-1 text-base-content/60 hover:text-base-content"
+                        className="btn btn-ghost btn-xs h-8 min-h-8 px-2.5 rounded-md font-medium gap-1 text-base-content/60 hover:text-base-content shrink-0"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1506,7 +1599,7 @@ const ProblemPage = () => {
                       </button>
 
                       {usage && (
-                        <span className="text-[11px] text-base-content/50 font-mono hidden md:inline-block">
+                        <span className="text-[11px] text-base-content/50 font-mono hidden md:inline-block truncate">
                           {usage.codeOperations?.unlimited
                             ? "Code: unlimited"
                             : `Code: ${usage.codeOperations?.used ?? 0}/${usage.codeOperations?.limit ?? 0}`}
@@ -1517,11 +1610,11 @@ const ProblemPage = () => {
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 justify-end">
+                    <div className="flex items-center gap-1.5 sm:gap-2 justify-end shrink-0 flex-wrap sm:flex-nowrap">
                       <button
                         type="button"
                         onClick={() => setShowShortcutsModal(true)}
-                        className="btn btn-ghost btn-xs h-9 px-2 rounded-lg border border-base-300 text-xs font-medium text-base-content/70 hover:text-base-content flex items-center gap-1"
+                        className="btn btn-ghost btn-xs h-8 sm:h-9 px-2 rounded-lg border border-base-300 text-xs font-medium text-base-content/70 hover:text-base-content hidden xl:flex items-center gap-1 shrink-0"
                         title="Keyboard Shortcuts"
                       >
                         <span>⌨</span>
@@ -1532,7 +1625,7 @@ const ProblemPage = () => {
                         onClick={handleRun}
                         disabled={runLoading || submitLoading}
                         type="button"
-                        className="btn btn-outline btn-sm h-9 min-h-9 min-w-[88px] rounded-lg font-semibold tracking-tight flex items-center gap-1.5"
+                        className="btn btn-outline btn-sm h-8 sm:h-9 min-h-8 sm:min-h-9 px-2.5 sm:px-3 rounded-lg font-semibold tracking-tight flex items-center gap-1.5 shrink-0"
                       >
                         {runLoading ? (
                           <span className="loading loading-spinner loading-xs" />
@@ -1550,7 +1643,7 @@ const ProblemPage = () => {
                         onClick={handleSubmitCode}
                         disabled={runLoading || submitLoading}
                         type="button"
-                        className="btn btn-primary btn-sm h-9 min-h-9 min-w-[96px] rounded-lg font-semibold tracking-tight shadow-sm flex items-center gap-1.5"
+                        className="btn btn-primary btn-sm h-8 sm:h-9 min-h-8 sm:min-h-9 px-3 sm:px-3.5 rounded-lg font-semibold tracking-tight shadow-sm flex items-center gap-1.5 shrink-0"
                       >
                         {submitLoading ? (
                           <span className="loading loading-spinner loading-xs" />

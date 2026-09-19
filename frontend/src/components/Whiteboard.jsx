@@ -958,10 +958,10 @@ const Whiteboard = ({
 
       {activeTab === "board" ? (
         <div className="flex flex-col flex-1 min-h-0 relative">
-          {/* Excalidraw-Style Vector Tools Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-1 px-2.5 py-1.5 border-b border-base-300 bg-base-100 shrink-0 text-xs">
+          {/* Tool Action Header: Drawing Tools + Undo / Redo / Clear */}
+          <div className="flex items-center justify-between gap-1.5 px-2 py-1.5 border-b border-base-300 bg-base-100 shrink-0 text-xs">
             {/* Primary Tool Buttons */}
-            <div className="flex items-center gap-0.5 overflow-x-auto no-scrollbar py-0.5">
+            <div className="flex items-center gap-0.5 overflow-x-auto no-scrollbar py-0.5 min-w-0 flex-1">
               {TOOLS.map((t) => (
                 <button
                   key={t.id}
@@ -970,7 +970,7 @@ const Whiteboard = ({
                     setTool(t.id);
                     if (t.id !== "select") setSelectedId(null);
                   }}
-                  className={`btn btn-xs h-7 px-2 rounded-md font-medium border flex items-center gap-1 transition-all ${
+                  className={`btn btn-xs h-7 px-2 rounded-md font-medium border flex items-center gap-1 transition-all shrink-0 ${
                     tool === t.id
                       ? "bg-primary text-primary-content border-primary shadow-xs"
                       : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
@@ -1020,55 +1020,87 @@ const Whiteboard = ({
               ))}
             </div>
 
-            {/* Quick Styling Bar: Color, Width, Fill */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Color Palette */}
-              {tool !== "eraser" && (
-                <div className="flex items-center gap-1 shrink-0 overflow-x-auto no-scrollbar">
-                  {STROKE_COLORS.map((c) => (
-                    <button
-                      key={c.label}
-                      type="button"
-                      onClick={() => setStrokeColor(c.value)}
-                      className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border transition-transform ${
-                        strokeColor === c.value
-                          ? "scale-110 ring-2 ring-primary ring-offset-1"
-                          : "border-base-300 hover:scale-105"
-                      }`}
-                      style={{
-                        backgroundColor:
-                          c.value === "DEFAULT"
-                            ? isDark
-                              ? "#ffffff"
-                              : "#1f2937"
-                            : c.value,
-                      }}
-                      title={c.label}
-                    />
-                  ))}
+            {/* History & Clear - Always pinned and visible */}
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                onClick={handleUndo}
+                disabled={!canUndo}
+                className="btn btn-ghost btn-xs h-7 px-1.5 rounded-md border border-base-300 disabled:opacity-30 text-base-content/70 hover:text-base-content"
+                title="Undo (Ctrl+Z)"
+              >
+                ↶
+              </button>
+              <button
+                type="button"
+                onClick={handleRedo}
+                disabled={!canRedo}
+                className="btn btn-ghost btn-xs h-7 px-1.5 rounded-md border border-base-300 disabled:opacity-30 text-base-content/70 hover:text-base-content"
+                title="Redo (Ctrl+Y)"
+              >
+                ↷
+              </button>
+              <button
+                type="button"
+                onClick={handleClearCanvas}
+                className="btn btn-ghost btn-xs h-7 px-2 rounded-md border border-base-300 text-error hover:bg-error/10 font-semibold"
+                title="Clear entire whiteboard"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
 
-                  {/* Native Color Picker */}
-                  <label
-                    className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-base-300 cursor-pointer relative overflow-hidden flex items-center justify-center ${
-                      strokeColor === "CUSTOM"
+          {/* Row 2: Secondary Styling Bar: Colors, Stroke Width, Fill Mode */}
+          {tool !== "eraser" && (
+            <div className="flex items-center gap-2.5 px-2.5 py-1 bg-base-200/50 border-b border-base-300/80 shrink-0 text-xs overflow-x-auto no-scrollbar">
+              {/* Color Palette */}
+              <div className="flex items-center gap-1 shrink-0">
+                {STROKE_COLORS.map((c) => (
+                  <button
+                    key={c.label}
+                    type="button"
+                    onClick={() => setStrokeColor(c.value)}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border transition-transform shrink-0 ${
+                      strokeColor === c.value
                         ? "scale-110 ring-2 ring-primary ring-offset-1"
-                        : "hover:scale-105"
+                        : "border-base-300 hover:scale-105"
                     }`}
-                    title="Custom Color"
-                    style={{ backgroundColor: customColor }}
-                  >
-                    <input
-                      type="color"
-                      value={customColor}
-                      onChange={(e) => {
-                        setCustomColor(e.target.value);
-                        setStrokeColor("CUSTOM");
-                      }}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
-                    />
-                  </label>
-                </div>
-              )}
+                    style={{
+                      backgroundColor:
+                        c.value === "DEFAULT"
+                          ? isDark
+                            ? "#ffffff"
+                            : "#1f2937"
+                          : c.value,
+                    }}
+                    title={c.label}
+                  />
+                ))}
+
+                {/* Native Color Picker */}
+                <label
+                  className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-base-300 cursor-pointer relative overflow-hidden flex items-center justify-center shrink-0 ${
+                    strokeColor === "CUSTOM"
+                      ? "scale-110 ring-2 ring-primary ring-offset-1"
+                      : "hover:scale-105"
+                  }`}
+                  title="Custom Color"
+                  style={{ backgroundColor: customColor }}
+                >
+                  <input
+                    type="color"
+                    value={customColor}
+                    onChange={(e) => {
+                      setCustomColor(e.target.value);
+                      setStrokeColor("CUSTOM");
+                    }}
+                    className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
+                  />
+                </label>
+              </div>
+
+              <div className="h-3.5 w-px bg-base-300 shrink-0" />
 
               {/* Stroke Width */}
               {(tool === "pen" || tool === "rectangle" || tool === "ellipse" || tool === "line" || tool === "arrow") && (
@@ -1093,56 +1125,29 @@ const Whiteboard = ({
 
               {/* Fill Mode (for Rectangle & Ellipse) */}
               {(tool === "rectangle" || tool === "ellipse") && (
-                <div className="flex items-center gap-0.5 shrink-0">
-                  {FILL_OPTIONS.map((f) => (
-                    <button
-                      key={f.value}
-                      type="button"
-                      onClick={() => setFillMode(f.value)}
-                      className={`btn btn-ghost btn-xs h-6 px-1.5 text-[10px] rounded capitalize ${
-                        fillMode === f.value
-                          ? "bg-base-200 text-primary font-bold border border-base-300"
-                          : "text-base-content/60"
-                      }`}
-                      title={`${f.label} fill`}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
-                </div>
+                <>
+                  <div className="h-3.5 w-px bg-base-300 shrink-0" />
+                  <div className="flex items-center gap-0.5 shrink-0">
+                    {FILL_OPTIONS.map((f) => (
+                      <button
+                        key={f.value}
+                        type="button"
+                        onClick={() => setFillMode(f.value)}
+                        className={`btn btn-ghost btn-xs h-6 px-1.5 text-[10px] rounded capitalize ${
+                          fillMode === f.value
+                            ? "bg-base-200 text-primary font-bold border border-base-300"
+                            : "text-base-content/60"
+                        }`}
+                        title={`${f.label} fill`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
-
-              {/* Undo / Redo & Clear */}
-              <div className="flex items-center gap-1 shrink-0 ml-auto">
-                <button
-                  type="button"
-                  onClick={handleUndo}
-                  disabled={!canUndo}
-                  className="btn btn-ghost btn-xs h-7 px-1.5 rounded-md border border-base-300 disabled:opacity-30 text-base-content/70 hover:text-base-content"
-                  title="Undo (Ctrl+Z)"
-                >
-                  ↶
-                </button>
-                <button
-                  type="button"
-                  onClick={handleRedo}
-                  disabled={!canRedo}
-                  className="btn btn-ghost btn-xs h-7 px-1.5 rounded-md border border-base-300 disabled:opacity-30 text-base-content/70 hover:text-base-content"
-                  title="Redo (Ctrl+Y)"
-                >
-                  ↷
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClearCanvas}
-                  className="btn btn-ghost btn-xs h-7 px-2 rounded-md border border-base-300 text-error hover:bg-error/10 font-semibold"
-                  title="Clear entire whiteboard"
-                >
-                  Clear
-                </button>
-              </div>
             </div>
-          </div>
+          )}
 
           {/* Interactive Canvas Work Area */}
           <div

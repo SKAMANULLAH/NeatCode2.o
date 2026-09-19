@@ -36,12 +36,15 @@ function ChatAI({ problem, onUsageUpdate }) {
     formState: { errors },
   } = useForm();
 
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    if ((messages.length > 0 || loading) && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages, loading]);
 
   const handleSendMessage = async (rawMessage) => {
@@ -199,7 +202,7 @@ function ChatAI({ problem, onUsageUpdate }) {
       </div>
 
       {/* Messages Stream Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col justify-center items-center text-center max-w-sm mx-auto px-2 py-8">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-xs mb-3">
@@ -351,8 +354,6 @@ function ChatAI({ problem, onUsageUpdate }) {
             </div>
           </div>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Composition Box */}
