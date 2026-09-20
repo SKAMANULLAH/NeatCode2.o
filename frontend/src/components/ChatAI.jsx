@@ -145,9 +145,9 @@ function ChatAI({ problem, onUsageUpdate }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-base-100 text-base-content border border-base-300 rounded-xl overflow-hidden">
+    <div className="flex flex-col h-full bg-base-100 text-base-content border-0 sm:border sm:border-base-300 sm:rounded-xl overflow-hidden">
       {/* Header Bar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-base-300 bg-base-200/50 shrink-0">
+      <div className="flex items-center justify-between px-3.5 py-2.5 sm:px-4 sm:py-3 border-b border-base-300 bg-base-200/50 shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-primary/12 text-primary flex items-center justify-center font-mono font-semibold text-xs">
             <svg
@@ -202,13 +202,13 @@ function ChatAI({ problem, onUsageUpdate }) {
       </div>
 
       {/* Messages Stream Area */}
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 min-h-0">
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col justify-center items-center text-center max-w-sm mx-auto px-2 py-8">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-xs mb-3">
+          <div className="min-h-full my-auto flex flex-col justify-center items-center text-center max-w-sm mx-auto px-2 py-3 sm:py-6">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-xs mb-2 sm:mb-3 shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -224,7 +224,7 @@ function ChatAI({ problem, onUsageUpdate }) {
             <h4 className="text-sm font-bold text-base-content">
               How can I help you?
             </h4>
-            <p className="text-xs text-base-content/60 mt-1 leading-relaxed">
+            <p className="text-xs text-base-content/60 mt-1 leading-relaxed line-clamp-2 sm:line-clamp-none">
               Ask about algorithms, edge cases, request progressive hints, or
               debug your solution for{" "}
               <strong className="text-base-content font-semibold">
@@ -234,8 +234,8 @@ function ChatAI({ problem, onUsageUpdate }) {
             </p>
 
             {/* Quick Starter Prompts */}
-            <div className="w-full mt-6 space-y-1.5 text-left">
-              <span className="text-[11px] font-semibold text-base-content/50 uppercase tracking-wider block px-1">
+            <div className="w-full mt-3 sm:mt-5 space-y-1.5 text-left">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-base-content/50 uppercase tracking-wider block px-1">
                 Suggested Prompts
               </span>
               {QUICK_PROMPTS.map((prompt, idx) => (
@@ -243,7 +243,7 @@ function ChatAI({ problem, onUsageUpdate }) {
                   key={idx}
                   type="button"
                   onClick={() => handleQuickPromptClick(prompt)}
-                  className="w-full text-left text-[13px] p-2.5 rounded-lg border border-base-300 bg-base-100 hover:bg-base-200 hover:border-primary/35 text-base-content/75 hover:text-base-content transition-colors"
+                  className="w-full text-left text-xs sm:text-[13px] p-2 sm:p-2.5 rounded-lg border border-base-300 bg-base-100 hover:bg-base-200 hover:border-primary/35 text-base-content/75 hover:text-base-content transition-colors"
                 >
                   {prompt}
                 </button>
@@ -357,12 +357,12 @@ function ChatAI({ problem, onUsageUpdate }) {
       </div>
 
       {/* Input Composition Box */}
-      <div className="p-3 border-t border-base-300 bg-base-100 shrink-0">
+      <div className="p-2.5 sm:p-3 border-t border-base-300 bg-base-100 shrink-0">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-1.5">
           <div className="relative flex items-center">
             <input
               type="text"
-              placeholder={`Ask a question about ${problem?.title || "this problem"}...`}
+              placeholder="Ask AI a question about this problem..."
               autoComplete="off"
               disabled={loading}
               {...register("message", {
@@ -372,7 +372,7 @@ function ChatAI({ problem, onUsageUpdate }) {
                   message: "Please enter at least 2 characters.",
                 },
               })}
-              className={`input input-bordered w-full pr-12 text-[13px] rounded-lg transition-colors focus:outline-2 focus:outline-primary ${
+              className={`input input-bordered w-full pr-11 sm:pr-12 text-xs sm:text-[13px] h-9 sm:h-10 rounded-lg transition-colors focus:outline-2 focus:outline-primary ${
                 errors.message ? "input-error" : ""
               }`}
             />

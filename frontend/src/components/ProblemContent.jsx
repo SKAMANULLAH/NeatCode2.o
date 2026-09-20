@@ -211,9 +211,9 @@ const ProblemContent = ({
 
       {/* Left Panel Body */}
       {activeLeftTab === "chatAI" ? (
-        <div className="flex-1 min-h-0 flex flex-col p-4 sm:p-6 overflow-hidden">
-          <div className="space-y-4 h-full flex flex-col">
-            <div className="border-b border-base-300/70 pb-3.5 shrink-0">
+        <div className="flex-1 min-h-0 flex flex-col p-0 sm:p-4 lg:p-6 overflow-hidden">
+          <div className="h-full flex flex-col sm:space-y-4">
+            <div className="hidden sm:block border-b border-base-300/70 pb-3.5 shrink-0">
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-semibold tracking-tight text-base-content">
                   AI Mentor Assistant

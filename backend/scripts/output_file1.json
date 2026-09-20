@@ -1,0 +1,632 @@
+[
+  {
+    "id": "6aa9628bad5812d3131b889c",
+    "title": "Introduction to Singly LinkedList",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction constructLL(arr) {\n  \n}",
+        "_id": "6aaeb5edf641cf246153179d"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode constructLL(int[] arr) {\n    \n}",
+        "_id": "6aaeb5edf641cf246153179e"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* constructLL(vector<int>& arr) {\n    \n}",
+        "_id": "6aaeb5edf641cf246153179f"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b88ba",
+    "title": "Insertion at the head of Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction insertAtHead(head, val) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b88d2"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode insertAtHead(ListNode head, int val) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b88d3"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* insertAtHead(ListNode* head, int val) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b88d4"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b88d8",
+    "title": "Deletion of the head of LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction deleteHead(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b88f0"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode deleteHead(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b88f1"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* deleteHead(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b88f2"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b88f6",
+    "title": "Find the length of the Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction lengthOfLinkedList(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b890e"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static int lengthOfLinkedList(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b890f"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nint lengthOfLinkedList(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8910"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8914",
+    "title": "Search in Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction searchLinkedList(head, key) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b892c"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static int searchLinkedList(ListNode head, int key) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b892d"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nint searchLinkedList(ListNode* head, int key) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b892e"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8932",
+    "title": "Insert node before head in Doubly Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction insertBeforeHead(head, val) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b894a"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node insertBeforeHead(Node head, int val) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b894b"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nNode* insertBeforeHead(Node* head, int val) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b894c"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8950",
+    "title": "Delete head of Doubly Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction deleteHead(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8968"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node deleteHead(Node head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8969"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nNode* deleteHead(Node* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b896a"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b896e",
+    "title": "Reverse a Doubly Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction reverseDLL(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8986"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node reverseDLL(Node head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8987"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nNode* reverseDLL(Node* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8988"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b898c",
+    "title": "Middle of a LinkedList [TortoiseHare Method]",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction middleNode(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b89a4"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode middleNode(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89a5"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* middleNode(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89a6"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b89aa",
+    "title": "Reverse a LinkedList [Iterative]",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction reverseListIterative(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b89c2"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode reverseListIterative(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89c3"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* reverseListIterative(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89c4"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b89c8",
+    "title": "Reverse a LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction reverseList(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b89e0"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode reverseList(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89e1"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* reverseList(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89e2"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b89e6",
+    "title": "Detect a loop in LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction hasCycle(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b89fe"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static boolean hasCycle(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b89ff"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nbool hasCycle(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a00"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a04",
+    "title": "Find the starting point in LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction detectCycleStart(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8a1c"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode detectCycleStart(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a1d"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* detectCycleStart(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a1e"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a22",
+    "title": "Length of loop in LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction countNodesInLoop(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8a3a"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static int countNodesInLoop(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a3b"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nint countNodesInLoop(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a3c"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a40",
+    "title": "Check if LL is palindrome or not",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction isPalindrome(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8a58"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static boolean isPalindrome(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a59"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nbool isPalindrome(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a5a"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a5e",
+    "title": "Segregate odd and even nodes in Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction oddEvenList(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8a76"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode oddEvenList(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a77"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* oddEvenList(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a78"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a7c",
+    "title": "Remove Nth node from the back of the LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction removeNthFromEnd(head, k) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8a94"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode removeNthFromEnd(ListNode head, int k) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a95"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* removeNthFromEnd(ListNode* head, int k) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8a96"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8a9a",
+    "title": "Delete the middle node in LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction deleteMiddle(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8ab2"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode deleteMiddle(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ab3"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* deleteMiddle(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ab4"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8ab8",
+    "title": "Sort LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction sortList(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8ad0"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode sortList(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ad1"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* sortList(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ad2"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8ad6",
+    "title": "Sort a Linked List of 0's 1's and 2's",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction sortZeroOneTwo(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8aee"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode sortZeroOneTwo(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8aef"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* sortZeroOneTwo(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8af0"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8af4",
+    "title": "Find the intersection point of Y LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction getIntersectionNode(headA, headB) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8b0c"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b0d"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* getIntersectionNode(ListNode *headA, ListNode *headB) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b0e"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8b12",
+    "title": "Add one to a number represented by LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction addOne(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8b2a"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode addOne(ListNode head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b2b"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* addOne(ListNode* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b2c"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8b30",
+    "title": "Add two numbers in Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction addTwoNumbers(l1, l2) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8b48"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b49"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b4a"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8b4e",
+    "title": "Delete all occurrences of a key in DLL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction deleteAllOccurrences(head, key) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8b66"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node deleteAllOccurrences(Node head, int key) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b67"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nNode* deleteAllOccurrences(Node* head, int key) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b68"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8b6c",
+    "title": "Find Pairs with Given Sum in Doubly Linked List",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction findPairsWithGivenSum(head, target) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8b84"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static List<int[]> findPairsWithGivenSum(Node head, int target) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b85"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nvector<pair<int, int>> findPairsWithGivenSum(Node* head, int target) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8b86"
+      }
+    ]
+  },
+  {
+    "id": "6aa9628bad5812d3131b8b8a",
+    "title": "Remove duplicates from sorted DLL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val = 0, next = null, prev = null) {\n    this.val = val;\n    this.next = next;\n    this.prev = prev;\n  }\n}\n*/\n\nfunction removeDuplicates(head) {\n  \n}",
+        "_id": "6aa9628bad5812d3131b8ba2"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next, prev;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node removeDuplicates(Node head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ba3"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next, *prev;\n    Node(int x) : val(x), next(nullptr), prev(nullptr) {}\n};\n*/\n\nNode* removeDuplicates(Node* head) {\n    \n}",
+        "_id": "6aa9628bad5812d3131b8ba4"
+      }
+    ]
+  },
+  {
+    "id": "6aaad0255b09cfc59e59a24e",
+    "title": "Reverse LL in group of given size K",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction reverseKGroup(head, k) {\n  \n}",
+        "_id": "6aaad0255b09cfc59e59a266"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode reverseKGroup(ListNode head, int k) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a267"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* reverseKGroup(ListNode* head, int k) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a268"
+      }
+    ]
+  },
+  {
+    "id": "6aaad0255b09cfc59e59a26c",
+    "title": "Rotate a LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass ListNode {\n  constructor(val = 0, next = null) {\n    this.val = val;\n    this.next = next;\n  }\n}\n*/\n\nfunction rotateRight(head, k) {\n  \n}",
+        "_id": "6aaad0255b09cfc59e59a284"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n*/\n\npublic static ListNode rotateRight(ListNode head, int k) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a285"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n*/\n\nListNode* rotateRight(ListNode* head, int k) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a286"
+      }
+    ]
+  },
+  {
+    "id": "6aaad0255b09cfc59e59a28a",
+    "title": "Flattening of LL",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(data) {\n    this.data = data;\n    this.next = null;\n    this.bottom = null;\n  }\n}\n*/\n\nfunction flatten(root) {\n  \n}",
+        "_id": "6aaad0255b09cfc59e59a2a2"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int data;\n    Node next;\n    Node bottom;\n    Node(int d) { data = d; next = null; bottom = null; }\n}\n*/\n\npublic static Node flatten(Node root) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a2a3"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int data;\n    Node *next;\n    Node *bottom;\n    Node(int x) : data(x), next(nullptr), bottom(nullptr) {}\n};\n*/\n\nNode* flatten(Node* root) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a2a4"
+      }
+    ]
+  },
+  {
+    "id": "6aaad0255b09cfc59e59a2a8",
+    "title": "Clone a LL with random and next pointer",
+    "startCode": [
+      {
+        "language": "nodejs",
+        "initialCode": "/*\nclass Node {\n  constructor(val, next = null, random = null) {\n    this.val = val;\n    this.next = next;\n    this.random = random;\n  }\n}\n*/\n\nfunction copyRandomList(head) {\n  \n}",
+        "_id": "6aaad0255b09cfc59e59a2c0"
+      },
+      {
+        "language": "java",
+        "initialCode": "/*\nclass Node {\n    int val;\n    Node next;\n    Node random;\n    Node(int val) { this.val = val; }\n}\n*/\n\npublic static Node copyRandomList(Node head) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a2c1"
+      },
+      {
+        "language": "cpp17",
+        "initialCode": "/*\nstruct Node {\n    int val;\n    Node *next;\n    Node *random;\n    Node(int _val) : val(_val), next(nullptr), random(nullptr) {}\n};\n*/\n\nNode* copyRandomList(Node* head) {\n    \n}",
+        "_id": "6aaad0255b09cfc59e59a2c2"
+      }
+    ]
+  }
+]
