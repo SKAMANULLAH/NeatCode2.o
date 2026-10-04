@@ -11,7 +11,7 @@ This directory contains the deployment files for moving NeatCode to a new Ubuntu
 1. **Clone repo on the new server**:
    ```bash
    sudo chown -R $USER:$USER /var/www
-   git clone <YOUR_REPO_URL> /var/www/neatcode
+   git clone https://github.com/SKAMANULLAH/NeatCode2.o.git /var/www/neatcode
    ```
 
 2. **Run setup script**:
