@@ -5,8 +5,18 @@
 
 set -e
 
-echo ">>> 1. Updating system packages..."
+echo ">>> 1. Updating system packages & configuring swap..."
 sudo apt update && sudo apt upgrade -y
+
+# Setup 2GB Swap memory if none exists (prevents npm install / vite build memory crashes on t2/t3.micro)
+if [ $(swapon --show | wc -l) -le 1 ]; then
+    echo ">>> Creating 2GB swap space..."
+    sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+fi
 
 echo ">>> 2. Installing Node.js 20, Git, Nginx, Certbot..."
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
