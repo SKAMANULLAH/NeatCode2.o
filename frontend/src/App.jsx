@@ -22,6 +22,7 @@ import AdminAddUser from "./pages/AdminAddUser.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
 import AdminTopics from "./pages/AdminTopics.jsx";
 import AdminQuizzes from "./pages/AdminQuizzes.jsx";
+import AdminDiscipline from "./pages/AdminDiscipline.jsx";
 import Workspace from "./pages/Workspace.jsx";
 import { checkAuth } from "./authSlice.js";
 import { TimerProvider } from "./context/TimerContext.jsx";
@@ -133,6 +134,7 @@ function App() {
         <Route path="/admin/user" element={requireAdmin(<AdminAddUser />)} />
         <Route path="/admin/topics" element={requireAdmin(<AdminTopics />)} />
         <Route path="/admin/quizzes" element={requireAdmin(<AdminQuizzes />)} />
+        <Route path="/admin/discipline" element={requireAdmin(<AdminDiscipline />)} />
         <Route path="/workspace" element={requireAuth(<Workspace />)} />
         <Route
           path="/problem/:problemId"

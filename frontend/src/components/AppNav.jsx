@@ -1,12 +1,31 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../authSlice";
 import ThemeToggle from "./ThemeToggle";
 import BrandMark from "./BrandMark";
+import axiosClient from "../utils/axiosClient";
 
 function AppNav() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [disciplineSummary, setDisciplineSummary] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    if (user?.role !== "admin") {
+      return undefined;
+    }
+    axiosClient
+      .get("/admin/discipline/summary")
+      .then(({ data }) => {
+        if (active) setDisciplineSummary(data);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [user?.role]);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -189,6 +208,12 @@ function AppNav() {
                     </svg>
                     <span>Admin Panel</span>
                   </NavLink>
+                  <NavLink
+                    to="/admin/discipline"
+                    className="flex items-center gap-2 text-amber-500 font-semibold py-2"
+                  >
+                    <span>⚡ Discipline Citadel</span>
+                  </NavLink>
                 </li>
               )}
               {user && (
@@ -244,6 +269,18 @@ function AppNav() {
 
         {/* User Actions: Uses w-auto and shrink-0 to prevent collision */}
         <div className="navbar-end w-auto flex-none gap-1 sm:gap-2">
+          {user?.role === "admin" && disciplineSummary && (
+            <NavLink
+              to="/admin/discipline"
+              title={`${disciplineSummary.masterRank?.name || "Citadel"} • Shield ${disciplineSummary.shieldHp} HP`}
+              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-amber-500/35 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-extrabold hover:bg-amber-500/20 transition-colors"
+            >
+              <span>⚡ Lv {disciplineSummary.overallLevel}</span>
+              <span className="font-mono opacity-80">
+                🔥{disciplineSummary.anchorStreak}d
+              </span>
+            </NavLink>
+          )}
           <div className="shrink-0 flex items-center scale-90 sm:scale-100 origin-right">
             <ThemeToggle />
           </div>
@@ -313,6 +350,17 @@ function AppNav() {
                         />
                       </svg>
                       <span>Admin Panel</span>
+                    </NavLink>
+                    <NavLink
+                      to="/admin/discipline"
+                      className="flex items-center gap-2 py-2 text-amber-500 font-semibold"
+                    >
+                      <span>⚡ Discipline Citadel</span>
+                      {disciplineSummary && (
+                        <span className="badge badge-warning badge-xs font-mono ml-auto">
+                          Lv {disciplineSummary.overallLevel}
+                        </span>
+                      )}
                     </NavLink>
                   </li>
                 )}

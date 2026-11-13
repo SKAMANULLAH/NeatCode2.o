@@ -18,6 +18,7 @@ const userRouter = require("./routes/userRouter.js");
 const topicRouter = require("./routes/topicRouter.js");
 const quizRouter = require("./routes/quizRouter.js");
 const workspaceRouter = require("./routes/workspaceRouter.js");
+const disciplineRouter = require("./routes/disciplineRouter.js");
 // express instance
 const app = express();
 
@@ -44,6 +45,7 @@ apiRouter.use("/user", userRouter);
 apiRouter.use("/topic", topicRouter);
 apiRouter.use("/quiz", quizRouter);
 apiRouter.use("/workspace", workspaceRouter);
+apiRouter.use("/admin/discipline", disciplineRouter);
 app.use(apiRouter);
 app.use("/api", apiRouter);
 main()

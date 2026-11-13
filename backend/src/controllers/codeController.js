@@ -4,6 +4,7 @@ const runTestCases = require("../utils/runTestCases.js");
 const isValidObjectId = require("../utils/objectId.js");
 const { validateCodeRequest } = require("../utils/validateCodeRequest.js");
 const { consumeCodeOperation } = require("../utils/usageService.js");
+const { awardAdminDsaSolve } = require("./disciplineController.js");
 
 const sendError = (res, status, message) => {
   return res.status(status).json({ message });
@@ -119,6 +120,11 @@ const submitCode = async (req, res) => {
       solved = true;
     }
 
+    let disciplineReward = null;
+    if (result.status === "accepted" && req.result?.role === "admin") {
+      disciplineReward = await awardAdminDsaSolve(req.result, problem);
+    }
+
     const safeSubmission = submission.toObject();
 
     return res.status(200).json({
@@ -132,6 +138,8 @@ const submitCode = async (req, res) => {
       error: result.error || null,
       solved,
       usage,
+
+      disciplineReward,
       submission: {
         _id: safeSubmission._id,
         status: safeSubmission.status,
@@ -228,6 +236,7 @@ const runCode = async (req, res) => {
       actual: result.actual || null,
       error: result.error || null,
       usage,
+
     });
   } catch (error) {
     console.error("Run Error:", error.response?.data || error.message);

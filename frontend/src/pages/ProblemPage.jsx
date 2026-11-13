@@ -7,6 +7,7 @@ import AppNav from "../components/AppNav";
 import { useTheme } from "../context/useTheme";
 import Whiteboard from "../components/Whiteboard";
 import FloatingWindow from "../components/FloatingWindow";
+import toast from "react-hot-toast";
 
 const getCodeStorageKey = (id, language) => `problem-code-${id}-${language}`;
 
@@ -613,6 +614,11 @@ const ProblemPage = () => {
       if (response.data.message === "accepted" || response.data.solved) {
         setSolved(true);
         await fetchOfficialSolution();
+        if (response.data?.disciplineReward?.awardedXp) {
+          toast.success(
+            `⚡ +${response.data.disciplineReward.awardedXp} Duniya DSA XP synced to Citadel!`,
+          );
+      }
       }
     } catch (error) {
       console.error("Error submitting code:", error);

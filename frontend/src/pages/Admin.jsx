@@ -5,6 +5,30 @@ function Admin() {
 
   const adminOptions = [
     {
+      id: "discipline",
+      title: "Discipline & Muhasabah Citadel",
+      description: "Admin-only Deen & Duniya XP, Maghrib cycles, Guarded Tongue, Focus Raids, and Urge Bosses",
+      route: "/admin/discipline",
+      category: "Personal RPG",
+      badgeClass: "badge-primary",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
+        </svg>
+      ),
+    },
+    {
       id: "create",
       title: "Create Problem",
       description: "Add a new coding problem to the platform",
